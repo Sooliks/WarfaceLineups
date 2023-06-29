@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Checkbox, Form, Input, Space} from "antd";
 
 
@@ -16,9 +16,6 @@ function RegAndAuth() {
     const onFinishFailedAuthorization = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-    const handlerChangeAuthorizationForm = (e) =>{
-
-    }
     /////////////////////////
     //reg
     const onFinishRegistration = (values) => {
@@ -31,9 +28,6 @@ function RegAndAuth() {
     const onFinishFailedRegistration = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-    const handlerChangeRegistrationForm = (e) =>{
-
-    }
     ///////////////////////
     return (
         <div>

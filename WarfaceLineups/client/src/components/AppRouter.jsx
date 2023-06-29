@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Menu} from 'antd';
 import {CrownOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
@@ -6,7 +6,7 @@ import Profile from "../pages/Profile";
 import Lineups from "../pages/Lineups";
 import Premium from "../pages/Premium";
 import { App } from 'antd';
-import {Context} from "../index";
+
 
 
 const items = [
