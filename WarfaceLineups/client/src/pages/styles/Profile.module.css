@@ -1,5 +1,5 @@
 .m{
-    /*width: calc(1920px/2);*/
+    width: calc(1920px/2);
     width: 1000px;
     height: 700px;
     position: absolute;
@@ -11,5 +11,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /*padding-right: 120px;*/
+    padding-right: 120px;
 }
