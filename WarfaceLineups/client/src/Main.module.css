@@ -1,9 +1,10 @@
 .main{
 
 }
-body{
+html, body{
     background-color: rgb(20, 20, 20);
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    height: 100%;
 }

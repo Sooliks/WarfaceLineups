@@ -4,6 +4,7 @@ import Search from "antd/es/input/Search";
 import VideoPreview from "../components/VideoPreview";
 
 const Lineups = () => {
+    const [currentNumberPage, setCurrentNumberPage] = useState(1);
     const [videos,setVideos] = useState([
         {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
         {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
@@ -14,16 +15,42 @@ const Lineups = () => {
         {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
         {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
         {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
+        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
+        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
+        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
+        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
+        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
     ]);
-    const handleChangeFilter = (e) =>{
-        switch (e.target.name){
-            case 'filterMap':
-                break
-            case 'filterFeature':
-                break
-            case 'filterSide':
-                break
-        }
+    const[filter,setFilter] = useState({
+        typeSide:10,
+        typeGameMap:10,
+        typeFeature:10
+    })
+    const handlerChangeFilterMap = (value) =>{
+        setFilter(prevState => ({
+            ...prevState,
+            typeGameMap: value
+        }));
+    }
+    const handlerChangeFilterFeature = (value) => {
+        setFilter(prevState => ({
+            ...prevState,
+            typeFeature: value
+        }));
+    }
+    const handlerChangeFilterSide = (value) => {
+        setFilter(prevState => ({
+            ...prevState,
+            typeSide: value
+        }));
+    }
+    const dropFilter = () =>{
+        setFilter(prevState => ({
+            ...prevState,
+            typeSide: 10,
+            typeGameMap: 10,
+            typeFeature: 10
+        }));
     }
     const handlerOnSearchOnName = (value) =>{
 
@@ -35,51 +62,58 @@ const Lineups = () => {
                     <Card title="Фильтр">
                         <Space direction="vertical" style={{width:270}}>
                             <Select
+                                value={filter.typeGameMap}
                                 style={{width: '100%'}}
                                 placeholder="Выберите карту"
                                 size={"large"}
-                                name={"filterMap"}
-                                onChange={e=>handleChangeFilter(e)}
+                                className={"filterMap"}
+                                onChange={handlerChangeFilterMap}
                                 options={[
-                                    { value: 'все', label: 'Все' },
-                                    { value: 'мосты', label: 'Мосты' },
-                                    { value: 'пирамида', label: 'Пирамида' },
-                                    { value: 'переулки', label: 'Переулки' },
-                                    { value: 'антенны', label: 'Антенны' },
-                                    { value: 'фабрика', label: 'Фабрика' },
-                                    { value: 'пунктназначения', label: 'Пункт Назначения' },
-                                    { value: 'окраина', label: 'Окраина' },
+                                    { value: 10, label: 'Все' },
+                                    { value: 2, label: 'Мосты' },
+                                    { value: 5, label: 'Пирамида' },
+                                    { value: 0, label: 'Переулки' },
+                                    { value: 1, label: 'Антенны' },
+                                    { value: 3, label: 'Фабрика' },
+                                    { value: 4, label: 'Пункт Назначения' },
+                                    { value: 6, label: 'Окраина' },
                                 ]}
+                                filterOption={(input, option) =>
+                                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                                }
+                                showSearch
                             />
                             <Select
+                                value={filter.typeFeature}
                                 style={{width: '100%'}}
                                 placeholder="Выберите тип фишки"
                                 fullWidth
                                 size={"large"}
-                                name={"filterFeature"}
-                                onChange={e=>handleChangeFilter(e)}
+                                className={"filterFeature"}
+                                onChange={handlerChangeFilterFeature}
                                 options={[
-                                    { value: 'все', label: 'Все' },
-                                    { value: 'дымоваяграната', label: 'Дымовая граната' },
-                                    { value: 'осколочнаяграната', label: 'Осколочная граната' },
-                                    { value: 'коктельмолотова', label: 'Коктель молотова' },
-                                    { value: 'светошумоваяграната', label: 'Светошумовая граната' },
+                                    { value: 10, label: 'Все' },
+                                    { value: 1, label: 'Дымовая граната' },
+                                    { value: 3, label: 'Осколочная граната' },
+                                    { value: 2, label: 'Коктель молотова' },
+                                    { value: 0, label: 'Светошумовая граната' },
                                 ]}
                             />
                             <Select
+                                value={filter.typeSide}
                                 style={{width: '100%'}}
                                 placeholder="Выберите тип стороны"
                                 fullWidth
                                 size={"large"}
-                                name={"filterSide"}
-                                onChange={e=>handleChangeFilter(e)}
+                                className={"filterSide"}
+                                onChange={handlerChangeFilterSide}
                                 options={[
-                                    { value: 'все', label: 'Все' },
-                                    { value: 'атака', label: 'Атака' },
-                                    { value: 'защита', label: 'Защита' },
+                                    { value: 10, label: 'Все' },
+                                    { value: 0, label: 'Атака' },
+                                    { value: 1, label: 'Защита' },
                                 ]}
                             />
-                            <Button style={{width: '100%'}}>Сбросить фильтр</Button>
+                            <Button style={{width: '100%'}} onClick={dropFilter}>Сбросить фильтр</Button>
                         </Space>
                     </Card>
                     <Card title="Найти">
@@ -88,7 +122,7 @@ const Lineups = () => {
                         </Space>
                     </Card>
                 </Space>
-                <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[3, 5]} wrap>
+                <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
                     {videos!=null && videos.map(videos=>
                         <VideoPreview video={videos}/>
                     )}

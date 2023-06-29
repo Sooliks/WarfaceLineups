@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Menu} from 'antd';
 import {CrownOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import Profile from "../pages/Profile";
 import Lineups from "../pages/Lineups";
 import Premium from "../pages/Premium";
 import { App } from 'antd';
+import {Context} from "../index";
 
 
 const items = [
@@ -31,6 +32,10 @@ const items = [
 
 const AppRouter = () => {
     const [current, setCurrent] = useState(null);
+    const location = useLocation();
+    useEffect(()=>{
+        setCurrent(location.pathname);
+    },[])
     const handlerClickNav = (e) =>{
         setCurrent(e.key);
         navigate(e.key);
@@ -44,6 +49,7 @@ const AppRouter = () => {
                     <Route path={"/profile"} element={<Profile/>}/>
                     <Route path={"/lineups"} element={<Lineups/>}/>
                     <Route path={"/premium"} element={<Premium/>}/>
+
                 </Routes>
             </div>
         </App>
