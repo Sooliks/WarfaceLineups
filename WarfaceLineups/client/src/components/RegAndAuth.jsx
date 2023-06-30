@@ -56,7 +56,7 @@ function RegAndAuth() {
                             name="login"
                             rules={[
                                 {
-                                    required: true,
+                                    //required: true,
                                     message: 'Пожалуйста введите свой логин',
                                 },
                             ]}
@@ -68,7 +68,7 @@ function RegAndAuth() {
                             name="password"
                             rules={[
                                 {
-                                    required: true,
+                                    //required: true,
                                     message: 'Пожалуйста введите свой пароль!',
                                 },
                             ]}

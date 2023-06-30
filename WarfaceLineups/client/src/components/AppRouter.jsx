@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Menu} from 'antd';
-import {CrownOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
+import {CrownOutlined, FileDoneOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import Profile from "../pages/Profile";
 import Lineups from "../pages/Lineups";
 import Premium from "../pages/Premium";
 import { App } from 'antd';
+import News from "../pages/News";
 
 
 
@@ -24,6 +25,11 @@ const items = [
         label: 'Premium',
         key: '/premium',
         icon: <CrownOutlined />,
+    },
+    {
+        label: 'Новости',
+        key: '/news',
+        icon: <FileDoneOutlined/>,
     },
 ]
 
@@ -49,7 +55,7 @@ const AppRouter = () => {
                     <Route path={"/profile"} element={<Profile/>}/>
                     <Route path={"/lineups"} element={<Lineups/>}/>
                     <Route path={"/premium"} element={<Premium/>}/>
-
+                    <Route path={"/news"} element={<News/>}/>
                 </Routes>
             </div>
         </App>
