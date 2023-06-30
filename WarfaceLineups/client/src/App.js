@@ -1,11 +1,46 @@
 import AppRouter from "./components/AppRouter";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, useNavigate} from "react-router-dom";
 import classes from './Main.module.css'
-import {ConfigProvider, theme} from "antd";
+import {ConfigProvider, Spin, theme} from "antd";
+import {useContext, useEffect, useState} from "react";
+import UserAPI from "./http/api/UserAPI";
+import {Context} from "./index";
+import {cookies} from "./data/Cookie";
 
 
 
 function App() {
+    const navigate = useNavigate();
+    const[loading, setLoading] = useState(true);
+    const {user} = useContext(Context);
+    useEffect(()=>{
+        UserAPI.checkIsValidJwtToken(cookies.get('login'),cookies.get('jwt')).then(data=>{
+            if(data.message==="success"){
+                user.setUser({
+                    id: data.id,
+                    login: data.log,
+                    role: data.role,
+                    isVerifiedAccount: data.isVerifiedAccount
+                })
+                user.setIsAuth(true);
+                setTimeout(()=>{
+                    setLoading(false);
+                },1200)
+                navigate('/profile');
+            }
+            else {
+                user.setIsAuth(false);
+                setTimeout(()=>{
+                    setLoading(false);
+                },1200)
+                navigate('/profile');
+            }
+        })
+    },[])
+    if(loading){
+        return <Spin size="large" className={classes.spinnerLoading} />
+    }
+
   return (
       <ConfigProvider theme={{
           algorithm: theme.darkAlgorithm,

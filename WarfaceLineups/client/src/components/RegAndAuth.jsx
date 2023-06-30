@@ -3,6 +3,7 @@ import {Button, Checkbox, Form, Input, Space} from "antd";
 import UserAPI from "../http/api/UserAPI";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
+import {cookies} from "../data/Cookie";
 
 
 
@@ -61,6 +62,15 @@ const RegAndAuth = observer(() => {
             }
             if(data.message==="successAuth"){
                 user.setIsAuth(true);
+                user.setUser({
+                    id: data.id,
+                    login: data.log,
+                    role: data.role,
+                    jwt: data.jwtToken,
+                    isVerifiedAccount: data.isVerifiedAccount
+                })
+                cookies.set('jwt', data.jwtToken, { path: '/' });
+                cookies.set('login', data.log, { path: '/' });
             }
         })
     };
@@ -74,6 +84,15 @@ const RegAndAuth = observer(() => {
             }
             if(data.message==="successReg"){
                 user.setIsAuth(true);
+                user.setUser({
+                    id: data.userId,
+                    login: data.log,
+                    role: data.role,
+                    jwt: data.jwtToken,
+                    isVerifiedAccount: data.isVerifiedAccount
+                })
+                cookies.set('jwt', data.jwtToken, { path: '/' });
+                cookies.set('login', data.log, { path: '/' });
             }
         })
     };

@@ -1,6 +1,8 @@
 import {$client, $clientAuth} from "../index";
 
 
+
+
 export default class UserAPI {
     static registration = async (login, email, password, remember) => {
         const {data} = await $client.post('/registration', {login, email, password, remember});
@@ -10,8 +12,8 @@ export default class UserAPI {
         const {data} = await $client.post('/authorization', {login, password, remember});
         return data;
     }
-    static checkIsValidJwtToken = async () =>{
-        const {data} = await $client.post('/authorizationByJwt', {});
+    static checkIsValidJwtToken = async (login,jwtToken) => {
+        const {data} = await $client.post('/authorizationByJwt', {login, jwtToken});
         return data;
     }
 }
