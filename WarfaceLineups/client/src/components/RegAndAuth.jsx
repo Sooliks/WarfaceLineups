@@ -23,6 +23,8 @@ const RegAndAuth = observer(() => {
     const [helpRegEmail,setHelpRegEmail] = useState(null);
     const [validateErrorStatusRegEmail,setErrorValidateStatusRegEmail] = useState(null);
 
+
+
     useEffect(()=>{
         if(helpAuthLogin!==null){
             setErrorValidateStatusAuthLogin("error");
@@ -75,10 +77,12 @@ const RegAndAuth = observer(() => {
             }
         })
     };
+    const [formAuth,formReg] = Form.useForm();
     return (
         <div>
             {isVisibleByWindowId===0 &&
                     <Form
+                        form={formAuth}
                         name="basic"
                         labelCol={{
                             span: 8,
@@ -143,6 +147,7 @@ const RegAndAuth = observer(() => {
             }
             {isVisibleByWindowId === 1 &&
                 <Form
+                    form={formReg}
                     name="basic"
                     labelCol={{
                         span: 8,
@@ -172,9 +177,11 @@ const RegAndAuth = observer(() => {
                             },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
-                                    if (!value || getFieldValue('login').length > 3) {
+                                    if (!value || getFieldValue('login').length >= 4) {
+                                        setErrorValidateStatusRegLogin("validating");
                                         return Promise.resolve();
                                     }
+                                    setErrorValidateStatusRegLogin("error");
                                     return Promise.reject(new Error('Логин должен быть больше 3-х символов!'));
                                 },
                             }),
@@ -182,8 +189,10 @@ const RegAndAuth = observer(() => {
                                 validator(_, value) {
                                     let re = new RegExp("^\\w[\\w.]{4,12}\\w$");
                                     if (!value || getFieldValue('login').match(re)) {
+                                        setErrorValidateStatusRegLogin("validating");
                                         return Promise.resolve();
                                     }
+                                    setErrorValidateStatusRegLogin("error");
                                     return Promise.reject(new Error('Введите корректный логин!'));
                                 },
                             }),
@@ -217,6 +226,14 @@ const RegAndAuth = observer(() => {
                                 required: true,
                                 message: 'Пожалуйста введите свой пароль!',
                             },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue('password').length >= 8) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error('Пароль должен быть больше 7-и символов!'));
+                                },
+                            }),
                         ]}
                     >
                         <Input.Password />

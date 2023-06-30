@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {App, Card, Menu, Space} from "antd";
-import {HeartOutlined, InfoOutlined, SettingOutlined, VideoCameraOutlined} from "@ant-design/icons";
+import {HeartOutlined, InfoOutlined, LogoutOutlined, SettingOutlined, VideoCameraOutlined} from "@ant-design/icons";
 import Info from './pagesProfile/Info';
 import Videos from "./pagesProfile/Videos";
 import Favorites from "./pagesProfile/Favorites";
@@ -9,6 +9,8 @@ import {Context} from "../index";
 import RegAndAuth from "../components/RegAndAuth";
 import classes from './styles/Profile.module.css'
 import {observer} from "mobx-react-lite";
+
+
 
 const items = [
     {
@@ -31,14 +33,23 @@ const items = [
         key: 'settings',
         icon: <SettingOutlined/>,
     },
+    {
+        label: 'Выйти',
+        key: 'logout',
+        icon: <LogoutOutlined/>,
+    },
 ]
 
 
 const Profile = observer(() => {
     const {user} = useContext(Context);
-    const [videos,setVideos] = useState();
-    const [current, setCurrent] = useState(null);
+    const [current, setCurrent] = useState('videos');
     const handlerClickNav = (e) =>{
+        if(e.key==="logout"){
+            user.setIsAuth(false);
+            setCurrent(null);
+            return
+        }
         setCurrent(e.key);
     }
     return (
@@ -56,10 +67,10 @@ const Profile = observer(() => {
                     />
                 }
                 <Space direction="horizontal" size="large">
-                    {current === 'info' && <Info/>}
-                    {current === 'videos' && <Videos/>}
-                    {current === 'favorites' && <Favorites/>}
-                    {current === 'settings' && <Settings/>}
+                    {current === 'info' && user.isAuth && <Info/>}
+                    {current === 'videos' && user.isAuth && <Videos/>}
+                    {current === 'favorites' && user.isAuth && <Favorites/>}
+                    {current === 'settings' && user.isAuth && <Settings/>}
                 </Space>
             </Space>
         </App>

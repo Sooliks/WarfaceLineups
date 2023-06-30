@@ -1,7 +1,13 @@
-import React from 'react';
-import {Avatar, Card, Space} from "antd";
+import React, {useState} from 'react';
+import {Avatar, Button, Card, Space} from "antd";
+import {HeartFilled, HeartOutlined} from "@ant-design/icons";
+import VideoForLineups from "./VideosPreview/VideoForLineups";
+import VideoForProfile from "./VideosPreview/VideoForProfile";
+import VideoForFavorites from "./VideosPreview/VideoForFavorites";
 
-const VideoPreview = ({video}) => {
+
+const VideoPreview = ({video, type}) => {
+    const[currentIconHeart,setCurrentIconHeart] = useState(<HeartFilled/>);
     const handleClickOnVideo = () =>{
 
     }
@@ -11,25 +17,24 @@ const VideoPreview = ({video}) => {
     const handleOnMouseOut = (e) =>{
         e.target.style.borderColor="#303030";
     }
+
     return (
         <div>
-            <Space direction={"vertical"}>
-                <Card title={video.title} size="large" style={{maxWidth:500, height: "auto", marginBottom: 12, marginRight: 3, padding: 0}}>
-                    <img
-                        src={video.urlOnPreview}
-                        alt={video.title}
-                        onClick={handleClickOnVideo}
-                        onMouseOver={e=>handleOnMouseOver(e)}
-                        onMouseOut={e=>handleOnMouseOut(e)}
-                        style={{height:202, width:360, border: '2px solid transparent', borderRadius:'6px'}}
-                    />
-                    <br/>
-                    <Space direction={"horizontal"}>
-                        <Avatar src={video.urlOnPreview} alt={video.title}/>
-                        <p>{video.ownerId}</p>
-                    </Space>
-                </Card>
-            </Space>
+            <div>
+                {type === "default" &&
+                    <VideoForLineups video={video} handleClickOnVideo={handleClickOnVideo} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut}/>
+                }
+            </div>
+            <div>
+                {type === "favorites" &&
+                    <VideoForFavorites video={video} handleClickOnVideo={handleClickOnVideo} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut}/>
+                }
+            </div>
+            <div>
+                {type === "uservideo" &&
+                    <VideoForProfile video={video} handleClickOnVideo={handleClickOnVideo} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut}/>
+                }
+            </div>
         </div>
     );
 };

@@ -4,7 +4,9 @@ export default class UserData {
     constructor() {
         this._isAuth = false
         this._user = {
-
+            login: null,
+            email: null,
+            role: 'member'
         }
         makeAutoObservable(this);
     }

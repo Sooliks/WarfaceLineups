@@ -12,3 +12,12 @@
     align-items: center;
     padding-right: 120px;
 }
+
+.pagination{
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+}
