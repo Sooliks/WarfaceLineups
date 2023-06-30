@@ -9,7 +9,7 @@ namespace WarfaceLineups.Controllers;
 
 public class AccountsController : Controller
 {
-    [HttpPost("api/register")]
+    [HttpPost("api/registration")]
     public async Task Register()
     {
         string body = "";
@@ -18,9 +18,9 @@ public class AccountsController : Controller
             body = await stream.ReadToEndAsync();
         }
         JObject obj = JObject.Parse(body);
-        string login = (string) obj["regLogin"];
-        string email = (string) obj["regEmail"];
-        string password = (string) obj["regPassword"];
+        string login = (string) obj["login"];
+        string email = (string) obj["email"];
+        string password = (string) obj["password"];
         if (HandlerAccounts.IsEmailExist(email))
         {
             await Response.WriteAsJsonAsync(new {message = "errorRegEmail"});
@@ -52,8 +52,8 @@ public class AccountsController : Controller
             body = await stream.ReadToEndAsync();
         }
         JObject obj = JObject.Parse(body);
-        string login = (string) obj["logLogin"];
-        string password = (string) obj["logPassword"];
+        string login = (string) obj["login"];
+        string password = (string) obj["password"];
         if (HandlerAccounts.IsLoginExist(login)&&HandlerAccounts.IsPasswordValid(login,password))
         {
             Accounts account = HandlerAccounts.GetAccountById(HandlerAccounts.GetIdByAccountLogin(login));

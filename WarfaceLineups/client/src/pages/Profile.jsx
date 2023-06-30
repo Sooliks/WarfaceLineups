@@ -8,6 +8,7 @@ import Settings from "./pagesProfile/Settings";
 import {Context} from "../index";
 import RegAndAuth from "../components/RegAndAuth";
 import classes from './styles/Profile.module.css'
+import {observer} from "mobx-react-lite";
 
 const items = [
     {
@@ -33,7 +34,7 @@ const items = [
 ]
 
 
-const Profile = () => {
+const Profile = observer(() => {
     const {user} = useContext(Context);
     const [videos,setVideos] = useState();
     const [current, setCurrent] = useState(null);
@@ -63,6 +64,6 @@ const Profile = () => {
             </Space>
         </App>
     );
-};
+});
 
 export default Profile;

@@ -154,7 +154,7 @@ public class VideosController : Controller
             Console.WriteLine(e.ToString());
         }
     }
-    [HttpGet("api/getpreviewfromdb/{id:int}")]
+    /*[HttpGet("api/getpreviewfromdb/{id:int}")]
     public async Task GetPreviewFromDbById(int id)
     {
         try
@@ -168,7 +168,7 @@ public class VideosController : Controller
         {
             Console.WriteLine(e.ToString());
         }
-    }
+    }*/
 
     [HttpPost("api/deletevideo")]
     public async Task DeleteVideo()

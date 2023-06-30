@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Microsoft.Net.Http.Headers;
 using WarfaceLineups.DataBase;
 
@@ -30,7 +31,14 @@ app.MapGet("/", () => "Hello World!");
 
 using (Context db = new Context())
 {
-    bool isAvalaible = db.Database.CanConnect();
-    Console.WriteLine(isAvalaible ? "Database success connected!" : "Database is unavailable!");
+    try
+    {
+        bool isAvalaible = db.Database.CanConnect();
+        Console.WriteLine(isAvalaible ? "Database success connected!" : "Database is unavailable!");
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.ToString());
+    }
 }
 app.Run();

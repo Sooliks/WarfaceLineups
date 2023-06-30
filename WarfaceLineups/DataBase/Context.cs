@@ -11,7 +11,7 @@ public class Context : DbContext
 {
     public DbSet<Accounts> Accounts { get; set; }
     public DbSet<Videos> Videos { get; set; }
-    public DbSet<Preview> Preview { get; set; }
+    
     public Context()
     {
         Database.EnsureCreated();   // создаем бд с новой схемой
@@ -21,11 +21,11 @@ public class Context : DbContext
     {
         var connectionString = new MySqlConnectionStringBuilder()
         {
-            Server = "db",
+            Server = "localhost",
             Database = "wftracker",
             Port = 3306,
-            UserID = "sooliks",
-            Password = "123",
+            UserID = "root",
+            Password = "",
         };
         optionsBuilder.UseMySQL(connectionString.ConnectionString)
             .LogTo(str => Debug.WriteLine(str), new[] { RelationalEventId.CommandExecuted })
@@ -36,6 +36,5 @@ public class Context : DbContext
     {
         modelBuilder.ApplyConfiguration(new AccountsConfig());
         modelBuilder.ApplyConfiguration(new VideosConfig());
-        modelBuilder.ApplyConfiguration(new PreviewConfig());
     }
 }

@@ -11,7 +11,7 @@ public class Videos
     public int OwnerId { get; set; }
     public string UrlOnVideo { get; set; }
     /// <summary>
-    /// переулки - 0, д17 - 1, мосты - 2, фабрика - 3, пункт назн - 4, пирамида - 5, окраина - 6
+    /// переулки - 0, антенны - 1, мосты - 2, фабрика - 3, пункт назн - 4, пирамида - 5, окраина - 6
     /// </summary>
     public byte TypeGameMap { get; set; } 
     /// <summary>

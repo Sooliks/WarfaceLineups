@@ -1,34 +1,80 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Button, Checkbox, Form, Input, Space} from "antd";
+import UserAPI from "../http/api/UserAPI";
+import {Context} from "../index";
+import {observer} from "mobx-react-lite";
 
 
 
 
 
-function RegAndAuth() {
-    const [isVisibleByWindowId,setIsVisibleByWindowId] = useState(0); //handler swap window
 
-    //auth
-    const onFinishAuthorization = (values) => {
-        console.log(values);
-        console.log('Success:', values);
-    };
-    const onFinishFailedAuthorization = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
-    /////////////////////////
-    //reg
-    const onFinishRegistration = (values) => {
-        if(values.login.length < 4){
-            console.log('4');
-            return
+const RegAndAuth = observer(() => {
+    const{user} = useContext(Context);
+
+    const [isVisibleByWindowId,setIsVisibleByWindowId] = useState(0); //handler swap
+
+    const [helpAuthLogin,setHelpAuthLogin] = useState(null);
+    const [validateErrorStatusAuthLogin,setErrorValidateStatusAuthLogin] = useState(null);
+
+    const [helpRegLogin,setHelpRegLogin] = useState(null);
+    const [validateErrorStatusRegLogin,setErrorValidateStatusRegLogin] = useState(null);
+
+    const [helpRegEmail,setHelpRegEmail] = useState(null);
+    const [validateErrorStatusRegEmail,setErrorValidateStatusRegEmail] = useState(null);
+
+    useEffect(()=>{
+        if(helpAuthLogin!==null){
+            setErrorValidateStatusAuthLogin("error");
         }
-        console.log('Success:', values);
+        setTimeout(()=>{
+            setHelpAuthLogin(null);
+            setErrorValidateStatusAuthLogin("validating");
+        },3000)
+    },[helpAuthLogin])
+
+    useEffect(()=>{
+        if(helpRegLogin!==null){
+            setErrorValidateStatusRegLogin("error");
+        }
+        setTimeout(()=>{
+            setHelpRegLogin(null);
+            setErrorValidateStatusRegLogin("validating");
+        },3000)
+    },[helpRegLogin])
+
+    useEffect(()=>{
+        if(helpRegEmail!==null){
+            setErrorValidateStatusRegEmail("error");
+        }
+        setTimeout(()=>{
+            setHelpRegEmail(null);
+            setErrorValidateStatusRegEmail("validating");
+        },3000)
+    },[helpRegEmail])
+    const onFinishAuthorization = (values) => {
+        UserAPI.authorization(values.login,values.password,values.remember).then((data)=>{
+            if(data.message==="errorAuth"){
+                setHelpAuthLogin("Неверный логин или пароль!")
+            }
+            if(data.message==="successAuth"){
+                user.setIsAuth(true);
+            }
+        })
     };
-    const onFinishFailedRegistration = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const onFinishRegistration = (values) => {
+        UserAPI.registration(values.login, values.email, values.password, values.remember).then((data)=>{
+            if(data.message==="errorRegEmail"){
+                setHelpRegEmail("Такой email уже существует!")
+            }
+            if(data.message==="errorRegLogin"){
+                setHelpRegLogin("Такой логин уже существует!")
+            }
+            if(data.message==="successReg"){
+                user.setIsAuth(true);
+            }
+        })
     };
-    ///////////////////////
     return (
         <div>
             {isVisibleByWindowId===0 &&
@@ -48,15 +94,16 @@ function RegAndAuth() {
                             remember: true,
                         }}
                         onFinish={onFinishAuthorization}
-                        onFinishFailed={onFinishFailedAuthorization}
                         autoComplete="off"
                     >
                         <Form.Item
+                            validateStatus={validateErrorStatusAuthLogin}
+                            help={helpAuthLogin}
                             label="Логин"
                             name="login"
                             rules={[
                                 {
-                                    //required: true,
+                                    required: true,
                                     message: 'Пожалуйста введите свой логин',
                                 },
                             ]}
@@ -68,7 +115,7 @@ function RegAndAuth() {
                             name="password"
                             rules={[
                                 {
-                                    //required: true,
+                                    required: true,
                                     message: 'Пожалуйста введите свой пароль!',
                                 },
                             ]}
@@ -111,10 +158,11 @@ function RegAndAuth() {
                         remember: true,
                     }}
                     onFinish={onFinishRegistration}
-                    onFinishFailed={onFinishFailedRegistration}
                     autoComplete="off"
                 >
                     <Form.Item
+                        validateStatus={validateErrorStatusRegLogin}
+                        help={helpRegLogin}
                         label="Логин"
                         name="login"
                         rules={[
@@ -144,6 +192,8 @@ function RegAndAuth() {
                         <Input />
                     </Form.Item>
                     <Form.Item
+                        validateStatus={validateErrorStatusRegEmail}
+                        help={helpRegEmail}
                         label="Email"
                         name="email"
                         rules={[
@@ -212,6 +262,6 @@ function RegAndAuth() {
             }
         </div>
     );
-}
+});
 
 export default RegAndAuth;
