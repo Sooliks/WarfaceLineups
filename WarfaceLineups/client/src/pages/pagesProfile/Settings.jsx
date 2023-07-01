@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Avatar, Card, Skeleton} from "antd";
 import Meta from "antd/es/card/Meta";
 import {EditOutlined, EllipsisOutlined, SettingOutlined} from "@ant-design/icons";
@@ -8,7 +8,9 @@ import {observer} from "mobx-react-lite";
 const Settings = observer(() => {
     const {user} = useContext(Context);
     const [loading, setLoading] = useState(false);
-    console.log(user.isAuth);
+    useEffect(() => {
+
+    },[])
     return (
         <div>
             <Card

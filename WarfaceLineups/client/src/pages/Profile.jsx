@@ -9,8 +9,18 @@ import {Context} from "../index";
 import RegAndAuth from "../components/RegAndAuth";
 import classes from './styles/Profile.module.css'
 import {observer} from "mobx-react-lite";
+import {cookies} from "../data/Cookie";
+import CreateVideo from "./pagesProfile/CreateVideo";
 
-
+function getItem(label, key, icon, children, type) {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+    };
+}
 
 const items = [
     {
@@ -18,11 +28,27 @@ const items = [
         key: 'info',
         icon: <InfoOutlined/>,
     },
-    {
+    /*{
         label: 'Ваши видео',
         key: 'videos',
         icon: <VideoCameraOutlined/>,
-    },
+        children: [
+            {
+                /!*type: 'group',
+                label: '',*!/
+                children: [
+                    {
+                        label: 'Добавить видео',
+                        key: 'addnewvideo',
+                    },
+                ]
+            }
+        ]
+    },*/
+    getItem('Lineups', 'sub1', <VideoCameraOutlined />, [
+        getItem('Ваши видео', 'videos', null),
+        getItem('Создать', 'addnewvideo', null),
+    ]),
     {
         label: 'Избранное',
         key: 'favorites',
@@ -48,6 +74,8 @@ const Profile = observer(() => {
         if(e.key==="logout"){
             user.setIsAuth(false);
             setCurrent(null);
+            cookies.set('jwt',null);
+            cookies.set('login',null);
             return
         }
         setCurrent(e.key);
@@ -61,7 +89,7 @@ const Profile = observer(() => {
                     <Menu
                         onClick={handlerClickNav}
                         selectedKeys={[current]}
-                        mode="vertical"
+                        mode="inline"
                         items={items}
                         style={{width: 270,}}
                     />
@@ -71,6 +99,7 @@ const Profile = observer(() => {
                     {current === 'videos' && user.isAuth && <Videos/>}
                     {current === 'favorites' && user.isAuth && <Favorites/>}
                     {current === 'settings' && user.isAuth && <Settings/>}
+                    {current === 'addnewvideo' && user.isAuth && <CreateVideo/>}
                 </Space>
             </Space>
         </App>

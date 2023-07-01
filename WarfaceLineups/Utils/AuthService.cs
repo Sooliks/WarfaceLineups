@@ -24,7 +24,7 @@ public class AuthService
             issuer: _issuer,
             audience: _audience,
             claims: claims,
-            expires: DateTime.UtcNow.Add(TimeSpan.FromDays(10)),
+            expires: DateTime.UtcNow.Add(TimeSpan.FromDays(2)),
             signingCredentials: new SigningCredentials(GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
         );
         var encodedJwtToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);

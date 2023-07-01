@@ -23,7 +23,7 @@ const Favorites = () => {
                 ): <p>Здесь пока ничего нету</p>}
             </Space>
             <Space className={classes.pagination}>
-                <Pagination pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} />
+                {videos.length!==0 && totalCountVideos > 8 && <Pagination pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} />}
             </Space>
         </div>
     );

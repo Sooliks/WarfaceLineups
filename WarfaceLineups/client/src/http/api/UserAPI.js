@@ -12,8 +12,8 @@ export default class UserAPI {
         const {data} = await $client.post('/authorization', {login, password, remember});
         return data;
     }
-    static checkIsValidJwtToken = async (login,jwtToken) => {
-        const {data} = await $client.post('/authorizationByJwt', {login, jwtToken});
+    static checkIsValidJwtToken = async (login,jwt) => {
+        const {data} = await $client.post('/authorizationByJwt', {login, jwt});
         return data;
     }
 }

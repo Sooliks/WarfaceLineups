@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {App, Button, Card, Pagination, Select, Space} from "antd";
 import Search from "antd/es/input/Search";
 import VideoPreview from "../components/VideoPreview";
 import classes from './styles/Lineups.module.css'
+import VideosAPI from "../http/api/VideosAPI";
 
 
 
 const Lineups = () => {
 
     const [totalCountVideos,setTotalCountVideos] = useState(8);
+    const [currentPage, setCurrentPage] = useState(1);
     const [videos,setVideos] = useState([
         {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
         {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
@@ -53,6 +55,17 @@ const Lineups = () => {
     const handlerOnSearchOnName = (value) =>{
 
     }
+    useEffect(()=>{
+        VideosAPI.getVideos(currentPage).then(data=>{
+            setVideos(data);
+        })
+    },[currentPage])
+
+    /*useEffect(()=>{
+        VideosAPI.getVideos(currentPage).then(data=>{
+            setVideos(data);
+        })
+    },[])*/
     return (
         <App>
             <Space direction="horizontal" size="large" align={"start"} style={{ display: 'flex'}}>
@@ -121,13 +134,19 @@ const Lineups = () => {
                     </Card>
                 </Space>
                 <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
-                    {videos!=null && videos.map(videos=>
+                    {videos.length!==0 ? videos.map(videos=>
                         <VideoPreview video={videos} type={"default"}/>
-                    )}
+                    )
+                        :
+                        <div>
+                            <h1>Здесь пока ничего нету</h1>
+                            <h3>Загрузите лайнап первым!</h3>
+                        </div>
+                    }
                 </Space>
             </Space>
             <Space className={classes.pagination}>
-                <Pagination pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} />
+                {videos.length!==0 && totalCountVideos > 8 && <Pagination pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} onChange={v=>setCurrentPage(v)} />}
             </Space>
         </App>
     );

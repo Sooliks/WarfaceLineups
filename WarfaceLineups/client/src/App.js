@@ -10,7 +10,6 @@ import {cookies} from "./data/Cookie";
 
 
 function App() {
-    const navigate = useNavigate();
     const[loading, setLoading] = useState(true);
     const {user} = useContext(Context);
     useEffect(()=>{
@@ -26,14 +25,12 @@ function App() {
                 setTimeout(()=>{
                     setLoading(false);
                 },1200)
-                navigate('/profile');
             }
             else {
                 user.setIsAuth(false);
                 setTimeout(()=>{
                     setLoading(false);
                 },1200)
-                navigate('/profile');
             }
         })
     },[])

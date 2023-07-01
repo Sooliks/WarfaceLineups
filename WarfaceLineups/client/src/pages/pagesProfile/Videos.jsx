@@ -19,12 +19,12 @@ const Videos = () => {
     return (
         <div>
             <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
-                {videos!=null ? videos.map(videos=>
+                {videos.length!==0 ? videos.map(videos=>
                     <VideoPreview video={videos} type={"uservideo"}/>
                 ): <p>Здесь пока ничего нету</p>}
             </Space>
             <Space className={classes.pagination}>
-                <Pagination pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} />
+                {videos.length!==0 && totalCountVideos > 8 && <Pagination pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} />}
             </Space>
         </div>
     );

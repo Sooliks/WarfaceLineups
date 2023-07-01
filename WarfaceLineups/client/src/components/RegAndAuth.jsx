@@ -71,6 +71,7 @@ const RegAndAuth = observer(() => {
                 })
                 cookies.set('jwt', data.jwtToken, { path: '/' });
                 cookies.set('login', data.log, { path: '/' });
+                console.log(user.login);
             }
         })
     };
