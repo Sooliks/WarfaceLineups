@@ -24,7 +24,8 @@ const Lineups = () => {
     const[filter,setFilter] = useState({
         typeSide:10,
         typeGameMap:10,
-        typeFeature:10
+        typeFeature:10,
+        search: "",
     })
     const handlerChangeFilterMap = (value) =>{
         setFilter(prevState => ({
@@ -44,28 +45,25 @@ const Lineups = () => {
             typeSide: value
         }));
     }
+    const handlerChangeFilterSearch = (value) =>{
+        setFilter(prevState => ({
+            ...prevState,
+            search: value
+        }));
+    }
     const dropFilter = () =>{
         setFilter(prevState => ({
             ...prevState,
             typeSide: 10,
             typeGameMap: 10,
-            typeFeature: 10
+            typeFeature: 10,
         }));
     }
-    const handlerOnSearchOnName = (value) =>{
-
-    }
     useEffect(()=>{
-        VideosAPI.getVideos(currentPage).then(data=>{
+        VideosAPI.getVideos(currentPage, filter).then(data=>{
             setVideos(data);
         })
-    },[currentPage])
-
-    /*useEffect(()=>{
-        VideosAPI.getVideos(currentPage).then(data=>{
-            setVideos(data);
-        })
-    },[])*/
+    },[currentPage,filter])
     return (
         <App>
             <Space direction="horizontal" size="large" align={"start"} style={{ display: 'flex'}}>
@@ -129,7 +127,7 @@ const Lineups = () => {
                     </Card>
                     <Card title="Найти">
                         <Space direction="vertical" style={{width:270}}>
-                            <Search placeholder="Поиск по названию" allowClear onSearch={handlerOnSearchOnName} style={{ width: '100%' }} />
+                            <Search placeholder="Поиск по названию" allowClear onSearch={handlerChangeFilterSearch} style={{ width: '100%' }} />
                         </Space>
                     </Card>
                 </Space>

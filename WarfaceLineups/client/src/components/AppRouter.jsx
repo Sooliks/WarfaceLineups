@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Menu} from 'antd';
-import {CrownOutlined, FileDoneOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
+import {CrownOutlined, FileDoneOutlined, ProfileOutlined, RadarChartOutlined, UserOutlined} from '@ant-design/icons';
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import Profile from "../pages/Profile";
 import Lineups from "../pages/Lineups";
@@ -30,6 +30,11 @@ const items = [
         label: 'Новости',
         key: '/news',
         icon: <FileDoneOutlined/>,
+    },
+    {
+        label: 'Warface Tracker',
+        key: '/wftracker',
+        icon: <RadarChartOutlined/>,
     },
 ]
 
