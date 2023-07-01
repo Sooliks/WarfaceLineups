@@ -7,6 +7,7 @@ import Lineups from "../pages/Lineups";
 import Premium from "../pages/Premium";
 import { App } from 'antd';
 import News from "../pages/News";
+import WarfaceTracker from "../pages/WarfaceTracker";
 
 
 
@@ -58,6 +59,7 @@ const AppRouter = () => {
                     <Route path={"/lineups"} element={<Lineups/>}/>
                     <Route path={"/premium"} element={<Premium/>}/>
                     <Route path={"/news"} element={<News/>}/>
+                    <Route path={"/wftracker"} element={<WarfaceTracker/>}/>
                 </Routes>
             </div>
         </App>

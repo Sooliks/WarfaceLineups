@@ -39,18 +39,18 @@ public class HandlerVideos
     public static int GetCountVideos(JObject infoFilter)
     {
         using Context db = new Context();
-        int typeSide = (int)infoFilter["infoFilter"]["typeSide"];
-        int typeGameMap = (int)infoFilter["infoFilter"]["typeGameMap"];
-        int typeFeature = (int)infoFilter["infoFilter"]["typeFeature"];
+        int typeSide = (int)infoFilter["filter"]["typeSide"];
+        int typeGameMap = (int)infoFilter["filter"]["typeGameMap"];
+        int typeFeature = (int)infoFilter["filter"]["typeFeature"];
         return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10)).Count();
     }
     
     public static List<Videos> GetVideosInCount(int minId,int count, JObject infoFilter)
     {
         using Context db = new Context();
-        int typeSide = (int)infoFilter["infoFilter"]["typeSide"];
-        int typeGameMap = (int)infoFilter["infoFilter"]["typeGameMap"];
-        int typeFeature = (int)infoFilter["infoFilter"]["typeFeature"];
+        int typeSide = (int)infoFilter["filter"]["typeSide"];
+        int typeGameMap = (int)infoFilter["filter"]["typeGameMap"];
+        int typeFeature = (int)infoFilter["filter"]["typeFeature"];
         return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.IsVerified == true)).Skip(minId).Take(count).ToList();;
     }
     public static int GetLastIdVideos()
