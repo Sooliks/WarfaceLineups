@@ -6,4 +6,9 @@ export default class VideosAPI {
         const {data} = await $client.post('/videos', {page,filter});
         return data;
     }
+    static uploadVideo = async (values) => {
+        console.log(values);
+        const {data} = await $clientAuth.post('/uploadvideo', {values});
+        return data;
+    }
 }

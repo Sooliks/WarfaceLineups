@@ -28,23 +28,6 @@ const items = [
         key: 'info',
         icon: <InfoOutlined/>,
     },
-    /*{
-        label: 'Ваши видео',
-        key: 'videos',
-        icon: <VideoCameraOutlined/>,
-        children: [
-            {
-                /!*type: 'group',
-                label: '',*!/
-                children: [
-                    {
-                        label: 'Добавить видео',
-                        key: 'addnewvideo',
-                    },
-                ]
-            }
-        ]
-    },*/
     getItem('Lineups', 'sub1', <VideoCameraOutlined />, [
         getItem('Ваши видео', 'videos', null),
         getItem('Создать', 'addnewvideo', null),
@@ -92,9 +75,10 @@ const Profile = observer(() => {
                         mode="inline"
                         items={items}
                         style={{width: 270,}}
+                        defaultOpenKeys={['sub1']}
                     />
                 }
-                <Space direction="horizontal" size="large">
+                <Space direction="horizontal" size="large" style={{margin:12}}>
                     {current === 'info' && user.isAuth && <Info/>}
                     {current === 'videos' && user.isAuth && <Videos/>}
                     {current === 'favorites' && user.isAuth && <Favorites/>}

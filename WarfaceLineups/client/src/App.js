@@ -19,7 +19,8 @@ function App() {
                     id: data.id,
                     login: data.log,
                     role: data.role,
-                    isVerifiedAccount: data.isVerifiedAccount
+                    isVerifiedAccount: data.isVerifiedAccount,
+                    jwt: cookies.get('jwt')
                 })
                 user.setIsAuth(true);
                 setTimeout(()=>{

@@ -8,7 +8,7 @@ export default class UserData {
             login: 'Здесь логин',
             email: "Здесь email",
             role: 'member',
-            jwt: null,
+            jwt: "",
             isVerifiedAccount: false,
         }
         makeAutoObservable(this);
