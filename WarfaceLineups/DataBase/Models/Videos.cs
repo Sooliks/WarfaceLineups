@@ -1,4 +1,6 @@
-﻿namespace WarfaceLineups.DataBase.Models;
+﻿using WarfaceLineups.DataBase.Requests;
+
+namespace WarfaceLineups.DataBase.Models;
 
 public class Videos
 {
@@ -6,6 +8,7 @@ public class Videos
     public string Title { get; set; }
     public string Description { get; set; }
     public int OwnerId { get; set; }
+    public string OwnerLogin { get; set; }
     public string UrlOnVideo { get; set; }
     /// <summary>
     /// переулки - 0, антенны - 1, мосты - 2, фабрика - 3, пункт назн - 4, пирамида - 5, окраина - 6
@@ -32,6 +35,7 @@ public class Videos
         Description = description;
         UrlOnVideo = urlOnVideo;
         OwnerId = ownerId;
+        OwnerLogin = HandlerAccounts.GetAccountById(ownerId).Login;
         UrlOnPreview = urlOnPreview;
         TypeFeature = typeFeature;
         IsVerified = false;

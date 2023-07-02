@@ -70,11 +70,7 @@ public class AccountsController : Controller
         }
         await Response.WriteAsJsonAsync(new{message="errorAuth"});
     }
-    [HttpGet("api/getaccountloginbyid/{id:int}")]
-    public async Task GetAccountLoginById(int id)
-    {
-        await Response.WriteAsJsonAsync(HandlerAccounts.GetAccountById(id).Login);
-    }
+    
 
     [HttpPost("api/authorizationByJwt")]
     public async Task AuthorizationByJwt()

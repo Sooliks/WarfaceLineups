@@ -1,13 +1,11 @@
-import React, {useState} from 'react';
-import {Avatar, Button, Card, Space} from "antd";
-import {HeartFilled, HeartOutlined} from "@ant-design/icons";
+import React from 'react';
 import VideoForLineups from "./VideosPreview/VideoForLineups";
 import VideoForProfile from "./VideosPreview/VideoForProfile";
 import VideoForFavorites from "./VideosPreview/VideoForFavorites";
+import VideoForAdminPanel from "./VideosPreview/VideoForAdminPanel";
 
 
 const VideoPreview = ({video, type}) => {
-    const[currentIconHeart,setCurrentIconHeart] = useState(<HeartFilled/>);
     const handleClickOnVideo = () =>{
 
     }
@@ -33,6 +31,11 @@ const VideoPreview = ({video, type}) => {
             <div>
                 {type === "uservideo" &&
                     <VideoForProfile video={video} handleClickOnVideo={handleClickOnVideo} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut}/>
+                }
+            </div>
+            <div>
+                {type === "admin" &&
+                    <VideoForAdminPanel video={video} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut}/>
                 }
             </div>
         </div>

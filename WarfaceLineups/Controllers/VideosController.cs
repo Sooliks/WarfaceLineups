@@ -72,7 +72,6 @@ public class VideosController : Controller
             }
 
             JObject obj = JObject.Parse(body);
-            Console.WriteLine(obj);
             int page = (int)obj["page"];
             int minId = (page * countVideosOnOnePage) - countVideosOnOnePage;
             await Response.WriteAsJsonAsync(HandlerVideos.GetVideosInCount(minId, countVideosOnOnePage, obj));
@@ -100,6 +99,13 @@ public class VideosController : Controller
     {
         try
         {
+            var jwt = Request.Headers["authorization"];
+            var login = Request.Headers["login"];
+            if (!AuthService.CheckIsValidToken(jwt, login))
+            {
+                await Response.WriteAsJsonAsync("error");
+                return;
+            }
             const int countVideosOnOnePage = 8;
             string body = "";
             using (StreamReader stream = new StreamReader(Request.Body))
@@ -108,10 +114,9 @@ public class VideosController : Controller
             }
 
             JObject obj = JObject.Parse(body);
-            Console.WriteLine(obj);
             int page = (int)obj["page"];
             int minId = (page * countVideosOnOnePage) - countVideosOnOnePage;
-            await Response.WriteAsJsonAsync(HandlerVideos.GetVideosByOwnerId());
+            await Response.WriteAsJsonAsync(HandlerVideos.GetVideosByOwnerId(minId,countVideosOnOnePage,obj,HandlerAccounts.GetIdByAccountLogin(login)));
         }
         catch (Exception e)
         {
@@ -120,18 +125,12 @@ public class VideosController : Controller
         }
     }
 
-    [HttpPost("api/getvideosunverified")]
+    [HttpGet("api/getvideosunverified")]
     public async Task GetVideosUnVerified()
     {
-        string body = "";
-        using (StreamReader stream = new StreamReader(Request.Body))
-        {
-            body = await stream.ReadToEndAsync();
-        }
-        JObject obj = JObject.Parse(body);
-        string login = (string) obj["login"];
-        string jwtToken = (string) obj["jwt"];
-        if (AuthService.CheckIsValidToken(jwtToken, login))
+        var jwt = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
+        if (AuthService.CheckIsValidToken(jwt, login))
         {
             Accounts account = HandlerAccounts.GetAccountById(HandlerAccounts.GetIdByAccountLogin(login));
             if(account.Role!="admin")return;
@@ -139,40 +138,10 @@ public class VideosController : Controller
         }
         else
         {
-            //await Response.WriteAsJsonAsync(null);
+            await Response.WriteAsJsonAsync(new{message = "error"});
         }
     }
-
-    [HttpGet("api/getpreview/{id:int}")]
-    public async Task GetPreviewById(int id)
-    {
-        try
-        {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "Files/Previews", $"preview_id_{id}.jpg");
-            Response.ContentType = "image/jpg";
-            await Response.SendFileAsync(path);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.ToString());
-        }
-    }
-    /*[HttpGet("api/getpreviewfromdb/{id:int}")]
-    public async Task GetPreviewFromDbById(int id)
-    {
-        try
-        {
-            await using Context db = new Context();
-            var img = db.Preview.SingleOrDefault(p => p.Id == id);
-            Response.ContentType = "image/jpg";
-            await Response.WriteAsJsonAsync(img.Image);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.ToString());
-        }
-    }*/
-
+    
     [HttpPost("api/deletevideo")]
     public async Task DeleteVideo()
     {

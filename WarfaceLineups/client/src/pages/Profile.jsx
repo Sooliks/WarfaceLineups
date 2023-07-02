@@ -18,6 +18,8 @@ import classes from './styles/Profile.module.css'
 import {observer} from "mobx-react-lite";
 import {cookies} from "../data/Cookie";
 import CreateVideo from "./pagesProfile/CreateVideo";
+import UnVerifiedVideos from "./pagesProfile/AdminPanel/UnVerifiedVideos";
+import Panel from "./pagesProfile/AdminPanel/Panel";
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -84,11 +86,10 @@ const Profile = observer(() => {
                     key: 'logout',
                     icon: <LogoutOutlined/>,
                 },
-                {
-                    label: 'Admin Panel',
-                    key: 'adminpanel',
-                    icon: <DesktopOutlined/>,
-                },
+                getItem('Admin Panel', 'sub2', <DesktopOutlined />, [
+                    getItem('Не верифицированные видео', 'unverifiedvideos', null),
+                    getItem('Panel', 'panel', null),
+                ]),
             ])
         }
     },[])
@@ -124,7 +125,8 @@ const Profile = observer(() => {
                     {current === 'favorites' && user.isAuth && <Favorites/>}
                     {current === 'settings' && user.isAuth && <Settings/>}
                     {current === 'addnewvideo' && user.isAuth && <CreateVideo/>}
-                    {current === 'adminpanel' && user.user.role === 'admin' && user.isAuth && <CreateVideo/>}
+                    {current === 'unverifiedvideos' && user.user.role === 'admin' && user.isAuth && <UnVerifiedVideos/>}
+                    {current === 'panel' && user.user.role === 'admin' && user.isAuth && <Panel/>}
                 </Space>
             </Space>
         </App>

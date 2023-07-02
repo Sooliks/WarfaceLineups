@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AdminPanel = () => {
+const Panel = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const AdminPanel = () => {
     );
 };
 
-export default AdminPanel;
+export default Panel;

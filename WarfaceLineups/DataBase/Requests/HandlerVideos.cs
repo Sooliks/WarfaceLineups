@@ -74,7 +74,7 @@ public class HandlerVideos
         }
     }
 
-    public static List<Videos> GetVideosByOwnerId(int ownerId)
+    /*public static List<Videos> GetVideosByOwnerId(int ownerId)
     {
         List<Videos> videosList = new List<Videos>();
         using Context db = new Context();
@@ -82,7 +82,7 @@ public class HandlerVideos
             where  video.OwnerId == ownerId
             select video).ToList();
         return videosList;
-    }
+    }*/
 
     public static List<Videos> GetAllVideosUnVerified()
     {
