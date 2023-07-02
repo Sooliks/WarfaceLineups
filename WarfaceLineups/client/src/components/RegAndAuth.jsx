@@ -3,7 +3,8 @@ import {Button, Checkbox, Form, Input, Space} from "antd";
 import UserAPI from "../http/api/UserAPI";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
-import {cookies} from "../data/Cookie";
+import {cookies} from "../data/cookies";
+
 
 
 

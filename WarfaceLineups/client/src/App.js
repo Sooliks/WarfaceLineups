@@ -5,7 +5,7 @@ import {ConfigProvider, Spin, theme} from "antd";
 import {useContext, useEffect, useState} from "react";
 import UserAPI from "./http/api/UserAPI";
 import {Context} from "./index";
-import {cookies} from "./data/Cookie";
+import {cookies} from "./data/cookies/index";
 
 
 

@@ -16,10 +16,11 @@ import {Context} from "../index";
 import RegAndAuth from "../components/RegAndAuth";
 import classes from './styles/Profile.module.css'
 import {observer} from "mobx-react-lite";
-import {cookies} from "../data/Cookie";
+
 import CreateVideo from "./pagesProfile/CreateVideo";
 import UnVerifiedVideos from "./pagesProfile/AdminPanel/UnVerifiedVideos";
 import Panel from "./pagesProfile/AdminPanel/Panel";
+import {cookies} from "../data/cookies";
 
 function getItem(label, key, icon, children, type) {
     return {

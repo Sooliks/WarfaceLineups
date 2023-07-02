@@ -3,14 +3,15 @@ import {Menu, Space, Spin} from "antd";
 import {RiseOutlined, StockOutlined} from "@ant-design/icons";
 
 
-import Settings from "./pagesProfile/Settings";
+
 
 import CurrentOnline from "./WarfaceTracker/StatsGame/CurrentOnline";
-import Top100Players from "./WarfaceTracker/StatsGame/Top100Players";
-import Top100Clans from "./WarfaceTracker/StatsGame/Top100Clans";
+
+import Top10Clans from "./WarfaceTracker/StatsGame/Top10Clans";
 import SearchPlayer from "./WarfaceTracker/Stats/SearchPlayer";
 import SearchClan from "./WarfaceTracker/Stats/SearchClan";
 import classes from "../Main.module.css";
+import Top100Players from "./WarfaceTracker/StatsGame/Top100Players";
 
 
 
@@ -27,7 +28,7 @@ const items = [
     getItem('Статистика игры', 'sub1', <RiseOutlined/>, [
         getItem('Текущий онлайн', 'currentonline'),
         getItem('Топ 100 игроков', 'top100players'),
-        getItem('Топ 100 кланов', 'top100clans'),
+        getItem('Топ 10 кланов за месяц', 'top10clans'),
     ]),
     getItem('Статистика', 'sub2', <StockOutlined/>, [
         getItem('Найти игрока', 'searchplayer'),
@@ -63,7 +64,7 @@ const WarfaceTracker = () => {
                     <Space direction={"horizontal"} style={{display: 'flex', margin: 12}}>
                         {current === 'currentonline' && <CurrentOnline setLoading={setLoading}/>}
                         {current === 'top100players' && <Top100Players/>}
-                        {current === 'top100clans' && <Top100Clans/>}
+                        {current === 'top10clans' && <Top10Clans/>}
                         {current === 'searchplayer' && <SearchPlayer/>}
                         {current === 'searchclan' && <SearchClan/>}
                     </Space>

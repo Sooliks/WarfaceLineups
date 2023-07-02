@@ -1,5 +1,6 @@
 import axios from "axios";
-import {cookies} from "../data/Cookie";
+import {cookies} from "../data/cookies";
+
 
 const $client = axios.create({
     baseURL: 'http://localhost:5258/api'

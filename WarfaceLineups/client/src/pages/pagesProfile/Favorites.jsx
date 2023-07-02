@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pagination, Space} from "antd";
 import VideoPreview from "../../components/VideoPreview";
 import classes from "../styles/Profile.module.css";
 import Filter from "../../components/Filter";
+
+import CookieFavorites from "../../data/cookies/CookieFavorites";
 
 const Favorites = () => {
     const [totalCountVideos,setTotalCountVideos] = useState(8);
@@ -22,11 +24,16 @@ const Favorites = () => {
         typeFeature:10,
         search: "",
     })
+    useEffect(()=>{
+        if(CookieFavorites.videos.length!==0){
+            CookieFavorites.GetFavoritesVideos().then(data=>setVideos(data))
+        }
+    },[])
     return (
         <div>
             <Filter onChangeFilter={(filter)=>setFilter(filter)}/>
             <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
-                {videos!=null ? videos.map(video=>
+                {videos.length!==0 ? videos.map(video=>
                     <VideoPreview video={video} type={"favorites"}/>
                 ): <p>Здесь пока ничего нету</p>}
             </Space>

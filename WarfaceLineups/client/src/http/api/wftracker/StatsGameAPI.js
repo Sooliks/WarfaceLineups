@@ -1,4 +1,5 @@
 import {$wfapi} from './index.js'
+import async from "async";
 
 
 export default class StatsGameAPI {
@@ -12,8 +13,12 @@ export default class StatsGameAPI {
             return data;
         }
     }
-    static getTop100ClansRu = async () =>{
-        const {data} = await $wfapi.get(`/rating/clan/`);
+    static getTop10ClansRu = async () =>{
+        const {data} = await $wfapi.get(`/top10/ru`);
+        return data;
+    }
+    static getClanMembers = async (name) =>{
+        const {data} = await $wfapi.get(`/clan/members?name=${name}&server=ru`);
         return data;
     }
 }
