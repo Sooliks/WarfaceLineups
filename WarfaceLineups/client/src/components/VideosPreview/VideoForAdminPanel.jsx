@@ -1,8 +1,26 @@
 import React from 'react';
 import {Avatar, Button, Card, Space} from "antd";
-import {HeartFilled, HeartOutlined} from "@ant-design/icons";
+import {CheckOutlined, CloseOutlined, HeartFilled, HeartOutlined} from "@ant-design/icons";
+import VideosAPI from "../../http/api/VideosAPI";
+import {useNavigate} from "react-router-dom";
 
 const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut,handleClickOnVideo}) => {
+    const navigate = useNavigate();
+    const handleClickAccept = () =>{
+        VideosAPI.publishVideo(video.id).then(data=>{
+            if(data.message==="success"){
+                window.location.reload();
+            }
+        })
+    }
+    const handleClickDecline = () =>{
+        VideosAPI.deleteVideo(video.id).then(data=>{
+            if(data.message==="success"){
+                window.location.reload();
+            }
+        })
+    }
+
     return (
         <Space direction={"vertical"}>
             <Card title={video.title} size="large" style={{maxWidth:500, height: "auto", marginBottom: 12, marginRight: 3, padding: 0}}>
@@ -19,6 +37,14 @@ const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut,handleClic
                     <Space>
                         <Avatar src={video.urlOnPreview} alt={video.title}/>
                         <p>{video.ownerLogin}</p>
+                    </Space>
+                    <Space>
+                        <Button type="primary" icon={<CheckOutlined/>} onClick={handleClickAccept}>
+                            Принять
+                        </Button>
+                        <Button type="primary" icon={<CloseOutlined/>} onClick={handleClickDecline} danger>
+                            Отклонить
+                        </Button>
                     </Space>
                 </Space>
             </Card>

@@ -23,4 +23,13 @@ export default class VideosAPI {
         const {data} = await $clientAuth.post('/getcountvideos',{filter});
         return data;
     }
+
+    static deleteVideo = async  (id) =>{
+        const {data} = await $clientAuth.post('/deletevideo',{id});
+        return data;
+    }
+    static publishVideo = async  (id) =>{
+        const {data} = await $clientAuth.post('/publishvideo',{id});
+        return data;
+    }
 }

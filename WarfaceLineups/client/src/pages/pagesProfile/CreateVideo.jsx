@@ -27,7 +27,7 @@ const CreateVideo = () => {
             title="Такое видео уже есть"
             subTitle="Попробуйте еще раз"
             extra={[
-                <Button type="primary" key="console" onClick={()=>{navigate('/profile')}}>
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile');window.location.reload();}}>
                     Перейти в профиль
                 </Button>,
             ]}
@@ -39,7 +39,7 @@ const CreateVideo = () => {
             title="Неизвестная ошибка"
             subTitle="Попробуйте еще раз"
             extra={[
-                <Button type="primary" key="console" onClick={()=>{navigate('/profile')}}>
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile');window.location.reload();}}>
                     Перейти в профиль
                 </Button>,
             ]}
@@ -52,6 +52,9 @@ const CreateVideo = () => {
             }
             if(data.message==="videoIsDuplicate"){
                 setIsVisibleResult('warning')
+            }
+            if(data.message==="error"){
+                setIsVisibleResult('error')
             }
             else{
                 setIsVisibleResult('error')

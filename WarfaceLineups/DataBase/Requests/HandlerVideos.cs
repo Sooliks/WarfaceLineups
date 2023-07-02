@@ -59,7 +59,6 @@ public class HandlerVideos
         int typeSide = (int)infoFilter["filter"]["typeSide"];
         int typeGameMap = (int)infoFilter["filter"]["typeGameMap"];
         int typeFeature = (int)infoFilter["filter"]["typeFeature"];
-        Console.WriteLine(typeGameMap);
         return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.OwnerId==ownerId)).Skip(minId).Take(count).ToList();;
     }
     public static int GetLastIdVideos()

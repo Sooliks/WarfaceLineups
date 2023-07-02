@@ -151,8 +151,8 @@ public class VideosController : Controller
             body = await stream.ReadToEndAsync();
         }
         JObject obj = JObject.Parse(body);
-        string login = (string) obj["login"];
-        string jwtToken = (string) obj["jwt"];
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
         int idVideo = (int)obj["id"];
         if (AuthService.CheckIsValidToken(jwtToken, login))
         {
@@ -175,8 +175,8 @@ public class VideosController : Controller
             body = await stream.ReadToEndAsync();
         }
         JObject obj = JObject.Parse(body);
-        string login = (string) obj["login"];
-        string jwtToken = (string) obj["jwt"];
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
         int idVideo = (int)obj["id"];
         if (AuthService.CheckIsValidToken(jwtToken, login))
         {

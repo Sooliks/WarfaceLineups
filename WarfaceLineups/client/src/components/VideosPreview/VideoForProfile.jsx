@@ -5,7 +5,7 @@ import {LoadingOutlined} from "@ant-design/icons";
 const VideoForProfile = ({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
     return (
         <Space direction={"vertical"}>
-            <Card title={video.title} size="large" style={{maxWidth:500, height: "auto", marginBottom: 12, marginRight: 3, padding: 0}}>
+            <Card title={video.title} size="large" style={{maxWidth:500, height: 377, marginBottom: 12, marginRight: 3, padding: 0}}>
                 <img
                     src={video.urlOnPreview}
                     alt={video.title}
