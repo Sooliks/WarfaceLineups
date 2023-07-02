@@ -53,6 +53,14 @@ public class HandlerVideos
         int typeFeature = (int)infoFilter["filter"]["typeFeature"];
         return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.IsVerified == true)).Skip(minId).Take(count).ToList();;
     }
+    public static List<Videos> GetVideosByOwnerId(int minId,int count, JObject infoFilter, int ownerId)
+    {
+        using Context db = new Context();
+        int typeSide = (int)infoFilter["filter"]["typeSide"];
+        int typeGameMap = (int)infoFilter["filter"]["typeGameMap"];
+        int typeFeature = (int)infoFilter["filter"]["typeFeature"];
+        return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.OwnerId==ownerId)).Skip(minId).Take(count).ToList();;
+    }
     public static int GetLastIdVideos()
     {
         using Context db = new Context();
@@ -80,5 +88,16 @@ public class HandlerVideos
     {
         using Context db = new Context();
         return db.Videos.Where(v=>v.IsVerified == false).ToList();
+    }
+
+    public static bool VideoIsDuplicate(string urlOnVideo)
+    {
+        using Context db = new Context();
+        var video = db.Videos.FirstOrDefault(v => v.UrlOnVideo == urlOnVideo);
+        if (video != null)
+        {
+            return true;
+        }
+        return false;
     }
 }

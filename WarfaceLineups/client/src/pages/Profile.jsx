@@ -1,6 +1,13 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {App, Card, Menu, Space} from "antd";
-import {HeartOutlined, InfoOutlined, LogoutOutlined, SettingOutlined, VideoCameraOutlined} from "@ant-design/icons";
+import {
+    DesktopOutlined,
+    HeartOutlined,
+    InfoOutlined,
+    LogoutOutlined,
+    SettingOutlined,
+    VideoCameraOutlined
+} from "@ant-design/icons";
 import Info from './pagesProfile/Info';
 import Videos from "./pagesProfile/Videos";
 import Favorites from "./pagesProfile/Favorites";
@@ -22,36 +29,69 @@ function getItem(label, key, icon, children, type) {
     };
 }
 
-const items = [
-    {
-        label: 'Информация',
-        key: 'info',
-        icon: <InfoOutlined/>,
-    },
-    getItem('Lineups', 'sub1', <VideoCameraOutlined />, [
-        getItem('Ваши видео', 'videos', null),
-        getItem('Создать', 'addnewvideo', null),
-    ]),
-    {
-        label: 'Избранное',
-        key: 'favorites',
-        icon: <HeartOutlined/>,
-    },
-    {
-        label: 'Настройки',
-        key: 'settings',
-        icon: <SettingOutlined/>,
-    },
-    {
-        label: 'Выйти',
-        key: 'logout',
-        icon: <LogoutOutlined/>,
-    },
-]
-
-
 const Profile = observer(() => {
+    const [items,setItems] = useState([
+        {
+            label: 'Информация',
+            key: 'info',
+            icon: <InfoOutlined/>,
+        },
+        getItem('Lineups', 'sub1', <VideoCameraOutlined />, [
+            getItem('Ваши видео', 'videos', null),
+            getItem('Создать', 'addnewvideo', null),
+        ]),
+        {
+            label: 'Избранное',
+            key: 'favorites',
+            icon: <HeartOutlined/>,
+        },
+        {
+            label: 'Настройки',
+            key: 'settings',
+            icon: <SettingOutlined/>,
+        },
+        {
+            label: 'Выйти',
+            key: 'logout',
+            icon: <LogoutOutlined/>,
+        },
+    ])
     const {user} = useContext(Context);
+    useEffect(()=>{
+        if(user.user.role === 'admin'){
+            setItems([
+                {
+                    label: 'Информация',
+                    key: 'info',
+                    icon: <InfoOutlined/>,
+                },
+                getItem('Lineups', 'sub1', <VideoCameraOutlined />, [
+                    getItem('Ваши видео', 'videos', null),
+                    getItem('Создать', 'addnewvideo', null),
+                ]),
+                {
+                    label: 'Избранное',
+                    key: 'favorites',
+                    icon: <HeartOutlined/>,
+                },
+                {
+                    label: 'Настройки',
+                    key: 'settings',
+                    icon: <SettingOutlined/>,
+                },
+                {
+                    label: 'Выйти',
+                    key: 'logout',
+                    icon: <LogoutOutlined/>,
+                },
+                {
+                    label: 'Admin Panel',
+                    key: 'adminpanel',
+                    icon: <DesktopOutlined/>,
+                },
+            ])
+        }
+    },[])
     const [current, setCurrent] = useState('videos');
     const handlerClickNav = (e) =>{
         if(e.key==="logout"){
@@ -84,6 +124,7 @@ const Profile = observer(() => {
                     {current === 'favorites' && user.isAuth && <Favorites/>}
                     {current === 'settings' && user.isAuth && <Settings/>}
                     {current === 'addnewvideo' && user.isAuth && <CreateVideo/>}
+                    {current === 'adminpanel' && user.user.role === 'admin' && user.isAuth && <CreateVideo/>}
                 </Space>
             </Space>
         </App>

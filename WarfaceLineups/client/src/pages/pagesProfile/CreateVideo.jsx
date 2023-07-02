@@ -1,16 +1,60 @@
 import React, {useState} from 'react';
-import {Button, Card, Checkbox, Form, Input, Select, Space} from "antd";
+import {Button, Card, Checkbox, Form, Input, Result, Select, Space} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import VideosAPI from "../../http/api/VideosAPI";
+import {useNavigate} from "react-router-dom";
 
 
 const CreateVideo = () => {
-
+    const navigate = useNavigate();
     const [urlOnPreview,setUrlOnPreview] = useState(null);
+    const[isVisibleResult,setIsVisibleResult] = useState('');
+    if(isVisibleResult === 'success'){
+        return <Result
+            status="success"
+            title="Видео успешно отправлено"
+            subTitle="Ожидайте проверки модерации"
+            extra={[
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile');window.location.reload();}}>
+                    Перейти в профиль
+                </Button>,
+            ]}
+        />
+    }
+    if(isVisibleResult === 'warning'){
+        return <Result
+            status="warning"
+            title="Такое видео уже есть"
+            subTitle="Попробуйте еще раз"
+            extra={[
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile')}}>
+                    Перейти в профиль
+                </Button>,
+            ]}
+        />
+    }
+    if(isVisibleResult === 'error'){
+        return <Result
+            status="error"
+            title="Неизвестная ошибка"
+            subTitle="Попробуйте еще раз"
+            extra={[
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile')}}>
+                    Перейти в профиль
+                </Button>,
+            ]}
+        />
+    }
     const handlerOnFinish = (values) =>{
         VideosAPI.uploadVideo(values).then(data=>{
             if(data.message==="success"){
-
+                setIsVisibleResult('success')
+            }
+            if(data.message==="videoIsDuplicate"){
+                setIsVisibleResult('warning')
+            }
+            else{
+                setIsVisibleResult('error')
             }
         })
     }

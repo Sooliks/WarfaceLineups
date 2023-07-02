@@ -36,21 +36,26 @@ public class VideosController : Controller
                 body = await stream.ReadToEndAsync();
             }
             JObject obj = JObject.Parse(body);
+            string urlOnVideo = (string)obj["values"]["urlOnVideo"];
+            if (HandlerVideos.VideoIsDuplicate(urlOnVideo))
+            {
+                await Response.WriteAsJsonAsync(new{message = "videoIsDuplicate"});
+                return;
+            }
             string name = (string) obj["values"]["name"];
             string description = (string) obj["values"]["description"];
             byte typeFeature = (byte) obj["values"]["typeFeature"];
             byte typeGameMap = (byte) obj["values"]["typeGameMap"];
             byte typeSide = (byte) obj["values"]["typeSide"];
-            string urlOnVideo = (string)obj["values"]["urlOnVideo"];
             var urlOnPreview = $"https://i.ytimg.com/vi/{urlOnVideo.Split('=')[1]}/maxresdefault.jpg";
             int ownerId = HandlerAccounts.GetIdByAccountLogin(login);
             await HandlerVideos.AddNewVideo(name, typeGameMap, typeSide, description, urlOnVideo, ownerId, urlOnPreview,typeFeature);
-            await Response.WriteAsJsonAsync("success");
+            await Response.WriteAsJsonAsync(new{message = "success"});
         }
         catch (Exception e)
         {
             Console.WriteLine(e.ToString());
-            await Response.WriteAsJsonAsync("error");
+            await Response.WriteAsJsonAsync(new{message = "error"});
         }
     }
 
@@ -65,11 +70,17 @@ public class VideosController : Controller
             {
                 body = await stream.ReadToEndAsync();
             }
+
             JObject obj = JObject.Parse(body);
+            Console.WriteLine(obj);
             int page = (int)obj["page"];
-            int minId = (page*countVideosOnOnePage)-countVideosOnOnePage;
-            await Response.WriteAsJsonAsync(HandlerVideos.GetVideosInCount(minId, countVideosOnOnePage,obj));
-        }catch(Exception e){}
+            int minId = (page * countVideosOnOnePage) - countVideosOnOnePage;
+            await Response.WriteAsJsonAsync(HandlerVideos.GetVideosInCount(minId, countVideosOnOnePage, obj));
+        }
+        catch (Exception e)
+        {
+            await Response.WriteAsJsonAsync(new{message = "error"});
+        }
     }
 
     [HttpPost("api/getcountvideos")]
@@ -84,16 +95,28 @@ public class VideosController : Controller
         await Response.WriteAsJsonAsync(HandlerVideos.GetCountVideos(obj));
     }
 
-    [HttpGet("api/getvideosbyid/{id:int}")]
-    public async Task GetVideosByOwnerId(int id)
+    [HttpPost("api/getvideosbyownerid")]
+    public async Task GetVideosByOwnerId()
     {
         try
         {
-            await Response.WriteAsJsonAsync(HandlerVideos.GetVideosByOwnerId(id));
+            const int countVideosOnOnePage = 8;
+            string body = "";
+            using (StreamReader stream = new StreamReader(Request.Body))
+            {
+                body = await stream.ReadToEndAsync();
+            }
+
+            JObject obj = JObject.Parse(body);
+            Console.WriteLine(obj);
+            int page = (int)obj["page"];
+            int minId = (page * countVideosOnOnePage) - countVideosOnOnePage;
+            await Response.WriteAsJsonAsync(HandlerVideos.GetVideosByOwnerId());
         }
         catch (Exception e)
         {
             Console.WriteLine(e.ToString());
+            await Response.WriteAsJsonAsync(new{message = "error"});
         }
     }
 

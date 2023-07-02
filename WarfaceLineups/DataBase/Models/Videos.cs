@@ -5,9 +5,6 @@ public class Videos
     public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public int CountLikes { get; set; }
-    public int CountDislikes { get; set; }
-    public int CountViews { get; set; }
     public int OwnerId { get; set; }
     public string UrlOnVideo { get; set; }
     /// <summary>
@@ -18,10 +15,6 @@ public class Videos
     /// атака - 0, защита - 1
     /// </summary>
     public byte TypeSide { get; set; }
-    /// <summary>
-    /// шт - 0, медик - 1, инженер - 2, снайпер 3
-    /// </summary>
-    
     public int TypeFeature { get; set; } 
     public string UrlOnPreview { get; set; }
     public bool IsVerified { get; set; }
