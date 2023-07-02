@@ -2,10 +2,7 @@ import React from 'react';
 import {Avatar, Button, Card, Space} from "antd";
 import {HeartFilled, HeartOutlined} from "@ant-design/icons";
 
-const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut}) => {
-    const handleClickOnVideo = () =>{
-
-    }
+const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut,handleClickOnVideo}) => {
     return (
         <Space direction={"vertical"}>
             <Card title={video.title} size="large" style={{maxWidth:500, height: "auto", marginBottom: 12, marginRight: 3, padding: 0}}>

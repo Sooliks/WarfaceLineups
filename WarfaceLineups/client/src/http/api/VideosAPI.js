@@ -19,4 +19,8 @@ export default class VideosAPI {
         const {data} = await $clientAuth.get('/getvideosunverified');
         return data;
     }
+    static getCountVideos = async (filter) =>{
+        const {data} = await $clientAuth.post('/getcountvideos',{filter});
+        return data;
+    }
 }

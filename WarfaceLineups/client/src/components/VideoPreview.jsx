@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import VideoForLineups from "./VideosPreview/VideoForLineups";
 import VideoForProfile from "./VideosPreview/VideoForProfile";
 import VideoForFavorites from "./VideosPreview/VideoForFavorites";
 import VideoForAdminPanel from "./VideosPreview/VideoForAdminPanel";
+import ModalVideo from "./ModalVideo";
 
 
 const VideoPreview = ({video, type}) => {
+    const[isVisibleModalVideo,setIsVisibleModalVideo] = useState(false);
     const handleClickOnVideo = () =>{
-
+        setIsVisibleModalVideo(true);
     }
     const handleOnMouseOver = (e) =>{
         e.target.style.borderColor="rgb(63,65,70)";
@@ -35,9 +37,10 @@ const VideoPreview = ({video, type}) => {
             </div>
             <div>
                 {type === "admin" &&
-                    <VideoForAdminPanel video={video} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut}/>
+                    <VideoForAdminPanel video={video} handleClickOnVideo={handleClickOnVideo} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut}/>
                 }
             </div>
+            {isVisibleModalVideo && <ModalVideo video={video} onClose={()=>setIsVisibleModalVideo(false)}/>}
         </div>
     );
 };

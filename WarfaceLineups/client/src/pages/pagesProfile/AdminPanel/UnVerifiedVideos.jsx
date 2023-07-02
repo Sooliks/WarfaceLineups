@@ -13,9 +13,9 @@ const UnVerifiedVideos = () => {
     return (
         <div>
             <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
-                {videos!=null ? videos.map(video=>
+                {videos.length > 0 ? videos.map(video=>
                     <VideoPreview video={video} type={"admin"}/>
-                ): <p>Здесь пока ничего нету</p>}
+                ): <h3>Не одно видео пока не загрузили</h3>}
             </Space>
         </div>
     );

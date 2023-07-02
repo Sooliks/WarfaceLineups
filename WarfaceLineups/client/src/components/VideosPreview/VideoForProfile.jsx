@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card, Space} from "antd";
+import {LoadingOutlined} from "@ant-design/icons";
 
 const VideoForProfile = ({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
     return (
@@ -16,7 +17,12 @@ const VideoForProfile = ({video,handleClickOnVideo,handleOnMouseOver,handleOnMou
                 <br/>
                 <Space direction={"horizontal"} style={{display:'flex', justifyContent:'space-between'}}>
                     <Space>
-
+                        {!video.isVerified &&
+                            <Space>
+                                <LoadingOutlined />
+                                <p>Видео на проверке</p>
+                            </Space>
+                        }
                     </Space>
                 </Space>
             </Card>

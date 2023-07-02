@@ -31,12 +31,13 @@ const Lineups = () => {
     useEffect(()=>{
         VideosAPI.getVideos(currentPage, filter).then(data=>{
             setVideos(data);
+            VideosAPI.getCountVideos(filter).then(data=>setTotalCountVideos(data));
         })
     },[currentPage,filter])
     return (
         <App>
             <Space direction="horizontal" size="large" align={"start"} style={{ display: 'flex'}}>
-                <Filter onChangeFilter={(filter)=>setFilter(filter)}/>
+                <Filter onChangeFilter={(filter)=>setFilter(filter)} direction={"vertical"} widthFilter={{width:270}}/>
                 <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
                     {videos.length!==0 ? videos.map(videos=>
                         <VideoPreview video={videos} type={"default"}/>

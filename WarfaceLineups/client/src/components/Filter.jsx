@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Card, Select, Space} from "antd";
 import Search from "antd/es/input/Search";
 
-const Filter = ({onChangeFilter}) => {
+const Filter = ({onChangeFilter, direction, widthFilter}) => {
     const[filter,setFilter] = useState({
         typeSide:10,
         typeGameMap:10,
@@ -47,12 +47,12 @@ const Filter = ({onChangeFilter}) => {
         onChangeFilter(filter);
     }
     return (
-        <Space direction="vertical" size="large" align={"start"} style={{ display: 'flex', margin: 12 }}>
+        <Space direction={direction} size="large" align={"start"} style={{ display: 'flex', margin: 12 }}>
             <Card title="Фильтр">
-                <Space direction="vertical" style={{width:270}}>
+                <Space direction={direction} style={widthFilter}>
                     <Select
                         value={filter.typeGameMap}
-                        style={{width: '100%'}}
+                        style={{width: 270}}
                         placeholder="Выберите карту"
                         size={"large"}
                         className={"filterMap"}
@@ -74,7 +74,7 @@ const Filter = ({onChangeFilter}) => {
                     />
                     <Select
                         value={filter.typeFeature}
-                        style={{width: '100%'}}
+                        style={{width: 270}}
                         placeholder="Выберите тип фишки"
                         fullWidth
                         size={"large"}
@@ -90,7 +90,7 @@ const Filter = ({onChangeFilter}) => {
                     />
                     <Select
                         value={filter.typeSide}
-                        style={{width: '100%'}}
+                        style={{width: 270}}
                         placeholder="Выберите тип стороны"
                         fullWidth
                         size={"large"}
