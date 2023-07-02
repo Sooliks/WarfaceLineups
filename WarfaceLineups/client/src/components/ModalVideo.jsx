@@ -18,7 +18,7 @@ const ModalVideo = ({video, onClose}) => {
             case 4:
                 return "Фабрика"
             case 5:
-                return "Пункт назначения"
+                return "Пункт Назначения"
             case 1:
                 return "Пирамида"
             case 6:

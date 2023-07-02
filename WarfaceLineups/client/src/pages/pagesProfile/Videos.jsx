@@ -7,6 +7,12 @@ import Search from "antd/es/input/Search";
 import Filter from "../../components/Filter";
 
 const Videos = () => {
+    const[filter,setFilter] = useState({
+        typeSide:10,
+        typeGameMap:10,
+        typeFeature:10,
+        search: "",
+    })
     const [currentPage, setCurrentPage] = useState(1);
     const [totalCountVideos,setTotalCountVideos] = useState(8);
     const [videos,setVideos] = useState([
@@ -24,16 +30,13 @@ const Videos = () => {
             setVideos(data);
             VideosAPI.getCountVideos(filter).then(data=>setTotalCountVideos(data));
         })
-    },[])
-    const[filter,setFilter] = useState({
-        typeSide:10,
-        typeGameMap:10,
-        typeFeature:10,
-        search: "",
-    })
+    },[filter,currentPage])
+    const handlerChangeFilter = (newFilter) =>{
+        setFilter(newFilter);
+    }
     return (
         <Space direction={"vertical"}>
-            <Filter onChangeFilter={(filter)=>setFilter(filter)} direction={"horizontal"} widthFilter={{display:'flex', justifyContent: 'space-around'}}/>
+            <Filter onChangeFilter={handlerChangeFilter} direction={"horizontal"} widthFilter={{display:'flex', justifyContent: 'space-around'}}/>
             <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
                 {videos.length!==0 ? videos.map(videos=>
                     <VideoPreview video={videos} type={"uservideo"}/>

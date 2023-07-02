@@ -10,41 +10,43 @@ const Filter = ({onChangeFilter, direction, widthFilter}) => {
         search: "",
     })
     const handlerChangeFilterMap = (value) =>{
-        setFilter(prevState => ({
-            ...prevState,
-            typeGameMap: value
-        }));
-        onChangeFilter(filter);
+        const newFilter = {
+            ...filter, typeGameMap: value
+        }
+        onChangeFilter(newFilter)
+        setFilter(newFilter)
     }
     const handlerChangeFilterFeature = (value) => {
-        setFilter(prevState => ({
-            ...prevState,
-            typeFeature: value
-        }));
-        onChangeFilter(filter);
+        const newFilter = {
+            ...filter, typeFeature: value
+        }
+        onChangeFilter(newFilter)
+        setFilter(newFilter)
     }
     const handlerChangeFilterSide = (value) => {
-        setFilter(prevState => ({
-            ...prevState,
-            typeSide: value
-        }));
-        onChangeFilter(filter);
+        const newFilter = {
+            ...filter, typeSide: value
+        }
+        onChangeFilter(newFilter)
+        setFilter(newFilter)
     }
     const handlerChangeFilterSearch = (value) =>{
-        setFilter(prevState => ({
-            ...prevState,
-            search: value
-        }));
-        onChangeFilter(filter);
+        const newFilter = {
+            ...filter, search: value
+        }
+        onChangeFilter(newFilter)
+        setFilter(newFilter)
     }
     const dropFilter = () =>{
-        setFilter(prevState => ({
-            ...prevState,
+        const newFilter = {
+            ...filter,
+            search: "",
             typeSide: 10,
             typeGameMap: 10,
             typeFeature: 10,
-        }));
-        onChangeFilter(filter);
+        }
+        onChangeFilter(newFilter)
+        setFilter(newFilter)
     }
     return (
         <Space direction={direction} size="large" align={"start"} style={{ display: 'flex', margin: 12 }}>
