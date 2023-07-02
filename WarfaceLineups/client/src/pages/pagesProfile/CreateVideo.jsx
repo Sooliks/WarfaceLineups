@@ -9,7 +9,9 @@ const CreateVideo = () => {
     const [urlOnPreview,setUrlOnPreview] = useState(null);
     const handlerOnFinish = (values) =>{
         VideosAPI.uploadVideo(values).then(data=>{
+            if(data.message==="success"){
 
+            }
         })
     }
     return (
@@ -74,12 +76,12 @@ const CreateVideo = () => {
                                     size={"large"}
                                     className={"filterMap"}
                                     options={[
-                                        { value: 2, label: 'Мосты' },
-                                        { value: 5, label: 'Пирамида' },
-                                        { value: 0, label: 'Переулки' },
-                                        { value: 1, label: 'Антенны' },
-                                        { value: 3, label: 'Фабрика' },
-                                        { value: 4, label: 'Пункт Назначения' },
+                                        { value: 0, label: 'Мосты' },
+                                        { value: 1, label: 'Пирамида' },
+                                        { value: 2, label: 'Переулки' },
+                                        { value: 3, label: 'Антенны' },
+                                        { value: 4, label: 'Фабрика' },
+                                        { value: 5, label: 'Пункт Назначения' },
                                         { value: 6, label: 'Окраина' },
                                     ]}
                                     filterOption={(input, option) =>
@@ -128,9 +130,9 @@ const CreateVideo = () => {
                                     className={"filterMap"}
                                     options={[
                                         { value: 1, label: 'Дымовая граната' },
-                                        { value: 3, label: 'Осколочная граната' },
-                                        { value: 2, label: 'Коктель молотова' },
-                                        { value: 0, label: 'Светошумовая граната' },
+                                        { value: 2, label: 'Осколочная граната' },
+                                        { value: 3, label: 'Коктель молотова' },
+                                        { value: 4, label: 'Светошумовая граната' },
                                     ]}
                                     filterOption={(input, option) =>
                                         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())

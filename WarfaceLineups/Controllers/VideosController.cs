@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using WarfaceLineups.DataBase;
 using WarfaceLineups.DataBase.Models;
 using WarfaceLineups.DataBase.Requests;
-using WarfaceLineups.Models;
+
 using WfTracker.Utils;
 
 namespace WarfaceLineups.Controllers;
@@ -19,52 +19,32 @@ public class VideosController : Controller
         return BadRequest("Hello, world!");
     }
     [HttpPost("api/uploadvideo")]
-    public async Task UploadVideo(VideoData videoData)
+    public async Task UploadVideo()
     {
         try
         {
-            if (videoData == null)
-            {
-                return;
-            }
-            int ownerId = HandlerAccounts.GetIdByAccountLogin(videoData.Login);
-            if (!AuthService.CheckIsValidToken(videoData.JwtToken, videoData.Login))
+            var jwt = Request.Headers["authorization"];
+            var login = Request.Headers["login"];
+            if (!AuthService.CheckIsValidToken(jwt, login))
             {
                 await Response.WriteAsJsonAsync("error");
                 return;
             }
-            var account = HandlerAccounts.GetAccountById(ownerId);
-            if (!account.IsVerifiedAccount)
+            string body = "";
+            using (StreamReader stream = new StreamReader(Request.Body))
             {
-                await Response.WriteAsJsonAsync("error");
-                return;
+                body = await stream.ReadToEndAsync();
             }
-            string urlOnPreview="";
-            if (videoData.IsVisibleUploadPreview)
-            {
-                string[] theSplit = videoData.UrlOnVideo.Split('=');
-                urlOnPreview = $"https://i.ytimg.com/vi/{theSplit[1]}/maxresdefault.jpg";
-            }
-            else
-            {
-                try
-                {
-                    string fileName = $"preview_id_{HandlerVideos.GetLastIdVideos()+1}.jpg";
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "Files/Previews", fileName);
-                    using (Stream stream = new FileStream(path, FileMode.Create))
-                    {
-                        await videoData.Image.CopyToAsync(stream);
-                    }
-                    urlOnPreview = $"http://localhost:5160/getpreview/{HandlerVideos.GetLastIdVideos()+1}";
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                    await Response.WriteAsJsonAsync("error");
-                    return;
-                }
-            }
-            await HandlerVideos.AddNewVideo(videoData.Title, videoData.TypeGameMap, videoData.TypeSide, videoData.Description, videoData.UrlOnVideo, ownerId, urlOnPreview,videoData.TypeFeature);
+            JObject obj = JObject.Parse(body);
+            string name = (string) obj["values"]["name"];
+            string description = (string) obj["values"]["description"];
+            byte typeFeature = (byte) obj["values"]["typeFeature"];
+            byte typeGameMap = (byte) obj["values"]["typeGameMap"];
+            byte typeSide = (byte) obj["values"]["typeSide"];
+            string urlOnVideo = (string)obj["values"]["urlOnVideo"];
+            var urlOnPreview = $"https://i.ytimg.com/vi/{urlOnVideo.Split('=')[1]}/maxresdefault.jpg";
+            int ownerId = HandlerAccounts.GetIdByAccountLogin(login);
+            await HandlerVideos.AddNewVideo(name, typeGameMap, typeSide, description, urlOnVideo, ownerId, urlOnPreview,typeFeature);
             await Response.WriteAsJsonAsync("success");
         }
         catch (Exception e)
