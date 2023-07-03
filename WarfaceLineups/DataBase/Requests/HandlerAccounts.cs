@@ -106,4 +106,10 @@ public class HandlerAccounts
         }
         return false;
     }
+
+    public static Accounts GetAccountByLogin(string login)
+    {
+        using Context db = new Context();
+        return db.Accounts.SingleOrDefault(a => a.Login == login);
+    }
 }

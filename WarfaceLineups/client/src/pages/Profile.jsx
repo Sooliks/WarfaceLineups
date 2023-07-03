@@ -21,6 +21,7 @@ import CreateVideo from "./pagesProfile/CreateVideo";
 import UnVerifiedVideos from "./pagesProfile/AdminPanel/UnVerifiedVideos";
 import Panel from "./pagesProfile/AdminPanel/Panel";
 import {cookies} from "../data/cookies";
+import AddNews from "./pagesProfile/AdminPanel/AddNews";
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -90,6 +91,7 @@ const Profile = observer(() => {
                 getItem('Admin Panel', 'sub2', <DesktopOutlined />, [
                     getItem('Не верифицированные видео', 'unverifiedvideos', null),
                     getItem('Panel', 'panel', null),
+                    getItem('Добавить новость', 'addnews', null),
                 ]),
             ])
         }
@@ -128,6 +130,7 @@ const Profile = observer(() => {
                     {current === 'addnewvideo' && user.isAuth && <CreateVideo/>}
                     {current === 'unverifiedvideos' && user.user.role === 'admin' && user.isAuth && <UnVerifiedVideos/>}
                     {current === 'panel' && user.user.role === 'admin' && user.isAuth && <Panel/>}
+                    {current === 'addnews' && user.user.role === 'admin' && user.isAuth && <AddNews/>}
                 </Space>
             </Space>
         </App>

@@ -32,4 +32,5 @@ export default class VideosAPI {
         const {data} = await $clientAuth.post('/publishvideo',{id});
         return data;
     }
+
 }

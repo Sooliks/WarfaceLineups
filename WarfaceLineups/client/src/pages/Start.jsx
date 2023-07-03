@@ -8,9 +8,9 @@ import classes from './styles/Start.module.css'
 
 const Start = () => {
     const insideContentStyle = {
-        height: 450,
+        height: 350,
         color: '#fff',
-        lineHeight: '450px',
+        lineHeight: '350px',
         background: '#323234',
         textAlign: 'center',
     };
