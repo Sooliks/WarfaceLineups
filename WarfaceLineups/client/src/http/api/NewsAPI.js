@@ -8,4 +8,8 @@ export default class NewsAPI {
         const {data} = await $clientAuth.post('/publishnews', {news});
         return data;
     }
+    static getNews = async (filter) => {
+        const {data} = await $client.get(`/news/${filter}`);
+        return data;
+    }
 }
