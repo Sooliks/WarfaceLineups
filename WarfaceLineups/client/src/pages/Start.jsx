@@ -1,6 +1,10 @@
 import React from 'react';
-import {Button, Carousel, Space, Typography} from "antd";
+import {Button, Carousel, Space} from "antd";
+
 import {useNavigate} from "react-router-dom";
+import classes from './styles/Start.module.css'
+
+
 
 const Start = () => {
     const insideContentStyle = {
@@ -31,6 +35,9 @@ const Start = () => {
                     <Button type={"primary"} onClick={()=>navigate("/profile")}>Начать</Button>
                 </Space>
             </Space>
+            <div className={classes.footer}>
+                Warface Lineups ©2023 Created by Sooliks, powered by wfstats.cf
+            </div>
         </div>
     );
 };
