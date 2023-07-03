@@ -51,7 +51,7 @@ public class HandlerVideos
         int typeSide = (int)infoFilter["filter"]["typeSide"];
         int typeGameMap = (int)infoFilter["filter"]["typeGameMap"];
         int typeFeature = (int)infoFilter["filter"]["typeFeature"];
-        return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.IsVerified == true)).Skip(minId).Take(count).ToList();;
+        return db.Videos.OrderByDescending(v=>v.Id).Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.IsVerified == true)).Skip(minId).Take(count).ToList();;
     }
     public static List<Videos> GetVideosByOwnerId(int minId,int count, JObject infoFilter, int ownerId)
     {
@@ -59,7 +59,8 @@ public class HandlerVideos
         int typeSide = (int)infoFilter["filter"]["typeSide"];
         int typeGameMap = (int)infoFilter["filter"]["typeGameMap"];
         int typeFeature = (int)infoFilter["filter"]["typeFeature"];
-        return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.OwnerId==ownerId)).Skip(minId).Take(count).ToList();;
+        return db.Videos.OrderByDescending(v=>v.Id).Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.OwnerId==ownerId)).Skip(minId).Take(count).ToList();
+        //return db.Videos.OrderByDescending(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.OwnerId==ownerId)).Skip(minId).Take(count).ToList();
     }
     public static int GetLastIdVideos()
     {
