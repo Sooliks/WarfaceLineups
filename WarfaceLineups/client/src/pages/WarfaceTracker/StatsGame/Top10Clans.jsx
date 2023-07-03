@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import StatsGameAPI from "../../../http/api/wftracker/StatsGameAPI";
 import {Button, Space, Spin, Table} from "antd";
+import Clan from "./Clan";
 
 const Top10Clans = () => {
     const columns = [
@@ -31,26 +32,8 @@ const Top10Clans = () => {
             key: 'rank',
         },
     ];
-    const columnsClanMembers = [
-        {
-            title: 'Никнейм',
-            dataIndex: 'nickname',
-            key: 'nickname',
-            render: (text) => <Button type="link">{text}</Button>,
-        },
-        {
-            title: 'Ранг',
-            dataIndex: 'rank_id',
-            key: 'rank_id',
-        },
-        {
-            title: 'Очки',
-            dataIndex: 'clan_points',
-            key: 'clan_points',
-        },
-    ];
-    const[isVisibleClanMembers,setIsVisibleClanMembers] = useState(false)
     const[loading, setLoading] = useState(true);
+    const[isVisibleClanMembers,setIsVisibleClanMembers] = useState(false);
     const [dataSource,setDataSource] = useState( []);
     const [dataSourceClanMembers,setDataSourceClanMembers] = useState( []);
     useEffect(()=>{
@@ -62,7 +45,7 @@ const Top10Clans = () => {
     const handleClickOnMemberClan = (name) =>{
         setLoading(true);
         StatsGameAPI.getClanMembers(name).then(data=>{
-            setDataSourceClanMembers(data.members);
+            setDataSourceClanMembers(data);
             setIsVisibleClanMembers(true);
             setLoading(false);
         })
@@ -73,13 +56,7 @@ const Top10Clans = () => {
             {!isVisibleClanMembers ?
                 <Table dataSource={dataSource} columns={columns}/>
                 :
-                <Space direction={"vertical"}>
-                    <Space direction={"horizontal"}>
-                        <Button onClick={()=>setIsVisibleClanMembers(false)}>Назад</Button>
-                        <h3></h3>
-                    </Space>
-                    <Table dataSource={dataSourceClanMembers} columns={columnsClanMembers} style={{width:700}}/>
-                </Space>
+                <Clan data={dataSourceClanMembers.members} name={dataSourceClanMembers.name} onHide={()=>setIsVisibleClanMembers(false)}></Clan>
             }
         </div>
     );
