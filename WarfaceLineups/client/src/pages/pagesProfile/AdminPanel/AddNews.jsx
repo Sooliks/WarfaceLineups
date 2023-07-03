@@ -1,11 +1,40 @@
-import React from 'react';
-import {Button, Form, Input} from "antd";
+import React, {useState} from 'react';
+import {Button, Form, Input, Result} from "antd";
 import TextArea from "antd/es/input/TextArea";
+import NewsAPI from "../../../http/api/NewsAPI";
+import {useNavigate} from "react-router-dom";
 
 const AddNews = () => {
+    const navigate = useNavigate();
+    const[isVisibleResult,setIsVisibleResult] = useState('');
     const onFinish = (values) => {
-
+        NewsAPI.publishNews(values).then(data=>{
+            setIsVisibleResult(data.message)
+        })
     };
+    if(isVisibleResult === 'success'){
+        return <Result
+            status="success"
+            title="Новость добавлена"
+            extra={[
+                <Button type="primary" key="console" onClick={()=>{navigate('/news');window.location.reload();}}>
+                    Перейти в новости
+                </Button>,
+            ]}
+        />
+    }
+    if(isVisibleResult === 'error'){
+        return <Result
+            status="error"
+            title="Неизвестная ошибка"
+            subTitle="Попробуйте еще раз"
+            extra={[
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile');window.location.reload();}}>
+                    Обновить страницу
+                </Button>,
+            ]}
+        />
+    }
     return (
         <div>
             <Form
