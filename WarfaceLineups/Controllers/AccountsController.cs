@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json.Linq;
+using WarfaceLineups.DataBase;
 using WarfaceLineups.DataBase.Models;
 using WarfaceLineups.DataBase.Requests;
 using WarfaceLineups.Utils;
@@ -147,6 +150,30 @@ public class AccountsController : Controller
         {
             await Response.WriteAsJsonAsync(new{result = HandlerAccounts.CheckIsValidVerificationCodeForAccount(account, verificationCode)});
         }
+    }
+
+    [HttpPost("api/uploadavatar")]
+    public async Task UploadAvatar()
+    {
+        await using Context db = new Context();
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
+        if (AuthService.CheckIsValidToken(jwtToken, login))
+        {
+            var account = HandlerAccounts.GetAccountByLogin(login);
+            account.Avatar = new byte[Request.Form.Files.First().Length];
+            db.Accounts.Update(account);
+            await db.SaveChangesAsync();
+            await Response.WriteAsJsonAsync(new {message = "success"});
+            return;
+        }
+        await Response.WriteAsJsonAsync(new {message = "error"});
+    }
+
+    [HttpPost("api/avatar/{id:int}")]
+    public async Task GetAvatar(int id)
+    {
+        await Response.WriteAsync(HandlerAccounts.GetAccountById(id).Avatar.ToString());
     }
     
 }

@@ -41,7 +41,7 @@ const Lineups = () => {
         <App>
             <Space direction="horizontal" size="large" align={"start"} style={{ display: 'flex'}}>
                 <Filter onChangeFilter={handlerChangeFilter} direction={"vertical"} widthFilter={{width:270}}/>
-                <Space direction="horizontal" style={{ display: 'flex',  marginLeft: 12 }} size={[2, 4]} wrap>
+                <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
                     {videos.length!==0 ? videos.map(videos=>
                         <VideoPreview video={videos} type={"default"}/>
                     )
