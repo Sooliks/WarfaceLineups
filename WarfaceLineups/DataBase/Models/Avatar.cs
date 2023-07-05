@@ -1,8 +1,13 @@
-﻿namespace WarfaceLineups.DataBase.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WarfaceLineups.DataBase.Models;
 
 public class Avatar
 {
     public int Id { get; set; }
+    
+    [MaxLength(500000)]
     public byte [] Content { get; set; }
     public int AccountId { get; set; }
     

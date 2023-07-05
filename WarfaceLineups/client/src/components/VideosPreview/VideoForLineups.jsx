@@ -3,20 +3,23 @@ import {Avatar, Button, Card, Space, notification} from "antd";
 import {HeartFilled, HeartOutlined} from "@ant-design/icons";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
-import CookieFavorites from "../../data/cookies/CookieFavorites";
+import FavoritesData from "../../data/FavoritesData";
+import {cookies} from "../../data/cookies";
 
 const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
-    const {user} = useContext(Context);
+    const {user, videosFavorite} = useContext(Context);
     const[isActiveIcon,setIsActiveIcon] = useState(false);
     const handlerClickHeart = () =>{
         if(isActiveIcon)return
-        CookieFavorites.AddVideo(video).then(()=> {
-            setIsActiveIcon(true);
-            notification.open({
-                message: "Уведомление",
-                description: "Лайнап добавлен в избранное"
-            })
-        });
+        videosFavorite.setVideos(cookies.get('favoritesVideos'));
+        if(videosFavorite.videos.find(v=>v===video)===-1)return;
+        videosFavorite.setVideos([...videosFavorite.videos,video]);
+        cookies.set('favoritesVideos',videosFavorite.videos);
+        setIsActiveIcon(true);
+        notification.open({
+            message: "Уведомление",
+            description: "Лайнап добавлен в избранное"
+        })
     }
     return (
         <Space direction={"vertical"}>

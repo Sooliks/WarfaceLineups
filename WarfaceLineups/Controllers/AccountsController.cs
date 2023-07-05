@@ -155,7 +155,7 @@ public class AccountsController : Controller
             await Response.WriteAsJsonAsync(new{result = HandlerAccounts.CheckIsValidVerificationCodeForAccount(account, verificationCode)});
         }
     }
-
+    [DisableRequestSizeLimit] 
     [HttpPost("api/uploadavatar")]
     public async Task UploadAvatar(Image image)
     {
@@ -165,10 +165,12 @@ public class AccountsController : Controller
         if (AuthService.CheckIsValidToken(jwtToken, login))
         {
             var file = Request.Form.Files.First();
+            
             using (var ms = new MemoryStream())
             {
                 file.CopyTo(ms);
                 var fileBytes = ms.ToArray();
+                Console.WriteLine(fileBytes.Length);
                 HandlerAvatar.AddNewAvatar(fileBytes,HandlerAccounts.GetIdByAccountLogin(login));
             }
             await Response.WriteAsJsonAsync(new {message = "success"});

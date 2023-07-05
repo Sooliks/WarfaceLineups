@@ -72,7 +72,8 @@ const EditingModal = ({onHide}) => {
                     </Button>,
                 ]}
             >
-                <Space>
+                <Space direction={"vertical"} style={{display: 'flex', alignItems:'center'}}>
+                    <h3>Загрузить аватар</h3>
                     <Upload
                         name="avatar"
                         listType="picture-circle"
@@ -93,6 +94,8 @@ const EditingModal = ({onHide}) => {
                                 alt="avatar"
                                 style={{
                                     width: '100%',
+                                    border: '1px solid transparent',
+                                    borderRadius: '50%',
                                 }}
                             />
                         ) : (

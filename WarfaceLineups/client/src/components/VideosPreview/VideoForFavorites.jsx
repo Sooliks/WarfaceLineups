@@ -1,11 +1,17 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Avatar, Button, Card, Space} from "antd";
 import {HeartFilled, HeartOutlined} from "@ant-design/icons";
+import {cookies} from "../../data/cookies";
+import {Context} from "../../index";
 
 const VideoForFavorites = ({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
-    const[currentIconHeart,setCurrentIconHeart] = useState(<HeartFilled/>);
+    const {videosFavorite} = useContext(Context);
+    const[isActiveIcon,setIsActiveIcon] = useState(true);
     const handlerClickHeart = () =>{
-        setCurrentIconHeart(<HeartOutlined/>);
+        videosFavorite.setVideos(cookies.get('favoritesVideos'));
+        videosFavorite.setVideos(videosFavorite.videos.filter(v=>v.id !== video.id));
+        cookies.set('favoritesVideos',videosFavorite.videos);
+        setIsActiveIcon(false);
     }
 
     return (
@@ -25,7 +31,7 @@ const VideoForFavorites = ({video,handleClickOnVideo,handleOnMouseOver,handleOnM
                         <Avatar src={`http://localhost:5258/api/avatar/${video.ownerId}`} alt={video.title}/>
                         <p>{video.ownerLogin}</p>
                     </Space>
-                    <Button type="dashed" shape="circle" icon={currentIconHeart} onClick={handlerClickHeart} />
+                    <Button type="dashed" shape="circle" icon={isActiveIcon ? <HeartFilled/> : <HeartOutlined/>} onClick={handlerClickHeart} />
                 </Space>
             </Card>
         </Space>
