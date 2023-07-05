@@ -12,6 +12,7 @@ public class Context : DbContext
     public DbSet<Accounts> Accounts { get; set; }
     public DbSet<Videos> Videos { get; set; }
     public DbSet<News>News { get; set; }
+    public DbSet<Avatar>Avatar { get; set; }
 
     public Context()
     {
@@ -38,5 +39,6 @@ public class Context : DbContext
         modelBuilder.ApplyConfiguration(new AccountsConfig());
         modelBuilder.ApplyConfiguration(new VideosConfig());
         modelBuilder.ApplyConfiguration(new NewsConfig());
+        modelBuilder.ApplyConfiguration(new AvatarConfig());
     }
 }

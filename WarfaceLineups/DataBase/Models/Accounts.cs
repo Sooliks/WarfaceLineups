@@ -9,7 +9,7 @@ public class Accounts
     public string Role { get; set; }
     public string VerificationCode { get; set; }
     public bool IsVerifiedAccount { get; set; } 
-    public byte [] Avatar { get; set; }
+    
 
     public Accounts()
     {

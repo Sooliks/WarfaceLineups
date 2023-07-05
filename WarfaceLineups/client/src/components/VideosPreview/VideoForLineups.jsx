@@ -32,7 +32,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                 <br/>
                 <Space direction={"horizontal"} style={{display:'flex', justifyContent:'space-between'}}>
                     <Space>
-                        <Avatar src={``} alt={video.title}/>
+                        <Avatar src={`http://localhost:5258/api/avatar/${video.ownerId}`} alt={video.title}/>
                         <p>{video.ownerLogin}</p>
                     </Space>
                     {user.isAuth && <Button type="dashed" shape="circle" icon={isActiveIcon ? <HeartFilled/> : <HeartOutlined/>} onClick={handlerClickHeart}/>}

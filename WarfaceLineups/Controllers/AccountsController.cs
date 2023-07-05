@@ -1,12 +1,16 @@
 ﻿
+
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileProviders;
+
 using Newtonsoft.Json.Linq;
 using WarfaceLineups.DataBase;
 using WarfaceLineups.DataBase.Models;
 using WarfaceLineups.DataBase.Requests;
+using WarfaceLineups.Models;
 using WarfaceLineups.Utils;
 using WfTracker.Utils;
+
 
 namespace WarfaceLineups.Controllers;
 
@@ -153,27 +157,31 @@ public class AccountsController : Controller
     }
 
     [HttpPost("api/uploadavatar")]
-    public async Task UploadAvatar()
+    public async Task UploadAvatar(Image image)
     {
         await using Context db = new Context();
         var jwtToken = Request.Headers["authorization"];
         var login = Request.Headers["login"];
         if (AuthService.CheckIsValidToken(jwtToken, login))
         {
-            var account = HandlerAccounts.GetAccountByLogin(login);
-            account.Avatar = new byte[Request.Form.Files.First().Length];
-            db.Accounts.Update(account);
-            await db.SaveChangesAsync();
+            var file = Request.Form.Files.First();
+            using (var ms = new MemoryStream())
+            {
+                file.CopyTo(ms);
+                var fileBytes = ms.ToArray();
+                HandlerAvatar.AddNewAvatar(fileBytes,HandlerAccounts.GetIdByAccountLogin(login));
+            }
             await Response.WriteAsJsonAsync(new {message = "success"});
             return;
         }
         await Response.WriteAsJsonAsync(new {message = "error"});
     }
 
-    [HttpPost("api/avatar/{id:int}")]
-    public async Task GetAvatar(int id)
+    [HttpGet("api/avatar/{id:int}")]
+    public async Task<IResult> GetAvatar(int id)
     {
-        await Response.WriteAsync(HandlerAccounts.GetAccountById(id).Avatar.ToString());
+        if (id == 0) return Results.Empty;
+        return Results.File(HandlerAvatar.GetAvatarByAccountId(id).Content);
     }
     
 }

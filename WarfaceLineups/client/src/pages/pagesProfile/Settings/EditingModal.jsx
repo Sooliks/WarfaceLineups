@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Button, Modal, Space, Upload, message} from "antd";
 import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
 import {cookies} from "../../../data/cookies";
+import UserAPI from "../../../http/api/UserAPI";
+import imageCompression from "browser-image-compression";
 
 
 const getBase64 = (img, callback) => {
@@ -9,6 +11,13 @@ const getBase64 = (img, callback) => {
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
 };
+const options = {
+    maxSizeKb: 3,
+    maxWidthOrHeight: 30,
+    useWebWorker: true,
+    maxBlockSize:2000
+}
+
 
 const EditingModal = ({onHide}) => {
     const [loading, setLoading] = useState(false);
@@ -20,17 +29,21 @@ const EditingModal = ({onHide}) => {
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
-            message.error('Image must smaller than 2MB!');
+            message.error('Картинка не должна превышать размер 2MB!');
         }
+
         return isJpgOrPng && isLt2M;
     };
     const handleChange = (info) => {
+        info.file.originFileObj.Blob = imageCompression(info.file.originFileObj, options);
         if (info.file.status === 'uploading') {
+            info.file.originFileObj.Blob = imageCompression(info.file.originFileObj, options);
             setLoading(true);
             return;
         }
         if (info.file.status === 'done') {
             getBase64(info.file.originFileObj, (url) => {
+                info.file.originFileObj.Blob = imageCompression(info.file.originFileObj, options);
                 setLoading(false);
                 setImageUrl(url);
             });
@@ -65,13 +78,14 @@ const EditingModal = ({onHide}) => {
                         listType="picture-circle"
                         className="avatar-uploader"
                         showUploadList={false}
-                        action="http://localhost:5258/api/uploadavatar"
                         headers={{
                             authorization:`${cookies.get('jwt')}`,
                             login:`${cookies.get('login')}`,
                         }}
                         beforeUpload={beforeUpload}
                         onChange={handleChange}
+                        action={`http://localhost:5258/api/uploadavatar`}
+                        //customRequest={uploadAvatar}
                     >
                         {imageUrl ? (
                             <img
