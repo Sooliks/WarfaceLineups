@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {App, Button, Card, Pagination, Select, Space} from "antd";
-import Search from "antd/es/input/Search";
+import {App, Pagination, Space} from "antd";
 import VideoPreview from "../components/VideoPreview";
 import classes from './styles/Lineups.module.css'
 import VideosAPI from "../http/api/VideosAPI";

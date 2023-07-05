@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Pagination, Space} from "antd";
+import {Affix, Pagination, Space} from "antd";
 import VideoPreview from "../../components/VideoPreview";
 import classes from "../styles/Profile.module.css";
 import Filter from "../../components/Filter";
@@ -10,16 +10,7 @@ import {cookies} from "../../data/cookies";
 
 const Favorites = () => {
     const [totalCountVideos,setTotalCountVideos] = useState(0);
-    const [videos,setVideos] = useState([
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-    ]);
+    const [videos,setVideos] = useState([]);
     const[filter,setFilter] = useState({
         typeSide:10,
         typeGameMap:10,
@@ -27,11 +18,16 @@ const Favorites = () => {
         search: "",
     })
     useEffect(()=>{
-        setVideos(cookies.get('favoritesVideos'));
-    },[])
+        setVideos(cookies.get('favoritesVideos').filter(v=>(v.typeSide === filter.typeSide || filter.typeSide === 10) && (v.typeFeature === filter.typeFeature || filter.typeFeature === 10)&&(v.typeGameMap === filter.typeGameMap || filter.typeGameMap === 10) && (v.title.startsWith(filter.search) || filter.search === "")))
+    },[filter])
+    const handlerChangeFilter = (newFilter) =>{
+        setFilter(newFilter);
+    }
     return (
         <div>
-            <Filter onChangeFilter={(filter)=>setFilter(filter)}/>
+            <Affix offsetTop={10}>
+                <Filter onChangeFilter={handlerChangeFilter}/>
+            </Affix>
             <Space style={{overflowY:'auto'}}>
                 <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
                     {videos.length!==0 ? videos.map(video=>
