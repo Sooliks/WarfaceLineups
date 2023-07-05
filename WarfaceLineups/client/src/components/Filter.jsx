@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Card, Select, Space} from "antd";
 import Search from "antd/es/input/Search";
 
-const Filter = ({onChangeFilter, direction, widthFilter}) => {
+const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) => {
     const[filter,setFilter] = useState({
         typeSide:10,
         typeGameMap:10,
@@ -107,11 +107,14 @@ const Filter = ({onChangeFilter, direction, widthFilter}) => {
                     <Button style={{width: '100%'}} onClick={dropFilter}>Сбросить фильтр</Button>
                 </Space>
             </Card>
-            <Card title="Найти">
-                <Space direction="vertical" style={{width:270}}>
-                    <Search placeholder="Поиск по названию" allowClear onSearch={handlerChangeFilterSearch} style={{ width: '100%' }} />
-                </Space>
-            </Card>
+            {isVisibleSearch &&
+                <Card title="Найти">
+                    <Space direction="vertical" style={{width: 270}}>
+                        <Search placeholder="Поиск по названию" allowClear onSearch={handlerChangeFilterSearch}
+                                style={{width: '100%'}}/>
+                    </Space>
+                </Card>
+            }
         </Space>
     );
 };

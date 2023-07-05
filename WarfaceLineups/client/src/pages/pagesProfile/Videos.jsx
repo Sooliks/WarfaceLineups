@@ -36,7 +36,7 @@ const Videos = () => {
     }
     return (
         <Space direction={"vertical"}>
-            <Filter onChangeFilter={handlerChangeFilter} direction={"horizontal"} widthFilter={{display:'flex', justifyContent: 'space-around'}}/>
+            <Filter onChangeFilter={handlerChangeFilter} direction={"horizontal"} widthFilter={{display:'flex', justifyContent: 'space-around'}} isVisibleSearch={false}/>
             <Space direction="horizontal" style={{ display: 'flex',  marginLeft: 12 }} size={[2, 4]} wrap>
                 {videos.length!==0 ? videos.map(videos=>
                     <VideoPreview video={videos} type={"uservideo"}/>

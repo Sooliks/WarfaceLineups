@@ -108,20 +108,14 @@ public class AccountsController : Controller
         }
     }
 
-    [HttpPost("api/getverificationcode")]
+    [HttpGet("api/getverificationcode")]
     public async Task GetVerificationCode()
     {
-        string body = "";
-        using (StreamReader stream = new StreamReader(Request.Body))
-        {
-            body = await stream.ReadToEndAsync();
-        }
-        JObject obj = JObject.Parse(body);
-        string login = (string) obj["login"];
-        string jwtToken = (string) obj["jwt"];
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
         if (AuthService.CheckIsValidToken(jwtToken, login))
         {
-            Accounts account = HandlerAccounts.GetAccountById(HandlerAccounts.GetIdByAccountLogin(login));
+            Accounts account = HandlerAccounts.GetAccountByLogin(login);
             /*if (account.VerificationCode != "")
             {
                 await Response.WriteAsJsonAsync(new{ message = "Код подтверждения уже отправлен", });
@@ -146,13 +140,17 @@ public class AccountsController : Controller
             body = await stream.ReadToEndAsync();
         }
         JObject obj = JObject.Parse(body);
-        string login = (string) obj["login"];
-        string jwtToken = (string) obj["jwt"];
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
         string verificationCode = obj["verificationCode"].ToString();
-        Accounts account = HandlerAccounts.GetAccountById(HandlerAccounts.GetIdByAccountLogin(login));
+        Accounts account = HandlerAccounts.GetAccountByLogin(login);
         if (AuthService.CheckIsValidToken(jwtToken, login))
         {
-            await Response.WriteAsJsonAsync(new{result = HandlerAccounts.CheckIsValidVerificationCodeForAccount(account, verificationCode)});
+            await Response.WriteAsJsonAsync(new { result = HandlerAccounts.CheckIsValidVerificationCodeForAccount(account, verificationCode) });
+        }
+        else
+        {
+            await Response.WriteAsJsonAsync(new { message = "error" });
         }
     }
     [DisableRequestSizeLimit] 
@@ -183,7 +181,14 @@ public class AccountsController : Controller
     public async Task<IResult> GetAvatar(int id)
     {
         if (id == 0) return Results.Empty;
-        return Results.File(HandlerAvatar.GetAvatarByAccountId(id).Content);
+        try
+        {
+            return Results.File(HandlerAvatar.GetAvatarByAccountId(id).Content);
+        }
+        catch (Exception e)
+        {
+            return Results.Empty;
+        }
     }
     
 }
