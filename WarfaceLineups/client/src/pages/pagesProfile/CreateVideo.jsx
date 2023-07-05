@@ -45,20 +45,38 @@ const CreateVideo = () => {
             ]}
         />
     }
+    if(isVisibleResult === 'notverified'){
+        return <Result
+            status="warning"
+            title="У вас не верифицирован аккаунт"
+            subTitle="Подтвердите аккаунт в настройках"
+            extra={[
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile');window.location.reload();}}>
+                    Перейти в профиль
+                </Button>,
+            ]}
+        />
+    }
     const handlerOnFinish = (values) =>{
         VideosAPI.uploadVideo(values).then(data=>{
+            console.log(data.message)
             if(data.message==="success"){
                 setIsVisibleResult('success')
+                return
             }
             if(data.message==="videoIsDuplicate"){
                 setIsVisibleResult('warning')
+                return
             }
             if(data.message==="error"){
                 setIsVisibleResult('error')
+                return
             }
-            else{
-                setIsVisibleResult('error')
+            if(data.message==="notverified"){
+                setIsVisibleResult('notverified')
+                return
             }
+            setIsVisibleResult('error')
         })
     }
     return (

@@ -44,6 +44,15 @@ public class HandlerVideos
         int typeFeature = (int)infoFilter["filter"]["typeFeature"];
         return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10)).Count();
     }
+    public static int GetCountVideosByOwnerId(JObject infoFilter, int id)
+    {
+        using Context db = new Context();
+        int typeSide = (int)infoFilter["filter"]["typeSide"];
+        int typeGameMap = (int)infoFilter["filter"]["typeGameMap"];
+        int typeFeature = (int)infoFilter["filter"]["typeFeature"];
+        return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && v.OwnerId == id).Count();
+    }
+    
     
     public static List<Videos> GetVideosInCount(int minId,int count, JObject infoFilter)
     {
@@ -51,7 +60,8 @@ public class HandlerVideos
         int typeSide = (int)infoFilter["filter"]["typeSide"];
         int typeGameMap = (int)infoFilter["filter"]["typeGameMap"];
         int typeFeature = (int)infoFilter["filter"]["typeFeature"];
-        return db.Videos.OrderByDescending(v=>v.Id).Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.IsVerified == true)).Skip(minId).Take(count).ToList();;
+        string search = (string)infoFilter["filter"]["search"];
+        return db.Videos.OrderByDescending(v=>v.Id).Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && v.IsVerified == true && (v.Title.StartsWith(search) || v.Title == "")).Skip(minId).Take(count).ToList();;
     }
     public static List<Videos> GetVideosByOwnerId(int minId,int count, JObject infoFilter, int ownerId)
     {

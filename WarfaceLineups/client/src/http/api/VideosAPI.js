@@ -1,5 +1,6 @@
 import {$client, $clientAuth} from "../index";
 import async from "async";
+import filter from "../../components/Filter";
 
 
 export default class VideosAPI {
@@ -20,7 +21,11 @@ export default class VideosAPI {
         return data;
     }
     static getCountVideos = async (filter) =>{
-        const {data} = await $clientAuth.post('/getcountvideos',{filter});
+        const {data} = await $client.post('/getcountvideos',{filter});
+        return data;
+    }
+    static getCountVideosByOwnerId = async (filter) =>{
+        const {data} = await $clientAuth.post('/getcountvideosbyownerid',{filter});
         return data;
     }
 

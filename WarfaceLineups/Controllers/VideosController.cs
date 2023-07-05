@@ -27,7 +27,13 @@ public class VideosController : Controller
             var login = Request.Headers["login"];
             if (!AuthService.CheckIsValidToken(jwt, login))
             {
-                await Response.WriteAsJsonAsync("error");
+                await Response.WriteAsJsonAsync(new{ message = "error" });
+                return;
+            }
+            var account = HandlerAccounts.GetAccountByLogin(login);
+            if (!account.IsVerifiedAccount)
+            {
+                await Response.WriteAsJsonAsync(new{ message = "notverified" });
                 return;
             }
             string body = "";
@@ -48,14 +54,14 @@ public class VideosController : Controller
             byte typeGameMap = (byte) obj["values"]["typeGameMap"];
             byte typeSide = (byte) obj["values"]["typeSide"];
             var urlOnPreview = $"https://i.ytimg.com/vi/{urlOnVideo.Split('=')[1]}/maxresdefault.jpg";
-            int ownerId = HandlerAccounts.GetIdByAccountLogin(login);
-            await HandlerVideos.AddNewVideo(name, typeGameMap, typeSide, description, urlOnVideo, ownerId, urlOnPreview,typeFeature);
-            await Response.WriteAsJsonAsync(new{message = "success"});
+            await HandlerVideos.AddNewVideo(name, typeGameMap, typeSide, description, urlOnVideo, account.Id, urlOnPreview,typeFeature);
+            await Response.WriteAsJsonAsync(new{ message = "success" });
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.ToString());
+            Console.WriteLine(e);
             await Response.WriteAsJsonAsync(new{message = "error"});
+            throw;
         }
     }
 
@@ -92,6 +98,19 @@ public class VideosController : Controller
         }
         JObject obj = JObject.Parse(body);
         await Response.WriteAsJsonAsync(HandlerVideos.GetCountVideos(obj));
+    }
+    [HttpPost("api/getcountvideosbyownerid")]
+    public async Task GetCountVideosByOwnerId()
+    {
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        var jwt = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
+        await Response.WriteAsJsonAsync(HandlerVideos.GetCountVideosByOwnerId(obj,HandlerAccounts.GetIdByAccountLogin(login)));
     }
 
     [HttpPost("api/getvideosbyownerid")]

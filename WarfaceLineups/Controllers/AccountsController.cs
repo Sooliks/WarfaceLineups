@@ -116,11 +116,11 @@ public class AccountsController : Controller
         if (AuthService.CheckIsValidToken(jwtToken, login))
         {
             Accounts account = HandlerAccounts.GetAccountByLogin(login);
-            /*if (account.VerificationCode != "")
+            if (account.VerificationCode != "")
             {
                 await Response.WriteAsJsonAsync(new{ message = "Код подтверждения уже отправлен", });
                 return;
-            }*/
+            }
             if (EmailService.SendEmailAsync(account.Email, "Код подтверждения", HandlerAccounts.GenerateVerificationCodeForAccount(account)))
             {
                 await Response.WriteAsJsonAsync(new{ message = $"Код подтверждения отправлен на почту {account.Email}"});
