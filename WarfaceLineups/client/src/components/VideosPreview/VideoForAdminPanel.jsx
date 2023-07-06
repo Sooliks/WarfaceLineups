@@ -35,7 +35,7 @@ const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut,handleClic
                 <br/>
                 <Space direction={"horizontal"} style={{display:'flex', justifyContent:'space-between'}}>
                     <Space>
-                        <Avatar src={`http://localhost:5258/api/avatar/${video.ownerId}`} alt={video.title}/>
+                        <Avatar src={`/api/avatar/${video.ownerId}`} alt={video.title}/>
                         <p>{video.ownerLogin}</p>
                     </Space>
                     <Space>

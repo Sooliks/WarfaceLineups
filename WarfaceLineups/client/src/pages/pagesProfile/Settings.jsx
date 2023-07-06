@@ -26,7 +26,7 @@ const Settings = observer(() => {
             >
                 <Skeleton loading={loading} avatar active>
                     <Meta
-                        avatar={<Avatar src={`http://localhost:5258/api/avatar/${user.user.id}`} alt={user.user.login}/>}
+                        avatar={<Avatar src={`/api/avatar/${user.user.id}`} alt={user.user.login}/>}
                         title={user.user.login}
                         description="This is the description"
                     />
