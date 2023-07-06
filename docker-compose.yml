@@ -21,9 +21,9 @@ services:
     image: mysql:latest
     container_name: db_mysql
     environment:    
-      MYSQL_PASSWORD: QWn-gmL-i2C-yiN
-      MYSQL_ROOT_PASSWORD: QWn-gmL-i2C-yiN
-      MYSQL_USER: dy4-njA-9Q6-ZbL
+      MYSQL_PASSWORD: qwngmli2cyinQWngmLi2CyiN
+      MYSQL_ROOT_PASSWORD: qwngmli2cyinQWngmLi2CyiN
+      MYSQL_USER: apostol
       MYSQL_DATABASE: wftracker
     ports:
       - "3306:3305"
@@ -66,6 +66,8 @@ services:
       - 8081:80
     networks:
       - deploy
+    depends_on:
+      - backend
     
     
 volumes:

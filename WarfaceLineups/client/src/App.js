@@ -20,7 +20,8 @@ function App() {
                     login: data.log,
                     role: data.role,
                     isVerifiedAccount: data.isVerifiedAccount,
-                    jwt: cookies.get('jwt')
+                    jwt: cookies.get('jwt'),
+                    isPremiumAccount: data.isPremiumAccount,
                 })
                 user.setIsAuth(true);
                 setTimeout(()=>{

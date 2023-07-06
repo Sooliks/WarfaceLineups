@@ -68,7 +68,8 @@ const RegAndAuth = observer(() => {
                     login: data.log,
                     role: data.role,
                     jwt: data.jwtToken,
-                    isVerifiedAccount: data.isVerifiedAccount
+                    isVerifiedAccount: data.isVerifiedAccount,
+                    isPremiumAccount: data.isPremiumAccount,
                 })
                 cookies.set('jwt', data.jwtToken, { path: '/' });
                 cookies.set('login', data.log, { path: '/' });
@@ -90,7 +91,8 @@ const RegAndAuth = observer(() => {
                     login: data.log,
                     role: data.role,
                     jwt: data.jwtToken,
-                    isVerifiedAccount: data.isVerifiedAccount
+                    isVerifiedAccount: data.isVerifiedAccount,
+                    isPremiumAccount: data.isPremiumAccount,
                 })
                 cookies.set('jwt', data.jwtToken, { path: '/' });
                 cookies.set('login', data.log, { path: '/' });

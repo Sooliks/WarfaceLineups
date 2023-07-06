@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {App, Pagination, Space} from "antd";
+import {App, Pagination, Space, Spin} from "antd";
 import VideoPreview from "../components/VideoPreview";
 import classes from './styles/Lineups.module.css'
 import VideosAPI from "../http/api/VideosAPI";
@@ -12,14 +12,7 @@ const Lineups = () => {
     const [totalCountVideos,setTotalCountVideos] = useState(8);
     const [currentPage, setCurrentPage] = useState(1);
     const [videos,setVideos] = useState([
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
-        {id: 0, title: "Смок на 9", description: "тут можете вот так кидать", ownerId: 0, urlOnVideo: "https://www.youtube.com/watch?v=J50XFBrO7ok", typeGameMap: 0, typeSide: 0, urlOnPreview: "https://i.ytimg.com/vi/J50XFBrO7ok/maxresdefault.jpg"},
+        {id:0,title:'', description:'', ownerId:0, ownerLogin:'',urlOnVideo:'',typeGameMap:'',typeSide:10,typeFeature:0,urlOnPreview:'',isVerified:true}
     ]);
     const[filter,setFilter] = useState({
         typeSide:10,
@@ -27,10 +20,12 @@ const Lineups = () => {
         typeFeature:10,
         search: "",
     })
+    const [loading,setLoading] = useState(true);
     useEffect(()=>{
         VideosAPI.getVideos(currentPage, filter).then(data=>{
             setVideos(data);
             VideosAPI.getCountVideos(filter).then(data=>setTotalCountVideos(data));
+            setLoading(false);
         })
     },[currentPage,filter])
     const handlerChangeFilter = (newFilter) =>{
@@ -40,17 +35,19 @@ const Lineups = () => {
         <App>
             <Space direction="horizontal" size="large" align={"start"} style={{ display: 'flex'}}>
                 <Filter onChangeFilter={handlerChangeFilter} direction={"vertical"} widthFilter={{width:270}}/>
-                <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
-                    {videos.length!==0 ? videos.map(videos=>
-                        <VideoPreview video={videos} type={"default"}/>
-                    )
-                        :
-                        <div>
-                            <h1>Здесь пока ничего нету</h1>
-                            <h3>Загрузите лайнап первым!</h3>
-                        </div>
-                    }
-                </Space>
+                {loading ? <Spin size="large" style={{marginTop:30}}/> :
+                    <Space direction="horizontal" style={{display: 'flex', margin: 12}} size={[2, 4]} wrap>
+                        {videos.length !== 0 ? videos.map(videos =>
+                                <VideoPreview video={videos} type={"default"}/>
+                            )
+                            :
+                            <div>
+                                <h1>Здесь пока ничего нету</h1>
+                                <h3>Загрузите лайнап первым!</h3>
+                            </div>
+                        }
+                    </Space>
+                }
             </Space>
             <Space className={classes.pagination}>
                 {videos.length!==0 && totalCountVideos > 8 && <Pagination pageSize={8} onChange={page=>setCurrentPage(page)} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false}/>}

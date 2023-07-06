@@ -23,11 +23,11 @@ public class Context : DbContext
     {
         var connectionString = new MySqlConnectionStringBuilder()
         {
-            Server = "db",
+            Server = "localhost",
             Database = "wftracker",
             Port = 3306,
-            UserID = "dy4-njA-9Q6-ZbL",
-            Password = "QWn-gmL-i2C-yiN",
+            UserID = "root",
+            Password = "",
         };
         optionsBuilder.UseMySQL(connectionString.ConnectionString)
             .LogTo(str => Debug.WriteLine(str), new[] { RelationalEventId.CommandExecuted })

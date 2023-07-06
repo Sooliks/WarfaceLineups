@@ -15,7 +15,8 @@ const SearchPlayer = () => {
     const [dataSource,setDataSource] = useState( []);
     return (
         <div>
-            <Card>
+            <h3>В разработке</h3>
+            {/*<Card>
                 {!isVisibleStatsPlayer ?
                     <Space direction={'vertical'}>
                         <Form
@@ -47,7 +48,7 @@ const SearchPlayer = () => {
                     :
                     <Player data={dataSource}/>
                 }
-            </Card>
+            </Card>*/}
         </div>
     );
 };

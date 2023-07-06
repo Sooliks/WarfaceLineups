@@ -41,7 +41,7 @@ const News = () => {
             <Space direction={"vertical"}>
                 {news.length!==0 ? news.map(news=>
                     <Card title={news.title} style={{width:800, height: 'auto', minHeight: 140, wordWrap:'break-word'}}>{news.text}</Card>
-                ): <p>Пока нету новостей</p>}
+                ): <h3>Пока нету новостей</h3>}
             </Space>
         </Space>
     );

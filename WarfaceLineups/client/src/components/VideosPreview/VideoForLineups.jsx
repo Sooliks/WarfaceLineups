@@ -12,15 +12,15 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
     const handlerClickHeart = () =>{
         if(isActiveIcon)return
         videosFavorite.setVideos(cookies.get('favoritesVideos'));
-        if(videosFavorite.videos.filter(item => item.id === video.id).length > 0){
+        if(videosFavorite.videos?.filter(item => item.id === video.id).length > 0){
             notification.open({
                 message: "Уведомление",
                 description: "Этот лайнап уже есть в избранном"
             })
             return;
         }
-        videosFavorite.setVideos([...videosFavorite.videos,video]);
-        cookies.set('favoritesVideos',videosFavorite.videos);
+        videosFavorite.setVideos([...videosFavorite?.videos,video]);
+        cookies.set('favoritesVideos',videosFavorite?.videos);
         setIsActiveIcon(true);
         notification.open({
             message: "Уведомление",

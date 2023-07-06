@@ -14,11 +14,19 @@ export default class StatsGameAPI {
         }
     }
     static getTop10ClansRu = async () =>{
-        const {data} = await $wfapi.get(`/top10/ru`);
-        return data;
+        try {
+            const {data} = await $wfapi.get(`/top10/ru`);
+            return data;
+        }catch (e) {
+            
+        }
     }
     static getClanMembers = async (name) =>{
-        const {data} = await $wfapi.get(`/clan/members?name=${name}&server=ru`);
-        return data;
+        try {
+            const {data} = await $wfapi.get(`/clan/members?name=${name}&server=ru`);
+            return data;
+        }catch (e) {
+            
+        }
     }
 }

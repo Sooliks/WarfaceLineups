@@ -48,6 +48,7 @@ public class AccountsController : Controller
                 userId = HandlerAccounts.GetIdByAccountLogin(login),
                 role = HandlerAccounts.GetRoleByAccountLogin(login),
                 isVerifiedAccount = account.IsVerifiedAccount,
+                isPremiumAccount = account.IsPremiumAccount
             });
     }
     [HttpPost("api/authorization")]
@@ -71,7 +72,8 @@ public class AccountsController : Controller
                     jwtToken = AuthService.GenerateJwtToken(new DataBase.Models.Accounts(login,"none",password)),
                     log = account.Login,
                     role = account.Role,
-                    isVerifiedAccount = account.IsVerifiedAccount
+                    isVerifiedAccount = account.IsVerifiedAccount,
+                    isPremiumAccount = account.IsPremiumAccount
                 });
             return;
         }
@@ -91,20 +93,29 @@ public class AccountsController : Controller
         string login = (string) obj["login"];
         string jwtToken = (string) obj["jwt"];
         Accounts account = HandlerAccounts.GetAccountById(HandlerAccounts.GetIdByAccountLogin(login));
-        if (AuthService.CheckIsValidToken(jwtToken, login))
+        try
         {
-            await Response.WriteAsJsonAsync(
-                new{
-                    message = "success",
-                    id = account.Id,
-                    log = account.Login,
-                    role = account.Role,
-                    isVerifiedAccount = account.IsVerifiedAccount
-                });
+            if (AuthService.CheckIsValidToken(jwtToken, login))
+            {
+                await Response.WriteAsJsonAsync(
+                    new
+                    {
+                        message = "success",
+                        id = account.Id,
+                        log = account.Login,
+                        role = account.Role,
+                        isVerifiedAccount = account.IsVerifiedAccount,
+                        isPremiumAccount = account.IsPremiumAccount
+                    });
+            }
+            else
+            {
+                await Response.WriteAsJsonAsync(new { message = "errorJwtAuthServer", });
+            }
         }
-        else
+        catch (Exception e)
         {
-            await Response.WriteAsJsonAsync(new{ message = "errorJwtAuthServer", });
+            await Response.WriteAsJsonAsync(new { message = "errorJwtAuthServer", });
         }
     }
 
@@ -205,6 +216,7 @@ public class AccountsController : Controller
         if (key != "gI9wnrT4k936hUPq9g7++PaS") return Results.Ok();
         
         string label = (string)obj["label"];
+        Console.WriteLine(label);
         HandlerAccounts.SetPremiumAccountByLogin(label);
         return Results.Ok();
     }

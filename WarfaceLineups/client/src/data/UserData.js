@@ -10,6 +10,7 @@ export default class UserData {
             role: 'member',
             jwt: "",
             isVerifiedAccount: false,
+            isPremiumAccount: false
         }
         makeAutoObservable(this);
     }
