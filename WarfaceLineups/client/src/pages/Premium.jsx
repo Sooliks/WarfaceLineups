@@ -1,8 +1,8 @@
 import React, {useContext, useEffect} from 'react';
-import {cookies} from "../data/cookies";
+
 import {Button} from "antd";
 import {Context} from "../index";
-import UserAPI from "../http/api/UserAPI";
+
 
 
 

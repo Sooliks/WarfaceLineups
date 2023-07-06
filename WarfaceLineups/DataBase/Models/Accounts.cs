@@ -9,6 +9,7 @@ public class Accounts
     public string Role { get; set; }
     public string VerificationCode { get; set; }
     public bool IsVerifiedAccount { get; set; } 
+    public bool IsPremiumAccount { get; set; }
     
 
     public Accounts()
@@ -24,5 +25,6 @@ public class Accounts
         this.Role = "member";
         this.VerificationCode = "";
         this.IsVerifiedAccount = false;
+        this.IsPremiumAccount = false;
     }
 }

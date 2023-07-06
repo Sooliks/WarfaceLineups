@@ -29,8 +29,4 @@ export default class UserAPI {
         const {data} = await $clientAuth.post('/uploadverificationcode',{verificationCode});
         return data;
     }
-    static buyPremium = async (form) => {
-        const {data} = await $client.post('https://yoomoney.ru/quickpay/confirm',form);
-        return data;
-    }
 }

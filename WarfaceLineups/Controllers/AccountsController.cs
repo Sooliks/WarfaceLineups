@@ -2,7 +2,7 @@
 
 
 using Microsoft.AspNetCore.Mvc;
-
+using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json.Linq;
 using WarfaceLineups.DataBase;
 using WarfaceLineups.DataBase.Models;
@@ -188,6 +188,25 @@ public class AccountsController : Controller
         {
             return Results.Empty;
         }
+    }
+
+    [HttpPost("api/notification/yoomoney")]
+    public async Task<IResult> NotifyYooMoney()
+    {
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        string key = (string)obj["sha1_hash"];
+        int amount = (int)obj["amount"];
+        if(amount!=350)return Results.Ok();
+        if (key != "gI9wnrT4k936hUPq9g7++PaS") return Results.Ok();
+        
+        string label = (string)obj["label"];
+        HandlerAccounts.SetPremiumAccountByLogin(label);
+        return Results.Ok();
     }
     
 }

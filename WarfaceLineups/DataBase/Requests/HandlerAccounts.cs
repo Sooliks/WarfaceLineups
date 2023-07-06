@@ -106,10 +106,18 @@ public class HandlerAccounts
         }
         return false;
     }
-
     public static Accounts GetAccountByLogin(string login)
     {
         using Context db = new Context();
         return db.Accounts.SingleOrDefault(a => a.Login == login);
+    }
+
+    public static void SetPremiumAccountByLogin(string login)
+    {
+        using Context db = new Context();
+        var account = db.Accounts.SingleOrDefault(a => a.Login == login);
+        account.IsPremiumAccount = true;
+        db.Accounts.Update(account);
+        db.SaveChanges();
     }
 }
