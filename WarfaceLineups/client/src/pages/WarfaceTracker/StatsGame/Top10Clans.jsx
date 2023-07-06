@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import StatsGameAPI from "../../../http/api/wftracker/StatsGameAPI";
 import {Button, Space, Spin, Table} from "antd";
-import Clan from "./Clan";
+import Clan from "../Stats/Clan";
 
 const Top10Clans = () => {
     const columns = [

@@ -1,19 +1,52 @@
-import React from 'react';
-import {Button, Card, Input, Space} from "antd";
+import React, {useState} from 'react';
+import {Button, Card, Form, Input, Space} from "antd";
+import Player from "./Player";
+import StatsAPI from "../../../http/api/wftracker/StatsAPI";
 
 const SearchPlayer = () => {
+
+    const handleClickSearchPlayer = (value) =>{
+        StatsAPI.getStatsPlayer(value.nickname).then(data=>{
+            setDataSource(data);
+            setIsVisibleStatsPlayer(true);
+        })
+    }
+    const [isVisibleStatsPlayer,setIsVisibleStatsPlayer] = useState(false);
+    const [dataSource,setDataSource] = useState( []);
     return (
         <div>
             <Card>
-                <Space direction={'vertical'}>
-                    <Space.Compact style={{ width: '100%' }}>
-                        <Input placeholder="Введите никнейм игрока" />
-                        <Button type="primary">Найти</Button>
-                    </Space.Compact>
-                    <Space>
+                {!isVisibleStatsPlayer ?
+                    <Space direction={'vertical'}>
+                        <Form
+                            layout={"vertical"}
+                            name="basic"
+                            onFinish={handleClickSearchPlayer}
+                            autoComplete="off"
+                        >
+                            <Form.Item
+                                label="Введите никнейм игрока"
+                                name="nickname"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Пожалуйста введите никнейм',
+                                    },
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit">Найти</Button>
+                            </Form.Item>
+                        </Form>
+                        <Space>
 
+                        </Space>
                     </Space>
-                </Space>
+                    :
+                    <Player data={dataSource}/>
+                }
             </Card>
         </div>
     );

@@ -23,12 +23,6 @@ public class Accounts
         this.Password = password;
         this.Role = "member";
         this.VerificationCode = "";
-        if (login == "admin1")
-        {
-            this.Role = "admin";
-            this.IsVerifiedAccount = true;
-            return;
-        }
         this.IsVerifiedAccount = false;
     }
 }

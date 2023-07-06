@@ -168,7 +168,6 @@ public class AccountsController : Controller
             {
                 file.CopyTo(ms);
                 var fileBytes = ms.ToArray();
-                Console.WriteLine(fileBytes.Length);
                 HandlerAvatar.AddNewAvatar(fileBytes,HandlerAccounts.GetIdByAccountLogin(login));
             }
             await Response.WriteAsJsonAsync(new {message = "success"});
