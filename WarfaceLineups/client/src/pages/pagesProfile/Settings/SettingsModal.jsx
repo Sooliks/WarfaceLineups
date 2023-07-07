@@ -7,15 +7,59 @@ import UserAPI from "../../../http/api/UserAPI";
 const { Text } = Typography;
 
 const SettingsModal = ({onHide}) => {
+    const handleCancel = () =>{
+        setIsOpen(false);
+    }
+    const[isOpen,setIsOpen] = useState(false);
+
+
     const[redText,setRedText] = useState('');
     const handleClickSendEmail = () =>{
         UserAPI.getVerificationCode().then(data=>{
             setRedText(data.message);
         })
     }
-    const handleClickChangePassword = () =>{
-
+    const [newPassword,setNewPassword] = useState();
+    const handleClickChangePassword = (values) =>{
+        UserAPI.changePassword(values.oldpassword).then(data=>{
+            if(data.message==="success"){
+                setIsOpen(true);
+                setNewPassword(values.newpassword);
+            }
+            else{
+                setRedText("Неверный пароль")
+                notification.error({
+                    message: "Уведомление",
+                    description: "Неверный пароль"
+                })
+            }
+        })
     }
+    const handleClickUploadCodeOnChangePassword = (values) =>{
+        UserAPI.changePasswordSubmitCode(newPassword, values.verificationCode).then(data=>{
+            if(data.message === "success"){
+                setIsOpen(false);
+                onHide();
+                notification.open({
+                    message: "Уведомление",
+                    description: "Пароль успешно поменян"
+                })
+            }
+            if(data.message === "Неверный код"){
+                notification.error({
+                    message: "Уведомление",
+                    description: "Неверный код"
+                })
+            }
+            if(data.message==="error"){
+                notification.error({
+                    message: "Уведомление",
+                    description: "Непридвиденная ошибка, обновите страницу"
+                })
+            }
+        })
+    }
+
     const handleClickUploadCode = (values) =>{
         UserAPI.uploadVerificationCode(values.verificationCode).then(data=>{
             if(data.result){
@@ -100,19 +144,103 @@ const SettingsModal = ({onHide}) => {
                                     onFinish={handleClickChangePassword}
                                     autoComplete="off"
                                 >
+                                    <Text type={"danger"}>{redText}</Text>
                                     <Form.Item
                                         label="Старый пароль"
-                                        name="verificationCode"
+                                        name="oldpassword"
                                         rules={[
                                             {
                                                 required: true,
-                                                message: 'Пожалуйста введите код подтверждения',
+                                                message: 'Пожалуйста введите прошлый пароль',
                                             },
                                         ]}
                                     >
-                                        <Input />
+                                        <Input.Password />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Новый пароль"
+                                        name="newpassword"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста введите новый пароль',
+                                            },
+                                            ({ getFieldValue }) => ({
+                                                validator(_, value) {
+                                                    if (!value || getFieldValue('newpassword').length >= 8) {
+                                                        return Promise.resolve();
+                                                    }
+                                                    return Promise.reject(new Error('Пароль должен быть больше 7-и символов!'));
+                                                },
+                                            }),
+                                            ({ getFieldValue }) => ({
+                                                validator(_, value) {
+                                                    if (!value || getFieldValue('oldpassword') === value) {
+                                                        return Promise.reject(new Error('Новый пароль не должен быть такой же как старый!'));
+                                                    }
+                                                    return Promise.resolve();
+                                                },
+                                            }),
+                                        ]}
+                                    >
+                                        <Input.Password />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Подтвердите пароль"
+                                        name="newpasswordsecond"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста подтвердите пароль',
+                                            },
+                                            ({ getFieldValue }) => ({
+                                                validator(_, value) {
+                                                    if (!value || getFieldValue('newpassword') === value) {
+                                                        return Promise.resolve();
+                                                    }
+                                                    return Promise.reject(new Error('Пароли не совпадают!'));
+                                                },
+                                            }),
+                                        ]}
+                                    >
+                                        <Input.Password />
+                                    </Form.Item>
+                                    <Form.Item>
+                                        <Button type="primary" htmlType="submit">Отправить</Button>
                                     </Form.Item>
                                 </Form>
+                                <Modal
+                                    open={isOpen}
+                                    onCancel={handleCancel}
+                                    footer={[
+                                        <Button key="back" onClick={handleCancel}>
+                                            Закрыть
+                                        </Button>,
+                                    ]}
+                                >
+                                    <Form
+                                        layout={"vertical"}
+                                        name="basic"
+                                        onFinish={handleClickUploadCodeOnChangePassword}
+                                        autoComplete="off"
+                                    >
+                                        <Form.Item
+                                            label="Код подтверждения"
+                                            name="verificationCode"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Пожалуйста введите код подтверждения',
+                                                },
+                                            ]}
+                                        >
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item>
+                                            <Button type="primary" htmlType="submit">Проверить</Button>
+                                        </Form.Item>
+                                    </Form>
+                                </Modal>
                             </Space>
                         }
                     </Card>

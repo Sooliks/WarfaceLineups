@@ -33,4 +33,14 @@ export default class UserAPI {
         const {data} = await $clientAuth.post('/uploadverificationcode',{verificationCode});
         return data;
     }
+    static changePassword = async (oldpassword) => {
+        const {data} = await $clientAuth.post('/changepassword',{oldpassword});
+        return data;
+    }
+    static changePasswordSubmitCode = async (newpassword,code) =>{
+        const {data} = await $clientAuth.post('/changepasswordsubmitcode',{newpassword,code});
+        return data;
+    }
+
+
 }

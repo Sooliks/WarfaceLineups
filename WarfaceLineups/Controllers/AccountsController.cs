@@ -221,5 +221,69 @@ public class AccountsController : Controller
         HandlerAccounts.SetPremiumAccountByLogin(label);
         return Results.Ok();
     }
-    
+
+    [HttpPost("api/changepassword")]
+    public async Task ChangePassword()
+    {
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        string oldPassword = (string)obj["oldpassword"];
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
+        if (AuthService.CheckIsValidToken(jwtToken, login))
+        {
+            var account = HandlerAccounts.GetAccountByLogin(login);
+            if (!HandlerAccounts.IsPasswordValid(account, oldPassword))
+            {
+                await Response.WriteAsJsonAsync(new {message = "error"});
+                return;
+            }
+            if (EmailService.SendEmailAsync(account.Email, "Смена пароля",
+                    $"Код подтверждения {HandlerAccounts.GenerateVerificationCodeForAccount(account)}"))
+            {
+                await Response.WriteAsJsonAsync(new {message = "success"});
+                return;
+            }
+        }
+        await Response.WriteAsJsonAsync(new {message = "error"});
+    }
+
+    [HttpPost("api/changepasswordsubmitcode")]
+    public async Task ChangePasswordSubmitCode()
+    {
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        string newPassword = (string)obj["newpassword"];
+        string verificationCode = (string)obj["code"];
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
+        if (AuthService.CheckIsValidToken(jwtToken, login))
+        {
+            var account = HandlerAccounts.GetAccountByLogin(login);
+            if (!account.IsVerifiedAccount)
+            {
+                await Response.WriteAsJsonAsync(new {message = "error"});
+                return;
+            }
+            if (HandlerAccounts.CheckIsValidVerificationCodeForAccount(account, verificationCode))
+            {
+                HandlerAccounts.ChangePasswordAccount(account,newPassword);
+                await Response.WriteAsJsonAsync(new {message = "success"});
+                HandlerAccounts.RemoveVerificationCodeForAccount(account);
+                return;
+            }
+            await Response.WriteAsJsonAsync(new {message = "Неверный код"});
+            return;
+        }
+        await Response.WriteAsJsonAsync(new {message = "error"});
+    }
+
 }

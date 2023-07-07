@@ -18,15 +18,20 @@ public class HandlerAccounts
         return db.Accounts.SingleOrDefault(a => a.Email == email) != null;
     }
 
-    public static bool IsPasswordValid(string login, string password)
+    public static bool IsPasswordValid(string email, string password)
     {
         Accounts activeAccount = new Accounts();
         using (Context db = new Context())
         {
-            activeAccount = db.Accounts.SingleOrDefault(a => a.Login == login);
+            activeAccount = db.Accounts.SingleOrDefault(a => a.Email == email);
         }
 
         if (Bcrypt.BCrypt.CheckPassword(password, activeAccount.Password)) return true;
+        return false;
+    }
+    public static bool IsPasswordValid(Accounts account, string password)
+    {
+        if (Bcrypt.BCrypt.CheckPassword(password, account.Password)) return true;
         return false;
     }
 
@@ -71,6 +76,13 @@ public class HandlerAccounts
         account = db.Accounts.SingleOrDefault(a => a.Id == id);
         return account;
     }
+    public static Accounts GetAccountByEmail(string email)
+    {
+        using Context db = new Context();
+        Accounts account = new Accounts();
+        account = db.Accounts.SingleOrDefault(a => a.Email == email);
+        return account;
+    }
     public static string GenerateVerificationCodeForAccount(Accounts account)
     {
         using Context db = new Context();
@@ -95,6 +107,7 @@ public class HandlerAccounts
             if (a.VerificationCode == verificationCode)
             {
                 a.IsVerifiedAccount = true;
+                a.VerificationCode = "1";
                 db.Accounts.Update(a);
                 db.SaveChanges();
                 return true;
@@ -117,6 +130,22 @@ public class HandlerAccounts
         using Context db = new Context();
         var account = db.Accounts.SingleOrDefault(a => a.Login == login);
         account.IsPremiumAccount = true;
+        db.Accounts.Update(account);
+        db.SaveChanges();
+    }
+
+    public static void ChangePasswordAccount(Accounts account, string newPassword)
+    {
+        using Context db = new Context();
+        account.Password = Bcrypt.BCrypt.HashPassword(newPassword, Bcrypt.BCrypt.GenerateSalt());
+        db.Accounts.Update(account);
+        db.SaveChanges();
+    }
+
+    public static void RemoveVerificationCodeForAccount(Accounts account)
+    {
+        using Context db = new Context();
+        account.VerificationCode = "1";
         db.Accounts.Update(account);
         db.SaveChanges();
     }
