@@ -25,6 +25,7 @@ const Videos = () => {
     },[filter,currentPage])
     const handlerChangeFilter = (newFilter) =>{
         setFilter(newFilter);
+        setCurrentPage(1);
     }
     return (
         <Space direction={"vertical"}>

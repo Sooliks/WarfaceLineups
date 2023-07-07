@@ -16,18 +16,26 @@ public class EmailService
     private static int _port = 587;
     public static bool SendEmailAsync(string email, string subject, string message)
     {
-        using (MailMessage mm = new MailMessage(_mail, email)){
-            mm.Subject = subject;
-            mm.Body = message;
-            mm.IsBodyHtml = false;
-            using (SmtpClient sc = new SmtpClient(_host, _port)){
-                sc.EnableSsl = true;
-                sc.DeliveryMethod = SmtpDeliveryMethod.Network;
-                sc.UseDefaultCredentials = false;
-                sc.Credentials = new NetworkCredential(_mail, _password);
-                sc.Send(mm);
-                return true;
+        try
+        {
+            using (MailMessage mm = new MailMessage(_mail, email))
+            {
+                mm.Subject = subject;
+                mm.Body = message;
+                mm.IsBodyHtml = false;
+                using (SmtpClient sc = new SmtpClient(_host, _port))
+                {
+                    sc.EnableSsl = true;
+                    sc.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    sc.UseDefaultCredentials = false;
+                    sc.Credentials = new NetworkCredential(_mail, _password);
+                    sc.Send(mm);
+                    return true;
+                }
             }
+        }
+        catch (Exception e)
+        {
             return false;
         }
     }

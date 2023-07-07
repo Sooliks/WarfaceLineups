@@ -28,6 +28,7 @@ const Lineups = () => {
     },[currentPage,filter])
     const handlerChangeFilter = (newFilter) =>{
         setFilter(newFilter);
+        setCurrentPage(1);
     }
     return (
         <App>

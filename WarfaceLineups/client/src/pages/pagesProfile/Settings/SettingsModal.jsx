@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Button, Card, Checkbox, Form, Input, Modal, notification, Space, Typography} from "antd";
+import {Button, Card, Form, Input, Modal, notification, Space, Typography} from "antd";
 import {Context} from "../../../index";
 import UserAPI from "../../../http/api/UserAPI";
 
