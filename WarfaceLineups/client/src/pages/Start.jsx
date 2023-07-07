@@ -1,9 +1,9 @@
 import React from 'react';
-import {Button, Carousel, Space} from "antd";
+import {Button, Carousel, Space, Typography } from "antd";
 
 import {useNavigate} from "react-router-dom";
 import classes from './styles/Start.module.css'
-
+const { Text, Link } = Typography;
 
 
 const Start = () => {
@@ -35,9 +35,14 @@ const Start = () => {
                     <Button type={"primary"} onClick={()=>navigate("/profile")}>Начать</Button>
                 </Space>
             </Space>
-            <div className={classes.footer}>
-                Warface Lineups ©2023 Created by Sooliks, powered by wfstats.cf
-            </div>
+            <Space className={classes.footer} direction={"vertical"} style={{display:'flex',justifyContent:'center'}}>
+                <Space>
+                    <Text>Warface Lineups ©2023 Created by <Link href="https://t.me/soolikss" target="_blank">Sooliks</Link> powered by wfstats.cf</Text>
+                </Space>
+                <Space style={{alignSelf:'end'}}>
+                    <Text><Link href="https://t.me/warfacelineups" target="_blank">Telegram</Link></Text>
+                </Space>
+            </Space>
         </div>
     );
 };
