@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Card, Checkbox, Form, Input, Result, Select, Space} from "antd";
+import {Button, Card, Form, Input, Result, Select, Space} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import VideosAPI from "../../http/api/VideosAPI";
 import {useNavigate} from "react-router-dom";

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 
 import {Button, Card, Space, Typography} from "antd";
 import {Context} from "../index";
@@ -13,7 +13,7 @@ const Premium = () => {
         <div>
             <Card style={{marginTop:20}}>
                 <Space direction={"vertical"}>
-                    <h1>Преимущество премиум аккаунта</h1>
+                    <h1 style={{textAlign: "center"}}>Преимущество премиум аккаунта</h1>
                     <Card style={{width:500, marginBottom:20}}>
                         <h2>Без рекламы</h2>
                         <Text type="secondary">Наслаждайтесь сайтом без ограничений</Text>

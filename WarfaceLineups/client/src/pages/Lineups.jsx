@@ -11,9 +11,7 @@ const Lineups = () => {
 
     const [totalCountVideos,setTotalCountVideos] = useState(8);
     const [currentPage, setCurrentPage] = useState(1);
-    const [videos,setVideos] = useState([
-        {id:0,title:'', description:'', ownerId:0, ownerLogin:'',urlOnVideo:'',typeGameMap:'',typeSide:10,typeFeature:0,urlOnPreview:'',isVerified:true}
-    ]);
+    const [videos,setVideos] = useState([]);
     const[filter,setFilter] = useState({
         typeSide:10,
         typeGameMap:10,
@@ -38,7 +36,7 @@ const Lineups = () => {
                 {loading ? <Spin size="large" style={{marginTop:30}}/> :
                     <Space direction="horizontal" style={{display: 'flex', margin: 12}} size={[2, 4]} wrap>
                         {videos.length !== 0 ? videos.map(videos =>
-                                <VideoPreview video={videos} type={"default"}/>
+                                <VideoPreview video={videos} key={videos.id} type={"default"}/>
                             )
                             :
                             <div>

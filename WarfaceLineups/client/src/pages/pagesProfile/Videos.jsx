@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import VideoPreview from "../../components/VideoPreview";
-import {Button, Card, Pagination, Select, Space, Spin} from "antd";
+import {Pagination, Space, Spin} from "antd";
 import classes from "../styles/Profile.module.css";
 import VideosAPI from "../../http/api/VideosAPI";
-import Search from "antd/es/input/Search";
 import Filter from "../../components/Filter";
 
 const Videos = () => {
@@ -16,7 +15,7 @@ const Videos = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalCountVideos,setTotalCountVideos] = useState(8);
     const[loading,setLoading] = useState(true)
-    const [videos,setVideos] = useState([{id:0,title:'', description:'', ownerId:0, ownerLogin:'',urlOnVideo:'',typeGameMap:'',typeSide:10,typeFeature:0,urlOnPreview:'',isVerified:true}]);
+    const [videos,setVideos] = useState([]);
     useEffect(()=>{
         VideosAPI.getVideosById(currentPage,filter).then(data=>{
             setVideos(data);
@@ -33,7 +32,7 @@ const Videos = () => {
             {loading ? <Spin size="large" style={{marginTop: 30}}/> :
                 <Space direction="horizontal" style={{display: 'flex', marginLeft: 12}} size={[2, 4]} wrap>
                     {videos.length !== 0 ? videos.map(videos =>
-                        <VideoPreview video={videos} type={"uservideo"}/>
+                        <VideoPreview video={videos} key={videos.id} type={"uservideo"}/>
                     ) : <h3>Вы еще не загрузили видео</h3>}
                 </Space>
             }

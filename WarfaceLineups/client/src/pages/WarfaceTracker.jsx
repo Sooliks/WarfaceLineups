@@ -56,9 +56,9 @@ const WarfaceTracker = () => {
                         width: 256,
                     }}
                     defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
                     mode="inline"
                     items={items}
+                    defaultOpenKeys={['sub1']}
                 />
                 {loading ? <Spin size="large" className={classes.spinnerLoading}/> :
                     <Space direction={"horizontal"} style={{display: 'flex', margin: 12}}>

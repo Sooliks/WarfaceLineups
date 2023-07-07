@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, Select, Space} from "antd";
+import {Card, Select, Space} from "antd";
 import NewsAPI from "../http/api/NewsAPI";
 
 const News = () => {
@@ -7,11 +7,8 @@ const News = () => {
     const handlerChangeFilterData = (value) =>{
         setFilter(value);
     }
-    const[news,setNews] = useState([
-        {title: 'Обновление 2.0',text:"Мы добавили бла бла бла бла и еще да аааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа"}
-    ]);
+    const[news,setNews] = useState([]);
     useEffect(()=>{
-        console.log(filter)
         NewsAPI.getNews(filter).then(data=>{
             setNews(data);
         })
@@ -40,7 +37,7 @@ const News = () => {
             </Card>
             <Space direction={"vertical"}>
                 {news.length!==0 ? news.map(news=>
-                    <Card title={news.title} style={{width:800, height: 'auto', minHeight: 140, wordWrap:'break-word'}}>{news.text}</Card>
+                    <Card key={news.id} title={news.title} style={{width:800, height: 'auto', minHeight: 140, wordWrap:'break-word'}}>{news.text}</Card>
                 ): <h3>Пока нету новостей</h3>}
             </Space>
         </Space>

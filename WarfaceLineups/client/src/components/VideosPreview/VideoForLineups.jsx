@@ -3,7 +3,6 @@ import {Avatar, Button, Card, Space, notification} from "antd";
 import {HeartFilled, HeartOutlined} from "@ant-design/icons";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
-import FavoritesData from "../../data/FavoritesData";
 import {cookies} from "../../data/cookies";
 
 const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
@@ -11,6 +10,9 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
     const[isActiveIcon,setIsActiveIcon] = useState(false);
     const handlerClickHeart = () =>{
         if(isActiveIcon)return
+        if(cookies.get('favoritesVideos')==null || cookies.get('favoritesVideos') === undefined){
+            cookies.set('favoritesVideos',[]);
+        }
         videosFavorite.setVideos(cookies.get('favoritesVideos'));
         if(videosFavorite.videos?.filter(item => item.id === video.id).length > 0){
             notification.open({

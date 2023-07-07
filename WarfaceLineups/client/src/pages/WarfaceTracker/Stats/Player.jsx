@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Space, Table} from "antd";
 
 const Player = ({data,onHide,name}) => {

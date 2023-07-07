@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Menu} from 'antd';
-import {CrownOutlined, FileDoneOutlined, ProfileOutlined, RadarChartOutlined, UserOutlined} from '@ant-design/icons';
+import {
+    ArrowsAltOutlined,
+    CrownOutlined,
+    FileDoneOutlined,
+    ProfileOutlined,
+    RadarChartOutlined,
+    UserOutlined
+} from '@ant-design/icons';
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import Profile from "../pages/Profile";
 import Lineups from "../pages/Lineups";
@@ -13,6 +20,11 @@ import Start from "../pages/Start";
 
 
 const items = [
+    {
+        label: 'Главная',
+        key: '/',
+        icon: <ArrowsAltOutlined/>,
+    },
     {
         label: 'Профиль',
         key: '/profile',

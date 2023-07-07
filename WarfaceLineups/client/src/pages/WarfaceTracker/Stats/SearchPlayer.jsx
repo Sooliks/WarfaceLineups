@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import {Button, Card, Form, Input, Space} from "antd";
-import Player from "./Player";
 import StatsAPI from "../../../http/api/wftracker/StatsAPI";
 
 const SearchPlayer = () => {

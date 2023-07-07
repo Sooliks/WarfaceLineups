@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Badge, Descriptions} from "antd";
+import React, {useContext} from 'react';
+import {Descriptions} from "antd";
 import {Context} from "../../index";
 
 

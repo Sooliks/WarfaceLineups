@@ -1,6 +1,6 @@
 import React from 'react';
 import {Avatar, Button, Card, Space} from "antd";
-import {CheckOutlined, CloseOutlined, HeartFilled, HeartOutlined} from "@ant-design/icons";
+import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import VideosAPI from "../../http/api/VideosAPI";
 import {useNavigate} from "react-router-dom";
 

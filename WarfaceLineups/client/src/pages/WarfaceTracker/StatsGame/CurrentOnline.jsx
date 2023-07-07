@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Card, Space, Spin} from "antd";
 import StatsGameAPI from "../../../http/api/wftracker/StatsGameAPI";
-import classes from "../../../Main.module.css";
+
 
 
 const CurrentOnline = () => {
