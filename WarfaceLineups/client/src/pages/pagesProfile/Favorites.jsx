@@ -13,7 +13,7 @@ const Favorites = () => {
         search: "",
     })
     useEffect(()=>{
-        setVideos(cookies.get('favoritesVideos')?.filter(v => (v.typeSide === filter.typeSide || filter.typeSide === 10) && (v.typeFeature === filter.typeFeature || filter.typeFeature === 10) && (v.typeGameMap === filter.typeGameMap || filter.typeGameMap === 10) && (v.title.startsWith(filter.search) || filter.search === "")))
+        setVideos(cookies.get('favoritesVideos')?.filter(v => (v.typeSide === filter.typeSide || filter.typeSide === 10) && (v.typeFeature === filter.typeFeature || filter.typeFeature === 10) && (v.typeGameMap === filter.typeGameMap || filter.typeGameMap === 10) && (v.title.toLowerCase().startsWith(filter.search.toLowerCase()) || filter.search === "")))
     },[filter])
     const handlerChangeFilter = (newFilter) =>{
         setFilter(newFilter);

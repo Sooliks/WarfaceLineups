@@ -210,9 +210,10 @@ public class AccountsController : Controller
             body = await stream.ReadToEndAsync();
         }
         JObject obj = JObject.Parse(body);
+        Console.WriteLine("Notify accept");
         string key = (string)obj["sha1_hash"];
         int amount = (int)obj["amount"];
-        if(amount!=350)return Results.Ok();
+        if(amount!=250)return Results.Ok();
         if (key != "gI9wnrT4k936hUPq9g7++PaS") return Results.Ok();
         
         string label = (string)obj["label"];

@@ -14,8 +14,12 @@ export default class UserAPI {
         return data;
     }
     static checkIsValidJwtToken = async (login,jwt) => {
-        const {data} = await $client.post('/authorizationByJwt', {login, jwt});
-        return data;
+        try {
+            const {data} = await $client.post('/authorizationByJwt', {login, jwt});
+            return data;
+        }catch (e){
+
+        }
     }
     static uploadAvatar = async (form) =>{
         const {data} = await $clientAuth.post('/uploadavatar', form,{ContentType:'multipart/form-data'});

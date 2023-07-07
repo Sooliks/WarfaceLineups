@@ -34,7 +34,7 @@ const Premium = () => {
                         <input type="hidden" name="receiver" value="4100116427707678"/>
                         <input type="hidden" name="label" value={user.user.login}/>
                         <input type="hidden" name="quickpay-form" value="button"/>
-                        <input type="hidden" name="sum" value="350" datatype="number"/>
+                        <input type="hidden" name="sum" value="250" datatype="number"/>
                         <Button htmlType="submit" shape="round" size={"large"} style={{width:500}}>Купить Premium</Button>
                     </form>
                 </Space>
