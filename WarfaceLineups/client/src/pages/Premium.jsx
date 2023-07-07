@@ -24,7 +24,7 @@ const Premium = () => {
                     </Card>
                     <Card style={{width:500, marginBottom:20}}>
                         <h2>Эксклюзивный контент</h2>
-                        <Text type="secondary">Получите доступ к уникальному контенту для премиум пользователей</Text>
+                        <Text type="secondary">Получите доступ к уникальному контенту в будущем для премиум пользователей</Text>
                     </Card>
                     <Card style={{width:500, marginBottom:20}}>
                         <h2>Поддержите сайт</h2>

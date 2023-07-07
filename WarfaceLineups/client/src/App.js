@@ -1,7 +1,7 @@
 import AppRouter from "./components/AppRouter";
 import {BrowserRouter, useNavigate} from "react-router-dom";
 import classes from './Main.module.css'
-import {ConfigProvider, Spin, theme} from "antd";
+import {ConfigProvider, notification, Spin, theme} from "antd";
 import {useContext, useEffect, useState} from "react";
 import UserAPI from "./http/api/UserAPI";
 import {Context} from "./index";
@@ -26,6 +26,12 @@ function App() {
                 user.setIsAuth(true);
                 setTimeout(()=>{
                     setLoading(false);
+                    if(!user.user.isVerifiedAccount){
+                        notification.error({
+                            message: "Уведомление",
+                            description: "Подтвердите аккаунт в настройках, иначе не сможете восстановить его в случае утери"
+                        })
+                    }
                 },1200)
             }
             else {

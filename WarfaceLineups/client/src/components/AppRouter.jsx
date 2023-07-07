@@ -16,6 +16,7 @@ import { App } from 'antd';
 import News from "../pages/News";
 import WarfaceTracker from "../pages/WarfaceTracker";
 import Start from "../pages/Start";
+import PasswordRecovery from "../pages/PasswordRecovery";
 
 
 
@@ -75,6 +76,7 @@ const AppRouter = () => {
                     <Route path={"/news"} element={<News/>}/>
                     <Route path={"/wftracker"} element={<WarfaceTracker/>}/>
                     <Route path={"/"} element={<Start/>}/>
+                    <Route path={"/passwordrecovery"} element={<PasswordRecovery/>}/>
                 </Routes>
             </div>
         </App>

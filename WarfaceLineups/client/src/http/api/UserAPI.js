@@ -1,16 +1,17 @@
 import {$client, $clientAuth} from "../index";
+import async from "async";
 
 
 
 
 
 export default class UserAPI {
-    static registration = async (login, email, password, remember) => {
-        const {data} = await $client.post('/registration', {login, email, password, remember});
+    static registration = async (login, email, password) => {
+        const {data} = await $client.post('/registration', {login, email, password});
         return data;
     }
-    static authorization = async (email, password, remember) => {
-        const {data} = await $client.post('/authorization', {email, password, remember});
+    static authorization = async (email, password) => {
+        const {data} = await $client.post('/authorization', {email, password});
         return data;
     }
     static checkIsValidJwtToken = async (login,jwt) => {
@@ -41,6 +42,20 @@ export default class UserAPI {
         const {data} = await $clientAuth.post('/changepasswordsubmitcode',{newpassword,code});
         return data;
     }
+    static recoveryPasswordGetVerificationCode = async (email) =>{
+        const {data} = await $client.post('api/recoverypassword/getverificationcode',{email});
+        return data;
+    }
+    static recoveryPasswordUploadVerificationCode = async (code,email) =>{
+        const {data} = await $client.post('api/recoverypassword/uploadverificationcode',{code,email});
+        return data;
+    }
+    static recoveryPasswordUploadNewPassword = async (jwt,login,newpassword) =>{
+        const {data} = await $client.post('api/recoverypassword/uploadverificationcode',{jwt,login,newpassword});
+        return data;
+    }
+
+
 
 
 }

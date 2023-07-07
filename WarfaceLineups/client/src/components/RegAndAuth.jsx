@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Checkbox, Form, Input, Space} from "antd";
+import {Button, Form, Input, Space, Typography} from "antd";
 import UserAPI from "../http/api/UserAPI";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
 import {cookies} from "../data/cookies";
-
+import {useNavigate} from "react-router-dom";
+const { Link } = Typography;
 
 
 
@@ -12,6 +13,7 @@ import {cookies} from "../data/cookies";
 
 
 const RegAndAuth = observer(() => {
+    const navigate = useNavigate();
     const{user} = useContext(Context);
 
     const [isVisibleByWindowId,setIsVisibleByWindowId] = useState(0); //handler swap
@@ -57,7 +59,7 @@ const RegAndAuth = observer(() => {
         },3000)
     },[helpRegEmail])
     const onFinishAuthorization = (values) => {
-        UserAPI.authorization(values.email,values.password,values.remember).then((data)=>{
+        UserAPI.authorization(values.email,values.password).then((data)=>{
             if(data.message==="errorAuth"){
                 setHelpAuthLogin("Неверная почта или пароль!")
             }
@@ -77,7 +79,7 @@ const RegAndAuth = observer(() => {
         })
     };
     const onFinishRegistration = (values) => {
-        UserAPI.registration(values.login, values.email, values.password, values.remember).then((data)=>{
+        UserAPI.registration(values.login, values.email, values.password).then((data)=>{
             if(data.message==="errorRegEmail"){
                 setHelpRegEmail("Такой email уже существует!")
             }
@@ -116,9 +118,6 @@ const RegAndAuth = observer(() => {
                             maxWidth: 600,
                             width:600
                         }}
-                        initialValues={{
-                            remember: true,
-                        }}
                         onFinish={onFinishAuthorization}
                         autoComplete="off"
                     >
@@ -148,7 +147,6 @@ const RegAndAuth = observer(() => {
                         >
                             <Input.Password />
                         </Form.Item>
-
                         <Form.Item
                             name="remember"
                             valuePropName="checked"
@@ -157,7 +155,7 @@ const RegAndAuth = observer(() => {
                                 span: 16,
                             }}
                         >
-                            <Checkbox>Запомнить меня</Checkbox>
+                            <Link onClick={()=>navigate("/passwordrecovery")}>Забыли пароль</Link>
                         </Form.Item>
                         <Form.Item wrapperCol={{offset: 8, span: 16,}}>
                             <Space style={{display:'flex', justifyContent: 'space-between'}}>
@@ -180,9 +178,6 @@ const RegAndAuth = observer(() => {
                     style={{
                         maxWidth: 600,
                         width:600
-                    }}
-                    initialValues={{
-                        remember: true,
                     }}
                     onFinish={onFinishRegistration}
                     autoComplete="off"
@@ -279,17 +274,6 @@ const RegAndAuth = observer(() => {
                         ]}
                     >
                         <Input.Password />
-                    </Form.Item>
-
-                    <Form.Item
-                        name="remember"
-                        valuePropName="checked"
-                        wrapperCol={{
-                            offset: 8,
-                            span: 16,
-                        }}
-                    >
-                        <Checkbox>Запомнить меня</Checkbox>
                     </Form.Item>
                     <Form.Item wrapperCol={{offset: 8, span: 16,}}>
                         <Space style={{display:'flex', justifyContent: 'space-between'}}>

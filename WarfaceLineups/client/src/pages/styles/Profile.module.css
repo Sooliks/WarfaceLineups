@@ -12,6 +12,19 @@
     align-items: center;
     padding-right: 120px;
 }
+.l{
+    width: calc(1920px/2);
+    height: 700px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .pagination{
     position: absolute;

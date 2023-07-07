@@ -286,4 +286,89 @@ public class AccountsController : Controller
         await Response.WriteAsJsonAsync(new {message = "error"});
     }
 
+    [HttpPost("api/recoverypassword/getverificationcode")]
+    public async Task RecoveryPassword()
+    {
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        string email = (string)obj["email"];
+        Accounts account = new Accounts();
+        try
+        {
+             account = HandlerAccounts.GetAccountByEmail(email);
+             if (account == null)
+             {
+                 await Response.WriteAsJsonAsync(new { message = "Аккаунта с такой почтой не существует" });
+                 return;
+             }
+        }
+        catch (Exception e)
+        {
+            await Response.WriteAsJsonAsync(new { message = "Аккаунта с такой почтой не существует" });
+            return;
+        }
+        if (!account.IsVerifiedAccount)
+        {
+            await Response.WriteAsJsonAsync(new { message = "Аккаунт не верифицированный" });
+            return;
+        }
+        if (EmailService.SendEmailAsync(email, "Код восстановления",
+                HandlerAccounts.GenerateVerificationCodeForAccount(account)))
+        {
+            await Response.WriteAsJsonAsync(new { message = "success" });
+            return;
+        }
+        await Response.WriteAsJsonAsync(new { message = "Не удалось отправить код" });
+    }
+
+    [HttpPost("api/recoverypassword/uploadverificationcode")]
+    public async Task UploadVerificationCodeRecoveryPassword()
+    {
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        string code = (string)obj["code"];
+        string email = (string)obj["email"];
+        var account = HandlerAccounts.GetAccountByEmail(email);
+        if (account == null)
+        {
+            await Response.WriteAsJsonAsync(new { message = "Аккаунта с такой почтой не существует" });
+            return;
+        }
+        if (HandlerAccounts.CheckIsValidVerificationCodeForRecovery(account, code))
+        {
+            await Response.WriteAsJsonAsync(new { token = AuthService.GenerateJwtToken(account), login = account.Login });
+            return;
+        }
+        await Response.WriteAsJsonAsync(new { message = "error" });
+    }
+
+    [HttpPost("api/recoverypassword/recovery")]
+    public async Task RecoveryAccount()
+    {
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        string jwt = (string)obj["jwt"];
+        string login = (string)obj["login"];
+        string newPassword = (string)obj["newpassword"];
+        if (AuthService.CheckIsValidToken(jwt, login))
+        {
+            HandlerAccounts.ChangePasswordAccount(HandlerAccounts.GetAccountByLogin(login),newPassword);
+            await Response.WriteAsJsonAsync(new { message = "success" });
+            return;
+        }
+        await Response.WriteAsJsonAsync(new { message = "error" });
+    }
+
 }

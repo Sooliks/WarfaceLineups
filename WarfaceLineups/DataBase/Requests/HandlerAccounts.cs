@@ -85,13 +85,13 @@ public class HandlerAccounts
     }
     public static string GenerateVerificationCodeForAccount(Accounts account)
     {
+        RemoveVerificationCodeForAccount(account);
         using Context db = new Context();
-        Accounts a = db.Accounts.SingleOrDefault(a => a == account);
-        if (a != null)
+        if (account != null)
         {
             var verificationCode = AuthService.GenerateVerificationCode();
-            a.VerificationCode = verificationCode;
-            db.Accounts.Update(a);
+            account.VerificationCode = verificationCode;
+            db.Accounts.Update(account);
             db.SaveChanges();
             return verificationCode;
         }
@@ -101,14 +101,32 @@ public class HandlerAccounts
     public static bool CheckIsValidVerificationCodeForAccount(Accounts account, string verificationCode)
     {
         using Context db = new Context();
-        Accounts a = db.Accounts.SingleOrDefault(a => a == account);
-        if (a != null)
+        if (account != null)
         {
-            if (a.VerificationCode == verificationCode)
+            if (account.VerificationCode == verificationCode)
             {
-                a.IsVerifiedAccount = true;
-                a.VerificationCode = "1";
-                db.Accounts.Update(a);
+                account.IsVerifiedAccount = true;
+                RemoveVerificationCodeForAccount(account);
+                db.Accounts.Update(account);
+                db.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+    public static bool CheckIsValidVerificationCodeForRecovery(Accounts account,string verificationCode)
+    {
+        using Context db = new Context();
+        if (account != null)
+        {
+            if (account.VerificationCode == verificationCode)
+            {
+                RemoveVerificationCodeForAccount(account);
+                db.Accounts.Update(account);
                 db.SaveChanges();
                 return true;
             }
