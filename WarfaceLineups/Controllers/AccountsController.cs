@@ -60,16 +60,16 @@ public class AccountsController : Controller
             body = await stream.ReadToEndAsync();
         }
         JObject obj = JObject.Parse(body);
-        string login = (string) obj["login"];
+        string email = (string) obj["email"];
         string password = (string) obj["password"];
-        if (HandlerAccounts.IsLoginExist(login)&&HandlerAccounts.IsPasswordValid(login,password))
+        if (HandlerAccounts.IsEmailExist(email)&&HandlerAccounts.IsPasswordValid(email,password))
         {
-            Accounts account = HandlerAccounts.GetAccountById(HandlerAccounts.GetIdByAccountLogin(login));
+            Accounts account = HandlerAccounts.GetAccountByEmail(email);
             await Response.WriteAsJsonAsync(
                 new{
                     message = "successAuth",
                     id = account.Id,
-                    jwtToken = AuthService.GenerateJwtToken(new DataBase.Models.Accounts(login,"none",password)),
+                    jwtToken = AuthService.GenerateJwtToken(new DataBase.Models.Accounts(account.Login,null,password)),
                     log = account.Login,
                     role = account.Role,
                     isVerifiedAccount = account.IsVerifiedAccount,

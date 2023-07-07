@@ -39,7 +39,7 @@ const Start = () => {
                 <Space>
                     <Text>Warface Lineups ©2023 Created by <Link href="https://t.me/soolikss" target="_blank">Sooliks</Link> powered by wfstats.cf</Text>
                 </Space>
-                <Space style={{alignSelf:'end'}}>
+                <Space style={{alignSelf:'flex-end'}}>
                     <Text><Link href="https://t.me/warfacelineups" target="_blank">Telegram</Link></Text>
                 </Space>
             </Space>

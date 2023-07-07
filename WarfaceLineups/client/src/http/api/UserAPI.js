@@ -9,8 +9,8 @@ export default class UserAPI {
         const {data} = await $client.post('/registration', {login, email, password, remember});
         return data;
     }
-    static authorization = async (login, password, remember) => {
-        const {data} = await $client.post('/authorization', {login, password, remember});
+    static authorization = async (email, password, remember) => {
+        const {data} = await $client.post('/authorization', {email, password, remember});
         return data;
     }
     static checkIsValidJwtToken = async (login,jwt) => {

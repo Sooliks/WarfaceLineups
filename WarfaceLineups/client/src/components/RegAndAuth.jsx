@@ -57,9 +57,9 @@ const RegAndAuth = observer(() => {
         },3000)
     },[helpRegEmail])
     const onFinishAuthorization = (values) => {
-        UserAPI.authorization(values.login,values.password,values.remember).then((data)=>{
+        UserAPI.authorization(values.email,values.password,values.remember).then((data)=>{
             if(data.message==="errorAuth"){
-                setHelpAuthLogin("Неверный логин или пароль!")
+                setHelpAuthLogin("Неверная почта или пароль!")
             }
             if(data.message==="successAuth"){
                 user.setIsAuth(true);
@@ -125,12 +125,12 @@ const RegAndAuth = observer(() => {
                         <Form.Item
                             validateStatus={validateErrorStatusAuthLogin}
                             help={helpAuthLogin}
-                            label="Логин"
-                            name="login"
+                            label="Email"
+                            name="email"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Пожалуйста введите свой логин',
+                                    message: 'Пожалуйста введите свою почту',
                                 },
                             ]}
                         >

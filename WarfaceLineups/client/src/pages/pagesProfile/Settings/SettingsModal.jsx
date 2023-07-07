@@ -13,6 +13,9 @@ const SettingsModal = ({onHide}) => {
             setRedText(data.message);
         })
     }
+    const handleClickChangePassword = () =>{
+
+    }
     const handleClickUploadCode = (values) =>{
         UserAPI.uploadVerificationCode(values.verificationCode).then(data=>{
             if(data.result){
@@ -51,7 +54,7 @@ const SettingsModal = ({onHide}) => {
                     </Button>,
                 ]}
             >
-                <Space direction={"vertical"} style={{display:'flex'}}>
+                <Space direction={"horizontal"} style={{display:'flex', justifyContent: 'flex-start', alignItems:'flex-start'}}>
                     <Card style={{width:350}}>
                     {!user.user.isVerifiedAccount ?
                         <Space direction={"vertical"}>
@@ -85,6 +88,33 @@ const SettingsModal = ({onHide}) => {
                         :
                         <h3>Ваш аккаунт верифицирован</h3>
                     }
+                    </Card>
+                    <Card style={{width:350}} title={"Сменить пароль"}>
+                        {!user.user.isVerifiedAccount ?
+                            <h3>Сменить пароль можно только будуче верифицированным</h3>
+                            :
+                            <Space>
+                                <Form
+                                    layout={"vertical"}
+                                    name="basic"
+                                    onFinish={handleClickChangePassword}
+                                    autoComplete="off"
+                                >
+                                    <Form.Item
+                                        label="Старый пароль"
+                                        name="verificationCode"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста введите код подтверждения',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </Form>
+                            </Space>
+                        }
                     </Card>
                 </Space>
             </Modal>
