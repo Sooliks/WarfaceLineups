@@ -41,6 +41,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Magick.NET-Q16-AnyCPU": {
+              "target": "Package",
+              "version": "[13.1.3, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[4.1.0, )"

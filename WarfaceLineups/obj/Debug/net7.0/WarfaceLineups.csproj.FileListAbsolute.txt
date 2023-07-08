@@ -82,3 +82,13 @@ C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineup
 C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\k5sprt64.dll
 C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\krb5_64.dll
 C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\krbcc64.dll
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\Magick.NET-Q16-AnyCPU.dll
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\Magick.NET.Core.dll
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\runtimes\linux-arm64\native\Magick.Native-Q16-arm64.dll.so
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\runtimes\linux-musl-x64\native\Magick.Native-Q16-x64.dll.so
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\runtimes\linux-x64\native\Magick.Native-Q16-x64.dll.so
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\runtimes\osx-arm64\native\Magick.Native-Q16-arm64.dll.dylib
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\runtimes\osx-x64\native\Magick.Native-Q16-x64.dll.dylib
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\runtimes\win-arm64\native\Magick.Native-Q16-arm64.dll
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\runtimes\win-x64\native\Magick.Native-Q16-x64.dll
+C:\Users\evgen\OneDrive\Рабочий стол\Projects\web-sites\WarfaceLineups\WarfaceLineups\bin\Debug\net7.0\runtimes\win-x86\native\Magick.Native-Q16-x86.dll

@@ -1,6 +1,7 @@
 ﻿
 
 
+using ImageMagick;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json.Linq;
@@ -179,6 +180,13 @@ public class AccountsController : Controller
             {
                 file.CopyTo(ms);
                 var fileBytes = ms.ToArray();
+                using (MagickImage img = new MagickImage(fileBytes))
+                {
+                    img.Format = img.Format; 
+                    img.Resize(40, 40); 
+                    img.Quality = 30; 
+                    fileBytes = img.ToByteArray();
+                }
                 HandlerAvatar.AddNewAvatar(fileBytes,HandlerAccounts.GetIdByAccountLogin(login));
             }
             await Response.WriteAsJsonAsync(new {message = "success"});

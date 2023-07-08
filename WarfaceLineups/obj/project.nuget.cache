@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "KkhSqs6qznPfz0Mj7avTrwTQ5b3N3uIp8EsEpHUoJrfJI/Kzji/OjK7JmC8US/0kfyiZ1RB7CgsM1qN63BkAWQ==",
+  "dgSpecHash": "sWzE99uCyhqQ+UbDdMGcli5j2SYx2TMzPC66I5lQ0Ou3SxXTiG3CqHOyfUrxFZMTW6Y9jvgX6P6sDIa/+i9RaQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\evgen\\OneDrive\\Рабочий стол\\Projects\\web-sites\\WarfaceLineups\\WarfaceLineups\\WarfaceLineups.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,8 @@
     "C:\\Users\\evgen\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",
     "C:\\Users\\evgen\\.nuget\\packages\\k4os.compression.lz4.streams\\1.2.6\\k4os.compression.lz4.streams.1.2.6.nupkg.sha512",
     "C:\\Users\\evgen\\.nuget\\packages\\k4os.hash.xxhash\\1.0.6\\k4os.hash.xxhash.1.0.6.nupkg.sha512",
+    "C:\\Users\\evgen\\.nuget\\packages\\magick.net-q16-anycpu\\13.1.3\\magick.net-q16-anycpu.13.1.3.nupkg.sha512",
+    "C:\\Users\\evgen\\.nuget\\packages\\magick.net.core\\13.1.3\\magick.net.core.13.1.3.nupkg.sha512",
     "C:\\Users\\evgen\\.nuget\\packages\\mailkit\\4.1.0\\mailkit.4.1.0.nupkg.sha512",
     "C:\\Users\\evgen\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\evgen\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.0-preview.2.23128.3\\microsoft.entityframeworkcore.8.0.0-preview.2.23128.3.nupkg.sha512",
