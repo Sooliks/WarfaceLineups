@@ -12,12 +12,6 @@ namespace WarfaceLineups.Controllers;
 
 public class VideosController : Controller
 {
-    [HttpGet("api/hello")]
-    public IActionResult Hello()
-    {
-        Response.WriteAsJsonAsync("aaaa");
-        return BadRequest("Hello, world!");
-    }
     [HttpPost("api/uploadvideo")]
     public async Task UploadVideo()
     {
@@ -177,6 +171,7 @@ public class VideosController : Controller
         {
             Accounts account = HandlerAccounts.GetAccountById(HandlerAccounts.GetIdByAccountLogin(login));
             if(account.Role!="admin")return;
+            HandlerNotifications.SendNotify(account,HandlerVideos.GetAccountByVideoId(idVideo),"Видео отклонено",$"Ваше видео {HandlerVideos.GetVideoByVideoId(idVideo).Title}, было отклонено модерацией, попробуйте опубликовать заного");
             await HandlerVideos.DeleteVideo(idVideo);
             await Response.WriteAsJsonAsync(new {message = "success"});
         }

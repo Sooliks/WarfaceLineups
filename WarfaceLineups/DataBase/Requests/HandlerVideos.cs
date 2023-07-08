@@ -111,4 +111,17 @@ public class HandlerVideos
         }
         return false;
     }
+    public static Accounts GetAccountByVideoId(int videoId)
+    {
+        using Context db = new Context();
+        var video = db.Videos.FirstOrDefault(v => v.Id == videoId);
+        return HandlerAccounts.GetAccountById(video.OwnerId);
+    }
+
+    public static Videos GetVideoByVideoId(int videoId)
+    {
+        using Context db = new Context();
+        var video = db.Videos.SingleOrDefault(v => v.Id == videoId);
+        return video;
+    }
 }

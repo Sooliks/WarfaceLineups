@@ -4,7 +4,7 @@ import {
     DesktopOutlined,
     HeartOutlined,
     InfoOutlined,
-    LogoutOutlined,
+    LogoutOutlined, MailOutlined,
     SettingOutlined,
     VideoCameraOutlined
 } from "@ant-design/icons";
@@ -22,6 +22,7 @@ import UnVerifiedVideos from "./pagesProfile/AdminPanel/UnVerifiedVideos";
 import Panel from "./pagesProfile/AdminPanel/Panel";
 import {cookies} from "../data/cookies";
 import AddNews from "./pagesProfile/AdminPanel/AddNews";
+import Notifications from "./pagesProfile/Notifications";
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -48,6 +49,11 @@ const Profile = observer(() => {
             label: 'Избранное',
             key: 'favorites',
             icon: <HeartOutlined/>,
+        },
+        {
+            label: 'Уведомления',
+            key: 'notifications',
+            icon: <MailOutlined/>,
         },
         {
             label: 'Настройки',
@@ -77,6 +83,11 @@ const Profile = observer(() => {
                     label: 'Избранное',
                     key: 'favorites',
                     icon: <HeartOutlined/>,
+                },
+                {
+                    label: 'Уведомления',
+                    key: 'notifications',
+                    icon: <MailOutlined/>,
                 },
                 {
                     label: 'Настройки',
@@ -128,6 +139,7 @@ const Profile = observer(() => {
                     {current === 'favorites' && user.isAuth && <Favorites/>}
                     {current === 'settings' && user.isAuth && <Settings/>}
                     {current === 'addnewvideo' && user.isAuth && <CreateVideo/>}
+                    {current === 'notifications' && user.isAuth && <Notifications/>}
                     {current === 'unverifiedvideos' && user.user.role === 'admin' && user.isAuth && <UnVerifiedVideos/>}
                     {current === 'panel' && user.user.role === 'admin' && user.isAuth && <Panel/>}
                     {current === 'addnews' && user.user.role === 'admin' && user.isAuth && <AddNews/>}
