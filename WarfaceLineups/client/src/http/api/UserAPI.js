@@ -43,15 +43,15 @@ export default class UserAPI {
         return data;
     }
     static recoveryPasswordGetVerificationCode = async (email) =>{
-        const {data} = await $client.post('api/recoverypassword/getverificationcode',{email});
+        const {data} = await $client.post('/recoverypassword/getverificationcode',{email});
         return data;
     }
     static recoveryPasswordUploadVerificationCode = async (code,email) =>{
-        const {data} = await $client.post('api/recoverypassword/uploadverificationcode',{code,email});
+        const {data} = await $client.post('/recoverypassword/uploadverificationcode',{code,email});
         return data;
     }
     static recoveryPasswordUploadNewPassword = async (jwt,login,newpassword) =>{
-        const {data} = await $client.post('api/recoverypassword/uploadverificationcode',{jwt,login,newpassword});
+        const {data} = await $client.post('/recoverypassword/recovery',{jwt,login,newpassword});
         return data;
     }
 

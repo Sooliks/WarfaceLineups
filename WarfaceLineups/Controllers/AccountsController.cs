@@ -344,7 +344,7 @@ public class AccountsController : Controller
         }
         if (HandlerAccounts.CheckIsValidVerificationCodeForRecovery(account, code))
         {
-            await Response.WriteAsJsonAsync(new { token = AuthService.GenerateJwtToken(account), login = account.Login });
+            await Response.WriteAsJsonAsync(new { token = AuthService.GenerateJwtToken(account), login = account.Login, message = "success" });
             return;
         }
         await Response.WriteAsJsonAsync(new { message = "error" });

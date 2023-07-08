@@ -1,16 +1,20 @@
 import React, {useState} from 'react';
-import {Button, Card, Form, Input, Modal, Space, Typography} from "antd";
+import {Button, Card, Form, Input, Modal, notification, Space, Typography} from "antd";
 import classes from './styles/Profile.module.css'
 import UserAPI from "../http/api/UserAPI";
+import {useNavigate} from "react-router-dom";
 
 const { Text } = Typography;
 
 const PasswordRecovery = () => {
+    const navigate = useNavigate();
     const [jwt,setJwt] = useState();
+    const [login,setLogin] = useState();
     const [redTextEmail,setRedTextEmail] = useState('');
     const [email,setEmail] = useState('');
     const [isOpen,setIsOpen] = useState(false);
     const [isOpenPassword,setIsOpenPassword] = useState(false);
+    //1
     const handleFinishEmail = (values) => {
         UserAPI.recoveryPasswordGetVerificationCode(values.email).then(data=>{
             if(data.message === "success"){
@@ -22,15 +26,48 @@ const PasswordRecovery = () => {
             }
         })
     }
-    const handleUploadPasswords = (values) =>{
-        UserAPI.recoveryPasswordUploadNewPassword().then(data=>{
-
-        })
-    }
+    //2
     const handleUploadCode = (values) => {
         UserAPI.recoveryPasswordUploadVerificationCode(values.verificationCode,email).then(data=>{
-
-        },[])
+            if(data.message === "success"){
+                setJwt(data.token);
+                setLogin(data.login);
+                setIsOpenPassword(true);
+                return;
+            }
+            if(data.message === "error"){
+                notification.error({
+                    message: "Уведомление",
+                    description: "Неверный код"
+                })
+            }
+            else {
+                notification.error({
+                    message: "Уведомление",
+                    description: data.message
+                })
+            }
+        })
+    }
+    //3
+    const handleUploadPasswords = (values) =>{
+        UserAPI.recoveryPasswordUploadNewPassword(jwt,login,values.newpassword).then(data=>{
+            if(data.message === "success"){
+                notification.open({
+                    message: "Уведомление",
+                    description: "Вы успешно сменили пароль"
+                })
+                setIsOpenPassword(false);
+                setIsOpen(false);
+                navigate("/profile");
+            }
+            else{
+                notification.error({
+                    message: "Уведомление",
+                    description: "Ошибка"
+                })
+            }
+        })
     }
     const handleCancel = () =>{
         setIsOpen(false);
@@ -60,8 +97,8 @@ const PasswordRecovery = () => {
                         ]}
                     >
                         <Input />
-                        <Text type={"danger"}>{redTextEmail}</Text>
                     </Form.Item>
+                    <Text type={"danger"}>{redTextEmail}</Text>
                     <Form.Item>
                         <Button htmlType="submit" style={{width:350}}>Отправить</Button>
                     </Form.Item>

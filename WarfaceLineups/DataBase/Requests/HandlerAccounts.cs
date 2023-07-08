@@ -91,6 +91,15 @@ public class HandlerAccounts
         {
             var verificationCode = AuthService.GenerateVerificationCode();
             account.VerificationCode = verificationCode;
+            Task deleteVerifyCode = new Task(() =>
+            {
+                using Context db = new Context();
+                Thread.Sleep(600000);
+                account.VerificationCode = "";
+                db.Accounts.Update(account);
+                db.SaveChanges();
+            });
+            deleteVerifyCode.Start();
             db.Accounts.Update(account);
             db.SaveChanges();
             return verificationCode;
@@ -163,7 +172,7 @@ public class HandlerAccounts
     public static void RemoveVerificationCodeForAccount(Accounts account)
     {
         using Context db = new Context();
-        account.VerificationCode = "1";
+        account.VerificationCode = "";
         db.Accounts.Update(account);
         db.SaveChanges();
     }
