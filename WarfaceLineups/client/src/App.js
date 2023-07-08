@@ -1,5 +1,5 @@
 import AppRouter from "./components/AppRouter";
-import {BrowserRouter, useNavigate} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import classes from './Main.module.css'
 import {ConfigProvider, notification, Spin, theme} from "antd";
 import {useContext, useEffect, useState} from "react";

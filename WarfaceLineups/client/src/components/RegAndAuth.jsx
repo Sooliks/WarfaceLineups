@@ -215,7 +215,7 @@ const RegAndAuth = observer(() => {
                             }),
                         ]}
                     >
-                        <Input />
+                        <Input placeholder={"Логин будет отображаться всем"} />
                     </Form.Item>
                     <Form.Item
                         validateStatus={validateErrorStatusRegEmail}

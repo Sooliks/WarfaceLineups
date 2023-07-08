@@ -1,5 +1,5 @@
 import {$client, $clientAuth} from "../index";
-import async from "async";
+
 
 
 
