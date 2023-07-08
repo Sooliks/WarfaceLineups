@@ -23,6 +23,7 @@ import Panel from "./pagesProfile/AdminPanel/Panel";
 import {cookies} from "../data/cookies";
 import AddNews from "./pagesProfile/AdminPanel/AddNews";
 import Notifications from "./pagesProfile/Notifications";
+import NotificationsAPI from "../http/api/NotificationsAPI";
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -51,7 +52,7 @@ const Profile = observer(() => {
             icon: <HeartOutlined/>,
         },
         {
-            label: 'Уведомления',
+            label: `Уведомления`,
             key: 'notifications',
             icon: <MailOutlined/>,
         },
@@ -85,7 +86,7 @@ const Profile = observer(() => {
                     icon: <HeartOutlined/>,
                 },
                 {
-                    label: 'Уведомления',
+                    label: `Уведомления`,
                     key: 'notifications',
                     icon: <MailOutlined/>,
                 },

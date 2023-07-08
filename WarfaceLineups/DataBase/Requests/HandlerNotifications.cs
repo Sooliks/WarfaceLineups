@@ -27,4 +27,9 @@ public class HandlerNotifications
         using Context db = new Context();
         return db.Notifications.OrderByDescending(n => n.RecipientId == recipientAccount.Id).ToList();
     }
+    public static int GetCountNotificationsOfAccount(Accounts account)
+    {
+        using Context db = new Context();
+        return db.Notifications.Where(n => n.RecipientId == account.Id).Count();
+    }
 }

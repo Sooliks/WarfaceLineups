@@ -12,4 +12,8 @@ export default class NotificationsAPI {
         const {data} = await $clientAuth.post('/deletenotify',{id});
         return data;
     }
+    static getCountNotificationsOfAccount = async () =>{
+        const {data} = await $clientAuth.post('/getcountnotifications');
+        return data;
+    }
 }

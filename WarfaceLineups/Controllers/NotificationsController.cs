@@ -40,4 +40,17 @@ public class NotificationsController : Controller
         }
         await Response.WriteAsJsonAsync(new { message = "error" });
     }
+
+    [HttpPost("api/getcountnotifications")]
+    public async Task GetCountNotifications()
+    {
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
+        if (AuthService.CheckIsValidToken(jwtToken, login))
+        {
+            await Response.WriteAsJsonAsync(HandlerNotifications.GetCountNotificationsOfAccount(HandlerAccounts.GetAccountByLogin(login)));
+            return;
+        }
+        await Response.WriteAsJsonAsync(new { message = "error" });
+    }
 }
