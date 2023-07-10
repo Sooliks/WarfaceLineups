@@ -3,10 +3,10 @@ import {cookies} from "../data/cookies";
 
 
 const $client = axios.create({
-    baseURL: 'http://localhost:5258/api'
+    baseURL: '/api'
 })
 const $clientAuth = axios.create({
-    baseURL: 'http://localhost:5258/api'
+    baseURL: '/api'
 })
 
 const authInterceptor = config =>{

@@ -85,7 +85,6 @@ public class HandlerAccounts
     }
     public static string GenerateVerificationCodeForAccount(Accounts account)
     {
-        RemoveVerificationCodeForAccount(account);
         using Context db = new Context();
         if (account != null)
         {
@@ -110,20 +109,13 @@ public class HandlerAccounts
     public static bool CheckIsValidVerificationCodeForAccount(Accounts account, string verificationCode)
     {
         using Context db = new Context();
-        if (account != null)
+        if (account.VerificationCode == verificationCode)
         {
-            if (account.VerificationCode == verificationCode)
-            {
-                account.IsVerifiedAccount = true;
-                RemoveVerificationCodeForAccount(account);
-                db.Accounts.Update(account);
-                db.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            account.IsVerifiedAccount = true;
+            db.Accounts.Update(account);
+            db.SaveChangesAsync();
+            RemoveVerificationCodeForAccount(account);
+            return true;
         }
         return false;
     }

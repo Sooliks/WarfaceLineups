@@ -2,10 +2,9 @@ import React from 'react';
 import {Avatar, Button, Card, Space} from "antd";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import VideosAPI from "../../http/api/VideosAPI";
-import {useNavigate} from "react-router-dom";
+
 
 const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut,handleClickOnVideo}) => {
-    const navigate = useNavigate();
     const handleClickAccept = () =>{
         VideosAPI.publishVideo(video.id).then(data=>{
             if(data.message==="success"){

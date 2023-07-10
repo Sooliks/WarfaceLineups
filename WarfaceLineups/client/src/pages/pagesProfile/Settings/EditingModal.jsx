@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Button, Modal, Space, Upload, message} from "antd";
 import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
 import {cookies} from "../../../data/cookies";
-import UserAPI from "../../../http/api/UserAPI";
 import imageCompression from "browser-image-compression";
 
 

@@ -16,14 +16,13 @@ import {Context} from "../index";
 import RegAndAuth from "../components/RegAndAuth";
 import classes from './styles/Profile.module.css'
 import {observer} from "mobx-react-lite";
-
 import CreateVideo from "./pagesProfile/CreateVideo";
 import UnVerifiedVideos from "./pagesProfile/AdminPanel/UnVerifiedVideos";
 import Panel from "./pagesProfile/AdminPanel/Panel";
 import {cookies} from "../data/cookies";
 import AddNews from "./pagesProfile/AdminPanel/AddNews";
 import Notifications from "./pagesProfile/Notifications";
-import NotificationsAPI from "../http/api/NotificationsAPI";
+
 
 function getItem(label, key, icon, children, type) {
     return {

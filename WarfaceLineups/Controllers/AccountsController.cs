@@ -210,21 +210,17 @@ public class AccountsController : Controller
     }
 
     [HttpPost("api/notification/yoomoney")]
-    public async Task<IResult> NotifyYooMoney()
+    public async Task<IResult> NotifyYooMoney([FromForm]YooMoneyNotify yooMoneyNotify)
     {
-        string body = "";
-        using (StreamReader stream = new StreamReader(Request.Body))
-        {
-            body = await stream.ReadToEndAsync();
-        }
-        JObject obj = JObject.Parse(body);
         Console.WriteLine("Notify accept");
-        string key = (string)obj["sha1_hash"];
-        int amount = (int)obj["amount"];
+        string key = yooMoneyNotify.sha1_hash;
+        int amount = yooMoneyNotify.amount;
+        
         if(amount!=250)return Results.Ok();
+        
         if (key != "gI9wnrT4k936hUPq9g7++PaS") return Results.Ok();
         
-        string label = (string)obj["label"];
+        string label = yooMoneyNotify.label;
         Console.WriteLine(label);
         HandlerAccounts.SetPremiumAccountByLogin(label);
         return Results.Ok();
