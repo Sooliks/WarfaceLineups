@@ -42,7 +42,7 @@ const Profile = observer(() => {
             icon: <InfoOutlined/>,
         },
         getItem('Lineups', 'sub1', <VideoCameraOutlined />, [
-            getItem('Ваши видео', 'videos', null),
+            getItem('Ваши Lineups', 'videos', null),
             getItem('Создать', 'addnewvideo', null),
         ]),
         {
@@ -76,7 +76,7 @@ const Profile = observer(() => {
                     icon: <InfoOutlined/>,
                 },
                 getItem('Lineups', 'sub1', <VideoCameraOutlined />, [
-                    getItem('Ваши видео', 'videos', null),
+                    getItem('Ваши Lineups', 'videos', null),
                     getItem('Создать', 'addnewvideo', null),
                 ]),
                 {
