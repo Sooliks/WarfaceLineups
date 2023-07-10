@@ -3,17 +3,17 @@ import {Avatar, Button, Card, Space, notification} from "antd";
 import {HeartFilled, HeartOutlined} from "@ant-design/icons";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
-import {cookies} from "../../data/cookies";
+import {cookiesFromFavorites} from "../../data/cookies";
 
 const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
     const {user, videosFavorite} = useContext(Context);
     const[isActiveIcon,setIsActiveIcon] = useState(false);
     const handlerClickHeart = () =>{
         if(isActiveIcon)return
-        if(cookies.get('favoritesVideos')==null || cookies.get('favoritesVideos') === undefined){
-            cookies.set('favoritesVideos',[]);
+        if(cookiesFromFavorites.get('favoritesVideos')==null || cookiesFromFavorites.get('favoritesVideos') === undefined){
+            cookiesFromFavorites.set('favoritesVideos', [], {path:'/', maxAge: 86400*360});
         }
-        videosFavorite.setVideos(cookies.get('favoritesVideos'));
+        videosFavorite.setVideos(cookiesFromFavorites.get('favoritesVideos'));
         if(videosFavorite.videos?.filter(item => item.id === video.id).length > 0){
             notification.open({
                 message: "Уведомление",
@@ -22,7 +22,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
             return;
         }
         videosFavorite.setVideos([...videosFavorite?.videos,video]);
-        cookies.set('favoritesVideos',videosFavorite?.videos);
+        cookiesFromFavorites.set('favoritesVideos', videosFavorite?.videos, {path:'/', maxAge: 86400*360});
         setIsActiveIcon(true);
         notification.open({
             message: "Уведомление",

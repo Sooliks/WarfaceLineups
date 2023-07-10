@@ -24,7 +24,7 @@ const EditingModal = ({onHide}) => {
     const beforeUpload = (file) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) {
-            message.error('You can only upload JPG/PNG file!');
+            message.error('Вы можете загрузить только JPG/PNG файл!');
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
@@ -34,7 +34,6 @@ const EditingModal = ({onHide}) => {
         return isJpgOrPng && isLt2M;
     };
     const handleChange = (info) => {
-        info.file.originFileObj.Blob = imageCompression(info.file.originFileObj, options);
         if (info.file.status === 'uploading') {
             info.file.originFileObj.Blob = imageCompression(info.file.originFileObj, options);
             setLoading(true);

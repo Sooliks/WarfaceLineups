@@ -47,8 +47,9 @@ public class VideosController : Controller
             byte typeFeature = (byte) obj["values"]["typeFeature"];
             byte typeGameMap = (byte) obj["values"]["typeGameMap"];
             byte typeSide = (byte) obj["values"]["typeSide"];
+            byte typePlant = (byte) obj["values"]["typePlant"];
             var urlOnPreview = $"https://i.ytimg.com/vi/{urlOnVideo.Split('=')[1]}/maxresdefault.jpg";
-            await HandlerVideos.AddNewVideo(name, typeGameMap, typeSide, description, urlOnVideo, account.Id, urlOnPreview,typeFeature);
+            await HandlerVideos.AddNewVideo(name, typeGameMap, typeSide, description, urlOnVideo, account.Id, urlOnPreview,typeFeature, typePlant);
             await Response.WriteAsJsonAsync(new{ message = "success" });
         }
         catch (Exception e)

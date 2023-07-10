@@ -8,6 +8,7 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
         typeGameMap:10,
         typeFeature:10,
         search: "",
+        typePlant: 10
     })
     const handlerChangeFilterMap = (value) =>{
         const newFilter = {
@@ -30,6 +31,13 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
         onChangeFilter(newFilter)
         setFilter(newFilter)
     }
+    const handlerChangeFilterPlant = (value) => {
+        const newFilter = {
+            ...filter, typePlant: value
+        }
+        onChangeFilter(newFilter)
+        setFilter(newFilter)
+    }
     const handlerChangeFilterSearch = (value) =>{
         const newFilter = {
             ...filter, search: value
@@ -44,6 +52,7 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
             typeSide: 10,
             typeGameMap: 10,
             typeFeature: 10,
+            typePlant: 10
         }
         onChangeFilter(newFilter)
         setFilter(newFilter)
@@ -60,7 +69,7 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
                         className={"filterMap"}
                         onChange={handlerChangeFilterMap}
                         options={[
-                            { value: 10, label: 'Все' },
+                            { value: 10, label: 'Выберите карту' },
                             { value: 0, label: 'Мосты' },
                             { value: 1, label: 'Пирамида' },
                             { value: 2, label: 'Переулки' },
@@ -83,10 +92,10 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
                         className={"filterFeature"}
                         onChange={handlerChangeFilterFeature}
                         options={[
-                            { value: 10, label: 'Все' },
+                            { value: 10, label: 'Выберите тип фишки' },
                             { value: 1, label: 'Дымовая граната' },
                             { value: 2, label: 'Осколочная граната' },
-                            { value: 3, label: 'Коктель молотова' },
+                            { value: 3, label: 'Коктейль молотова' },
                             { value: 4, label: 'Светошумовая граната' },
                         ]}
                     />
@@ -99,9 +108,23 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
                         className={"filterSide"}
                         onChange={handlerChangeFilterSide}
                         options={[
-                            { value: 10, label: 'Все' },
+                            { value: 10, label: 'Выберите тип стороны' },
                             { value: 0, label: 'Атака' },
                             { value: 1, label: 'Защита' },
+                        ]}
+                    />
+                    <Select
+                        value={filter.typePlant}
+                        style={{width: 270}}
+                        placeholder="Выберите плент"
+                        fullWidth
+                        size={"large"}
+                        className={"typePlant"}
+                        onChange={handlerChangeFilterPlant}
+                        options={[
+                            { value: 10, label: 'Выберите плент' },
+                            { value: 1, label: '1' },
+                            { value: 2, label: '2' },
                         ]}
                     />
                     <Button style={{width: '100%'}} onClick={dropFilter}>Сбросить фильтр</Button>

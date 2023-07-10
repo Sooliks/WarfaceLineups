@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Affix,Space} from "antd";
 import VideoPreview from "../../components/VideoPreview";
 import Filter from "../../components/Filter";
-import {cookies} from "../../data/cookies";
+import {cookiesFromFavorites} from "../../data/cookies";
 
 const Favorites = () => {
     const [videos,setVideos] = useState([]);
@@ -11,9 +11,10 @@ const Favorites = () => {
         typeGameMap:10,
         typeFeature:10,
         search: "",
+        typePlant: 10
     })
     useEffect(()=>{
-        setVideos(cookies.get('favoritesVideos')?.filter(v => (v.typeSide === filter.typeSide || filter.typeSide === 10) && (v.typeFeature === filter.typeFeature || filter.typeFeature === 10) && (v.typeGameMap === filter.typeGameMap || filter.typeGameMap === 10) && (v.title.toLowerCase().startsWith(filter.search.toLowerCase()) || filter.search === "")))
+        setVideos(cookiesFromFavorites.get('favoritesVideos')?.filter(v => (v.typeSide === filter.typeSide || filter.typeSide === 10) && (v.typeFeature === filter.typeFeature || filter.typeFeature === 10) && (v.typeGameMap === filter.typeGameMap || filter.typeGameMap === 10) && (v.typePlant === filter.typePlant || filter.typePlant === 10) && (v.title.toLowerCase().startsWith(filter.search.toLowerCase()) || filter.search === "")))
     },[filter])
     const handlerChangeFilter = (newFilter) =>{
         setFilter(newFilter);
@@ -21,7 +22,7 @@ const Favorites = () => {
     return (
         <div>
             <Affix offsetTop={10}>
-                <Filter onChangeFilter={handlerChangeFilter}/>
+                <Filter onChangeFilter={handlerChangeFilter} isVisibleSearch={false}/>
             </Affix>
             <Space style={{overflowY:'auto'}}>
                 <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>

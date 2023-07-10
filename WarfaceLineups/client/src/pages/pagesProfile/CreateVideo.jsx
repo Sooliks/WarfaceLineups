@@ -205,6 +205,29 @@ const CreateVideo = () => {
                                 />
                             </Form.Item>
                             <Form.Item
+                                name="typePlant"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Пожалуйста выберите тип гранаты!',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    style={{width: '100%'}}
+                                    placeholder="Выберите плент"
+                                    size={"large"}
+                                    className={"typePlant"}
+                                    options={[
+                                        { value: 1, label: '1' },
+                                        { value: 2, label: '2' },
+                                    ]}
+                                    filterOption={(input, option) =>
+                                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                                    }
+                                />
+                            </Form.Item>
+                            <Form.Item
                                 label="Ссылка на видео с Youtube"
                                 name="urlOnVideo"
                                 rules={[

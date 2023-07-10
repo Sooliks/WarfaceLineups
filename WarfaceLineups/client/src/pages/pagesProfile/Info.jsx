@@ -10,7 +10,7 @@ const Info = () => {
     const {user} = useContext(Context);
     return (
         <div>
-            <Descriptions title="User Info" bordered>
+            <Descriptions title="" bordered>
                 <Descriptions.Item label="Логин">{user.user.login}</Descriptions.Item>
                 <Descriptions.Item label="Премиум">{user.user.isPremiumAccount ? <CheckOutlined /> : <CloseOutlined />}</Descriptions.Item>
                 <Descriptions.Item label="Роль">{user.user.role}</Descriptions.Item>

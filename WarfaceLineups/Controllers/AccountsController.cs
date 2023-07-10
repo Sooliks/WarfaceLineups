@@ -183,8 +183,8 @@ public class AccountsController : Controller
                 using (MagickImage img = new MagickImage(fileBytes))
                 {
                     img.Format = img.Format; 
-                    img.Resize(40, 40); 
-                    img.Quality = 30; 
+                    img.Resize(30, 30); 
+                    img.Quality = 100; 
                     fileBytes = img.ToByteArray();
                 }
                 HandlerAvatar.AddNewAvatar(fileBytes,HandlerAccounts.GetIdByAccountLogin(login));

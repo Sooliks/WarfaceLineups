@@ -8,14 +8,12 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 export const Context = createContext(null);
 
 root.render(
-  <React.StrictMode>
-      <Context.Provider value={{
-          user: new UserData(),
-          videosFavorite: new FavoritesData()
-      }}>
-          <App />
-      </Context.Provider>
-  </React.StrictMode>
+  <Context.Provider value={{
+      user: new UserData(),
+      videosFavorite: new FavoritesData()
+  }}>
+      <App />
+  </Context.Provider>
 );
 
 

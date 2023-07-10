@@ -19,6 +19,7 @@ public class Videos
     /// </summary>
     public byte TypeSide { get; set; }
     public int TypeFeature { get; set; } 
+    public byte TypePlant { get; set; }
     public string UrlOnPreview { get; set; }
     public bool IsVerified { get; set; }
     
@@ -27,7 +28,7 @@ public class Videos
         
     }
 
-    public Videos(string title, byte typeGameMap, byte typeSide, string description, string urlOnVideo, int ownerId, string urlOnPreview, int typeFeature)
+    public Videos(string title, byte typeGameMap, byte typeSide, string description, string urlOnVideo, int ownerId, string urlOnPreview, int typeFeature, byte typePlant)
     {
         Title = title;
         TypeGameMap = typeGameMap;
@@ -38,6 +39,7 @@ public class Videos
         OwnerLogin = HandlerAccounts.GetAccountById(ownerId).Login;
         UrlOnPreview = urlOnPreview;
         TypeFeature = typeFeature;
+        TypePlant = typePlant;
         IsVerified = false;
     }
 }

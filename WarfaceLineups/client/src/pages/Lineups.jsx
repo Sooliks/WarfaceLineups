@@ -17,6 +17,7 @@ const Lineups = () => {
         typeGameMap:10,
         typeFeature:10,
         search: "",
+        typePlant: 10
     })
     const [loading,setLoading] = useState(true);
     useEffect(()=>{

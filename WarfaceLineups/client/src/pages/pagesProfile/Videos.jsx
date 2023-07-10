@@ -11,6 +11,7 @@ const Videos = () => {
         typeGameMap:10,
         typeFeature:10,
         search: "",
+        typePlant: 10
     })
     const [currentPage, setCurrentPage] = useState(1);
     const [totalCountVideos,setTotalCountVideos] = useState(8);

@@ -63,6 +63,7 @@ const ModalVideo = ({video, onClose}) => {
                             <p>Карта: {getNameTypeGameMapById(video.typeGameMap)}</p>
                             <p>Граната: {getTypeFeatureById(video.typeFeature)}</p>
                             <p>Сторона: {video.typeSide ? "Защита" : "Атака"}</p>
+                            <p>Плент: {video.typePlant}</p>
                         </Card>
                     </Space>
                 </Space>

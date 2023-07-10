@@ -73,8 +73,8 @@ const RegAndAuth = observer(() => {
                     isVerifiedAccount: data.isVerifiedAccount,
                     isPremiumAccount: data.isPremiumAccount,
                 })
-                cookies.set('jwt', data.jwtToken, { path: '/' });
-                cookies.set('login', data.log, { path: '/' });
+                cookies.set('jwt', data.jwtToken, {path:'/', maxAge: 86400});
+                cookies.set('login', data.log, {path:'/', maxAge: 86400});
             }
         })
     };
@@ -96,8 +96,8 @@ const RegAndAuth = observer(() => {
                     isVerifiedAccount: data.isVerifiedAccount,
                     isPremiumAccount: data.isPremiumAccount,
                 })
-                cookies.set('jwt', data.jwtToken, { path: '/' });
-                cookies.set('login', data.log, { path: '/' });
+                cookies.set('jwt', data.jwtToken, {path:'/', maxAge: 86400});
+                cookies.set('login', data.log, {path:'/', maxAge: 86400});
             }
         })
     };
