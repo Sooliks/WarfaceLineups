@@ -22,6 +22,7 @@ import Panel from "./pagesProfile/AdminPanel/Panel";
 import {cookies} from "../data/cookies";
 import AddNews from "./pagesProfile/AdminPanel/AddNews";
 import Notifications from "./pagesProfile/Notifications";
+import CreateScreenshots from "./pagesProfile/CreateScreenshots";
 
 
 function getItem(label, key, icon, children, type) {
@@ -43,7 +44,8 @@ const Profile = observer(() => {
         },
         getItem('Lineups', 'sub1', <VideoCameraOutlined />, [
             getItem('Ваши Lineups', 'videos', null),
-            getItem('Создать', 'addnewvideo', null),
+            getItem('Создать с помощью Youtube', 'addnewvideo', null),
+            getItem('Создать с помощью скриншотов', 'addnewscreenshots', null),
         ]),
         {
             label: 'Избранное',
@@ -77,7 +79,8 @@ const Profile = observer(() => {
                 },
                 getItem('Lineups', 'sub1', <VideoCameraOutlined />, [
                     getItem('Ваши Lineups', 'videos', null),
-                    getItem('Создать', 'addnewvideo', null),
+                    getItem('Создать с помощью Youtube', 'addnewvideo', null),
+                    getItem('Создать с помощью скриншотов', 'addnewscreenshots', null),
                 ]),
                 {
                     label: 'Избранное',
@@ -143,6 +146,7 @@ const Profile = observer(() => {
                     {current === 'unverifiedvideos' && user.user.role === 'admin' && user.isAuth && <UnVerifiedVideos/>}
                     {current === 'panel' && user.user.role === 'admin' && user.isAuth && <Panel/>}
                     {current === 'addnews' && user.user.role === 'admin' && user.isAuth && <AddNews/>}
+                    {current === 'addnewscreenshots' && user.isAuth && <CreateScreenshots/>}
                 </Space>
             </Space>
         </App>

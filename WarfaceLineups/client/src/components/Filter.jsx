@@ -86,13 +86,13 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
                     <Select
                         value={filter.typeFeature}
                         style={{width: 270}}
-                        placeholder="Выберите тип фишки"
+                        placeholder="Выберите тип гранаты"
                         fullWidth
                         size={"large"}
                         className={"filterFeature"}
                         onChange={handlerChangeFilterFeature}
                         options={[
-                            { value: 10, label: 'Выберите тип фишки' },
+                            { value: 10, label: 'Выберите тип гранаты' },
                             { value: 1, label: 'Дымовая граната' },
                             { value: 2, label: 'Осколочная граната' },
                             { value: 3, label: 'Коктейль молотова' },

@@ -81,7 +81,7 @@ const CreateVideo = () => {
     }
     return (
         <Space>
-            <Card title={"Создание видео"} style={{width:1069}}>
+            <Card title={"Создание при помощи видео"} style={{width:1069}}>
                 <Space direction={"horizontal"} style={{display:'flex', justifyContent: 'flex-start', alignItems:'flex-start'}}>
                     <Space style={{width:600}}>
                         <Form
