@@ -107,7 +107,6 @@ const Profile = observer(() => {
                     getItem('Не верифицированные видео', 'unverifiedvideos', null),
                     getItem('Panel', 'panel', null),
                     getItem('Добавить новость', 'addnews', null),
-                    getItem('Все видео', 'alllineups', null),
                 ]),
             ])
         }

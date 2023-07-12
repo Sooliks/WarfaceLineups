@@ -1,10 +1,13 @@
-import React from 'react';
-import {Button, Card, Form, Input, message, notification, Select, Space, Upload} from "antd";
+import React, {useState} from 'react';
+import {Button, Card, Form, Input, notification, Result, Select, Space, Upload} from "antd";
 import TextArea from "antd/es/input/TextArea";
-import {PlusOutlined, UploadOutlined} from "@ant-design/icons";
+import {UploadOutlined} from "@ant-design/icons";
 import VideosAPI from "../../http/api/VideosAPI";
+import {useNavigate} from "react-router-dom";
 
 const CreateScreenshots = () => {
+    const navigate = useNavigate();
+    const [isVisibleResult,setIsVisibleResult] = useState('');
     const handlerOnFinish = (values) =>{
         const formData = new FormData();
         if(values.fileList.length<2){
@@ -25,16 +28,14 @@ const CreateScreenshots = () => {
         formData.append('typePlant', values.typePlant);
         VideosAPI.uploadLineupWithScreenshots(formData).then(data=>{
             if(data.message === "success"){
-                console.log("suc")
+                setIsVisibleResult('success')
                 return
             }
             if(data.message === "error"){
-                console.log("err")
+                setIsVisibleResult('error')
                 return
             }
-            if(data.message === ""){
-                return
-            }
+            setIsVisibleResult('error');
         })
     }
     const normFile = (e) => {
@@ -43,6 +44,30 @@ const CreateScreenshots = () => {
         }
         return e?.fileList;
     };
+    if(isVisibleResult === 'error'){
+        return <Result
+            status="error"
+            title="Неизвестная ошибка"
+            subTitle="Попробуйте еще раз"
+            extra={[
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile');window.location.reload();}}>
+                    Перейти в профиль
+                </Button>,
+            ]}
+        />
+    }
+    if(isVisibleResult === 'success'){
+        return <Result
+            status="success"
+            title="Видео успешно отправлено"
+            subTitle="Ожидайте проверки модерации"
+            extra={[
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile');window.location.reload();}}>
+                    Перейти в профиль
+                </Button>,
+            ]}
+        />
+    }
 
 
     return (

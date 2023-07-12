@@ -18,13 +18,14 @@ public class HandlerScreenshots
         using (Context db = new Context())
         {
             var screenshots = db.Screenshots.SingleOrDefault(s => s.LineupId == lineupId);
-            string path = @"C:\app\content.txt";
-            FileInfo fileInf = new FileInfo(path);
-            if (fileInf.Exists)
-            {
-                fileInf.Delete();
-            }
             
+            
+            FileInfo fileInf1 = new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenshots.FirstScreen));
+            if (fileInf1.Exists) fileInf1.Delete();
+            FileInfo fileInf2 = new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenshots.SecondScreen));
+            if (fileInf2.Exists) fileInf2.Delete();
+            FileInfo fileInf3 = new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenshots.ThirdScreen));
+            if (fileInf3.Exists) fileInf3.Delete();
             
             db.Screenshots.Remove(screenshots);
             db.SaveChangesAsync();

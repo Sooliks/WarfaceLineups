@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, Card, Image, Modal, Space} from "antd";
-import YouTube from "react-youtube";
+import {Card, Image, Modal, Space} from "antd";
+
 
 const ModalScreenshots = ({video, onClose}) => {
     const getNameTypeGameMapById = (id) =>{
