@@ -250,7 +250,7 @@ const CreateVideo = () => {
                                 <Input  />
                             </Form.Item>
                             <Form.Item>
-                                <Button htmlType="submit">Отправить на проверку</Button>
+                                <Button htmlType="submit" size={"large"} style={{width:'100%'}}>Отправить на проверку</Button>
                             </Form.Item>
                         </Form>
                     </Space>

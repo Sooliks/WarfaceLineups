@@ -18,7 +18,7 @@ const VideoForFavorites = ({video,handleClickOnVideo,handleOnMouseOver,handleOnM
         <Space direction={"vertical"}>
             <Card title={video.title} size="large" style={{maxWidth:500, height: "auto", marginBottom: 12, marginRight: 3, padding: 0}}>
                 <img
-                    src={video.urlOnPreview}
+                    src={video.screenShotsId===0 ? video.urlOnPreview : `http://localhost:5258/api/getlineupscreenshots/${video.id}/0`}
                     alt={video.title}
                     onClick={handleClickOnVideo}
                     onMouseOver={e=>handleOnMouseOver(e)}

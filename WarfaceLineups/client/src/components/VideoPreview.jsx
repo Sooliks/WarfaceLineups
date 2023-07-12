@@ -4,12 +4,19 @@ import VideoForProfile from "./VideosPreview/VideoForProfile";
 import VideoForFavorites from "./VideosPreview/VideoForFavorites";
 import VideoForAdminPanel from "./VideosPreview/VideoForAdminPanel";
 import ModalVideo from "./ModalVideo";
+import ModalScreenshots from "./ModalScreenshots";
 
 
 const VideoPreview = ({video, type}) => {
     const[isVisibleModalVideo,setIsVisibleModalVideo] = useState(false);
+    const [isVisibleModalScreenshots,setIsVisibleModalScreenshots] = useState(false);
     const handleClickOnVideo = () =>{
-        setIsVisibleModalVideo(true);
+        if(video.screenShotsId===0){
+            setIsVisibleModalVideo(true);
+        }
+        else {
+            setIsVisibleModalScreenshots(true);
+        }
     }
     const handleOnMouseOver = (e) =>{
         e.target.style.borderColor="rgb(63,65,70)";
@@ -41,6 +48,7 @@ const VideoPreview = ({video, type}) => {
                 }
             </div>
             {isVisibleModalVideo && <ModalVideo video={video} onClose={()=>setIsVisibleModalVideo(false)}/>}
+            {isVisibleModalScreenshots && <ModalScreenshots video={video} onClose={()=>setIsVisibleModalScreenshots(false)}/>}
         </div>
     );
 };

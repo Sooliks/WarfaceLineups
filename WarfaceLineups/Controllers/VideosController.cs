@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using WarfaceLineups.DataBase;
 using WarfaceLineups.DataBase.Models;
 using WarfaceLineups.DataBase.Requests;
-
+using WarfaceLineups.Models;
 using WfTracker.Utils;
 
 namespace WarfaceLineups.Controllers;
@@ -57,6 +57,62 @@ public class VideosController : Controller
             Console.WriteLine(e);
             await Response.WriteAsJsonAsync(new{message = "error"});
             throw;
+        }
+    }
+
+    [HttpPost("api/uploadlineupwithscreenshots")]
+    public async Task UploadLineupWithScreenshots(LineupWithScreenshots lineupWithScreenshots)
+    {
+        try
+        {
+            var jwt = Request.Headers["authorization"];
+            var login = Request.Headers["login"];
+            if (!AuthService.CheckIsValidToken(jwt, login))
+            {
+                await Response.WriteAsJsonAsync(new { message = "error" });
+                return;
+            }
+            var account = HandlerAccounts.GetAccountByLogin(login);
+            int lineupId = HandlerVideos.GetLastIdLineup() + 1;
+            int i = 0;
+            IFormFileCollection files = Request.Form.Files;
+            foreach (var file in files)
+            {
+                string fileName = $"screenshot_id_{i}_idLineup_{lineupId}.jpg";
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", fileName);
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                i++;
+            }
+            HandlerScreenshots.AddNewScreenshots(lineupId, $"screenshot_id_{0}_idLineup_{lineupId}.jpg",
+                $"screenshot_id_{1}_idLineup_{lineupId}.jpg", $"screenshot_id_{2}_idLineup_{lineupId}.jpg");
+            
+            await HandlerVideos.AddNewVideo(lineupWithScreenshots.name, lineupWithScreenshots.typeGameMap,
+                lineupWithScreenshots.typeSide, lineupWithScreenshots.description, "", account.Id, "",
+                lineupWithScreenshots.typeFeature, lineupWithScreenshots.typePlant,
+                HandlerScreenshots.GetLastIdScreenshots());
+            await Response.WriteAsJsonAsync(new { message = "success" });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await Response.WriteAsJsonAsync(new{message = "error"});
+        }
+    }
+    [HttpGet("api/getlineupscreenshots/{idLineup:int}/{numberScreen:int}")]
+    public async Task GetPreviewById(int idLineup, int numberScreen)
+    {
+        try
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", $"screenshot_id_{numberScreen}_idLineup_{idLineup}.jpg");
+            Response.ContentType = "image/jpg";
+            await Response.SendFileAsync(path);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.ToString());
         }
     }
 

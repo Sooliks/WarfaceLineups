@@ -14,10 +14,11 @@ public class Context : DbContext
     public DbSet<News> News { get; set; }
     public DbSet<Avatar> Avatar { get; set; }
     public DbSet<Notifications> Notifications { get; set; }
+    public DbSet<Screenshots> Screenshots { get; set; }
 
     public Context()
     {
-        Database.EnsureCreated();   // создаем бд с новой схемой
+        Database.EnsureCreated(); // создаем бд с новой схемой
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -33,8 +34,9 @@ public class Context : DbContext
         optionsBuilder.UseMySQL(connectionString.ConnectionString)
             .LogTo(str => Debug.WriteLine(str), new[] { RelationalEventId.CommandExecuted })
             .EnableSensitiveDataLogging();
-        
+
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new AccountsConfig());
@@ -42,5 +44,6 @@ public class Context : DbContext
         modelBuilder.ApplyConfiguration(new NewsConfig());
         modelBuilder.ApplyConfiguration(new AvatarConfig());
         modelBuilder.ApplyConfiguration(new NotificationsConfig());
+        modelBuilder.ApplyConfiguration(new ScreenshotsConfig());
     }
 }

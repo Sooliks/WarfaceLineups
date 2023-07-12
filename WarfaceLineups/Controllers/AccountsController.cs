@@ -175,7 +175,6 @@ public class AccountsController : Controller
         if (AuthService.CheckIsValidToken(jwtToken, login))
         {
             var file = Request.Form.Files.First();
-            
             using (var ms = new MemoryStream())
             {
                 file.CopyTo(ms);
@@ -373,6 +372,12 @@ public class AccountsController : Controller
             return;
         }
         await Response.WriteAsJsonAsync(new { message = "error" });
+    }
+
+    [HttpPost("api/uploaddo")]
+    public async Task<IResult> UploadBefore()
+    {
+        return Results.Ok();
     }
 
 }

@@ -11,7 +11,8 @@ const Start = () => {
         height: 350,
         color: '#fff',
         lineHeight: '350px',
-        background: '#323234',
+        //background: '#323234',
+        background: '#1e1d1d',
         textAlign: 'center',
     };
     const navigate = useNavigate();

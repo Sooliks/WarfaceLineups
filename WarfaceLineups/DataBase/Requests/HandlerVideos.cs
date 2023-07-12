@@ -6,11 +6,11 @@ namespace WarfaceLineups.DataBase.Requests;
 
 public class HandlerVideos
 {
-    public static Task AddNewVideo(string title, byte typeGameMap, byte typeSide, string description, string urlOnVideo, int ownerId, string urlOnPreview, int typeFeature, byte typePlant)
+    public static Task AddNewVideo(string title, byte typeGameMap, byte typeSide, string description, string urlOnVideo, int ownerId, string urlOnPreview, int typeFeature, byte typePlant, int screenShotsId = 0)
     {
         using (Context db = new Context())
         {
-            var video = new Videos(title,typeGameMap,typeSide, description, urlOnVideo, ownerId, urlOnPreview, typeFeature, typePlant);
+            var video = new Videos(title,typeGameMap,typeSide, description, urlOnVideo, ownerId, urlOnPreview, typeFeature, typePlant,screenShotsId);
             db.Videos.Add(video);
             db.SaveChangesAsync();
             return Task.CompletedTask;
@@ -127,5 +127,17 @@ public class HandlerVideos
         using Context db = new Context();
         var video = db.Videos.SingleOrDefault(v => v.Id == videoId);
         return video;
+    }
+    public static int GetLastIdLineup()
+    {
+        using Context db = new Context();
+        try
+        {
+            return db.Videos.Max(v => v.Id);
+        }
+        catch
+        {
+            return 0;
+        }
     }
 }

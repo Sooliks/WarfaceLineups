@@ -22,13 +22,14 @@ public class Videos
     public byte TypePlant { get; set; }
     public string UrlOnPreview { get; set; }
     public bool IsVerified { get; set; }
+    public int ScreenShotsId { get; set; }
     
     public Videos()
     {
         
     }
 
-    public Videos(string title, byte typeGameMap, byte typeSide, string description, string urlOnVideo, int ownerId, string urlOnPreview, int typeFeature, byte typePlant)
+    public Videos(string title, byte typeGameMap, byte typeSide, string description, string urlOnVideo, int ownerId, string urlOnPreview, int typeFeature, byte typePlant, int screenShotsId = 0)
     {
         Title = title;
         TypeGameMap = typeGameMap;
@@ -41,5 +42,6 @@ public class Videos
         TypeFeature = typeFeature;
         TypePlant = typePlant;
         IsVerified = false;
+        ScreenShotsId = screenShotsId;
     }
 }

@@ -1,6 +1,5 @@
 import {$client, $clientAuth} from "../index";
-import async from "async";
-import filter from "../../components/Filter";
+
 
 
 export default class VideosAPI {
@@ -14,6 +13,10 @@ export default class VideosAPI {
     }
     static uploadVideo = async (values) => {
         const {data} = await $clientAuth.post('/uploadvideo', {values});
+        return data;
+    }
+    static uploadLineupWithScreenshots = async (values) =>{
+        const {data} = await $clientAuth.post('/uploadlineupwithscreenshots', values);
         return data;
     }
     static getUnVerifiedVideos = async () => {

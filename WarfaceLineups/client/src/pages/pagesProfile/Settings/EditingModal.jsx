@@ -30,7 +30,6 @@ const EditingModal = ({onHide}) => {
         if (!isLt2M) {
             message.error('Картинка не должна превышать размер 2MB!');
         }
-
         return isJpgOrPng && isLt2M;
     };
     const handleChange = (info) => {
@@ -83,7 +82,7 @@ const EditingModal = ({onHide}) => {
                         }}
                         beforeUpload={beforeUpload}
                         onChange={handleChange}
-                        action={`/api/uploadavatar`}
+                        action={`http://localhost:5258/api/uploadavatar`}
                         //customRequest={uploadAvatar}
                     >
                         {imageUrl ? (
