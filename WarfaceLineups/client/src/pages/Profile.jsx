@@ -25,6 +25,7 @@ import Notifications from "./pagesProfile/Notifications";
 import CreateScreenshots from "./pagesProfile/CreateScreenshots";
 
 
+
 function getItem(label, key, icon, children, type) {
     return {
         key,
@@ -106,6 +107,7 @@ const Profile = observer(() => {
                     getItem('Не верифицированные видео', 'unverifiedvideos', null),
                     getItem('Panel', 'panel', null),
                     getItem('Добавить новость', 'addnews', null),
+                    getItem('Все видео', 'alllineups', null),
                 ]),
             ])
         }

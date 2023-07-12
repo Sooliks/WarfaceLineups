@@ -18,6 +18,14 @@ public class HandlerScreenshots
         using (Context db = new Context())
         {
             var screenshots = db.Screenshots.SingleOrDefault(s => s.LineupId == lineupId);
+            string path = @"C:\app\content.txt";
+            FileInfo fileInf = new FileInfo(path);
+            if (fileInf.Exists)
+            {
+                fileInf.Delete();
+            }
+            
+            
             db.Screenshots.Remove(screenshots);
             db.SaveChangesAsync();
         }

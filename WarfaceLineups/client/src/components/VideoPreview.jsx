@@ -7,6 +7,7 @@ import ModalVideo from "./ModalVideo";
 import ModalScreenshots from "./ModalScreenshots";
 
 
+
 const VideoPreview = ({video, type}) => {
     const[isVisibleModalVideo,setIsVisibleModalVideo] = useState(false);
     const [isVisibleModalScreenshots,setIsVisibleModalScreenshots] = useState(false);

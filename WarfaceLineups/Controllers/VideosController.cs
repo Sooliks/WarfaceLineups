@@ -112,7 +112,7 @@ public class VideosController : Controller
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.ToString());
+            
         }
     }
 
@@ -230,6 +230,7 @@ public class VideosController : Controller
             if(account.Role!="admin")return;
             HandlerNotifications.SendNotify(account,HandlerVideos.GetAccountByVideoId(idVideo),"Видео отклонено",$"Ваше видео {HandlerVideos.GetVideoByVideoId(idVideo).Title}, было отклонено модерацией, попробуйте опубликовать заного");
             await HandlerVideos.DeleteVideo(idVideo);
+            HandlerScreenshots.DeleteScreenshotsByLineupId(idVideo);
             await Response.WriteAsJsonAsync(new {message = "success"});
         }
         else

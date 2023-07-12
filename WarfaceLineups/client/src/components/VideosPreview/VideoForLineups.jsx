@@ -1,11 +1,15 @@
 import React, {useContext, useState} from 'react';
-import {Avatar, Button, Card, Space, notification} from "antd";
+import {Avatar, Button, Card, Space, notification, Modal} from "antd";
 import {HeartFilled, HeartOutlined} from "@ant-design/icons";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import {cookiesFromFavorites} from "../../data/cookies";
+import VideosAPI from "../../http/api/VideosAPI";
+import {Spin} from "antd/lib";
 
 const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
+    const [isVisibleSpin,setIsVisibleSpin] = useState(false);
+    const [isVisibleDialogDelete,setIsVisibleDialogDelete] = useState(false);
     const {user, videosFavorite} = useContext(Context);
     const[isActiveIcon,setIsActiveIcon] = useState(false);
     const handlerClickHeart = () =>{
@@ -29,6 +33,13 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
             description: "Лайнап добавлен в избранное"
         })
     }
+    const handleClickDeleteVideo = () =>{
+        setIsVisibleSpin(true)
+        VideosAPI.deleteVideo(video.id).then(data=>{
+            setIsVisibleSpin(false);
+            setIsVisibleDialogDelete(false);
+        })
+    }
     return (
         <Space direction={"vertical"}>
             <Card title={video.title} size="large" style={{maxWidth:500, height: "auto", marginBottom: 12, marginRight: 3, padding: 0}}>
@@ -45,9 +56,26 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                     <Space>
                         <Avatar src={`/api/avatar/${video.ownerId}`} alt={video.title}/>
                         <p>{video.ownerLogin}</p>
+                        {user.user.role === 'admin' && <Button danger style={{marginLeft:40}} onClick={()=>setIsVisibleDialogDelete(true)}>Удалить</Button>}
                     </Space>
                     {user.isAuth && <Button type="dashed" shape="circle" icon={isActiveIcon ? <HeartFilled/> : <HeartOutlined/>} onClick={handlerClickHeart}/>}
                 </Space>
+                {isVisibleDialogDelete &&
+                    <Modal
+                        title="Подтверждение"
+                        open={isVisibleDialogDelete}
+                        onCancel={()=>setIsVisibleDialogDelete(false)}
+                        footer={[
+                        <Button onClick={handleClickDeleteVideo} danger>
+                            Удалить
+                        </Button>,
+                        <Button onClick={()=>setIsVisibleDialogDelete(false)}>
+                            Закрыть
+                        </Button>,
+                        ]}>
+                        {isVisibleSpin && <Spin/>}
+                    </Modal>
+                }
             </Card>
         </Space>
     );
