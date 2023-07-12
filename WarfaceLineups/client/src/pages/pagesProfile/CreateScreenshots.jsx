@@ -224,6 +224,7 @@ const CreateScreenshots = () => {
                                 action="http://localhost:5258/api/uploaddo"
                                 listType="picture"
                                 maxCount={3}
+                                multiple
                             >
                                 <Button icon={<UploadOutlined />} style={{width: '100%'}}>Добавить</Button>
                             </Upload>

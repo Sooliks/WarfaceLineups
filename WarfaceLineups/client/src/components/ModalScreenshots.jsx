@@ -48,13 +48,13 @@ const ModalScreenshots = ({video, onClose}) => {
                 <Space direction={"vertical"} style={{display:'flex', alignItems: 'flex-start'}}>
                     <Space direction={"horizontal"} style={{width:1242,display:'flex', alignItems: 'flex-start', justifyContent:'space-around'}}>
                         <Card style={{height:250}}>
-                            <Image width={200} src={`http://localhost:5258/api/getlineupscreenshots/${video.id}/0`}/>
+                            <Image width={200} src={`http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/0`}/>
                         </Card>
                         <Card style={{height:250}}>
-                            <Image width={200} src={`http://localhost:5258/api/getlineupscreenshots/${video.id}/1`}/>
+                            <Image width={200} src={`http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/1`}/>
                         </Card>
                         <Card style={{height:250}}>
-                            <Image width={200} src={`http://localhost:5258/api/getlineupscreenshots/${video.id}/2`}/>
+                            <Image width={200} src={`http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/2`}/>
                         </Card>
                     </Space>
                     <Card title={"Описание"} style={{width:1242}}>

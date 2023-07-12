@@ -76,29 +76,6 @@ public class HandlerVideos
         return db.Videos.OrderByDescending(v=>v.Id).Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.TypePlant == typePlant || typePlant == 10) && (v.OwnerId==ownerId)).Skip(minId).Take(count).ToList();
         //return db.Videos.OrderByDescending(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.OwnerId==ownerId)).Skip(minId).Take(count).ToList();
     }
-    public static int GetLastIdVideos()
-    {
-        using Context db = new Context();
-        try
-        {
-            return db.Videos.Max(v => v.Id);
-        }
-        catch
-        {
-            return 1;
-        }
-    }
-
-    /*public static List<Videos> GetVideosByOwnerId(int ownerId)
-    {
-        List<Videos> videosList = new List<Videos>();
-        using Context db = new Context();
-        videosList = (from video in db.Videos
-            where  video.OwnerId == ownerId
-            select video).ToList();
-        return videosList;
-    }*/
-
     public static List<Videos> GetAllVideosUnVerified()
     {
         using Context db = new Context();
@@ -117,9 +94,17 @@ public class HandlerVideos
     }
     public static Accounts GetAccountByVideoId(int videoId)
     {
-        using Context db = new Context();
-        var video = db.Videos.FirstOrDefault(v => v.Id == videoId);
-        return HandlerAccounts.GetAccountById(video.OwnerId);
+        try
+        {
+            using Context db = new Context();
+            var video = db.Videos.FirstOrDefault(v => v.Id == videoId);
+            return HandlerAccounts.GetAccountById(video.OwnerId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return new Accounts();
+        }
     }
 
     public static Videos GetVideoByVideoId(int videoId)
@@ -133,7 +118,7 @@ public class HandlerVideos
         using Context db = new Context();
         try
         {
-            return db.Videos.Max(v => v.Id);
+            return db.Videos.OrderByDescending(v => v.Id).FirstOrDefault().Id;
         }
         catch
         {

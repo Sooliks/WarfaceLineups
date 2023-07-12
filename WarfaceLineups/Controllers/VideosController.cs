@@ -101,14 +101,29 @@ public class VideosController : Controller
             await Response.WriteAsJsonAsync(new{message = "error"});
         }
     }
-    [HttpGet("api/getlineupscreenshots/{idLineup:int}/{numberScreen:int}")]
-    public async Task GetPreviewById(int idLineup, int numberScreen)
+    [HttpGet("api/getlineupscreenshots/{idScreenshots:int}/{numberScreen:int}")]
+    public async Task GetPreviewById(int idScreenshots, int numberScreen)
     {
         try
         {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", $"screenshot_id_{numberScreen}_idLineup_{idLineup}.jpg");
-            Response.ContentType = "image/jpg";
-            await Response.SendFileAsync(path);
+            switch (numberScreen)
+            {
+                case 0:
+                    string path1 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", HandlerScreenshots.GetScreenshotsById(idScreenshots).FirstScreen);
+                    Response.ContentType = "image/jpg";
+                    await Response.SendFileAsync(path1);
+                    break;
+                case 1:
+                    string path2 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", HandlerScreenshots.GetScreenshotsById(idScreenshots).SecondScreen);
+                    Response.ContentType = "image/jpg";
+                    await Response.SendFileAsync(path2);
+                    break;
+                case 2:
+                    string path3 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", HandlerScreenshots.GetScreenshotsById(idScreenshots).ThirdScreen);
+                    Response.ContentType = "image/jpg";
+                    await Response.SendFileAsync(path3);
+                    break;
+            }
         }
         catch (Exception e)
         {
@@ -228,9 +243,13 @@ public class VideosController : Controller
         {
             Accounts account = HandlerAccounts.GetAccountById(HandlerAccounts.GetIdByAccountLogin(login));
             if(account.Role!="admin")return;
-            HandlerNotifications.SendNotify(account,HandlerVideos.GetAccountByVideoId(idVideo),"Видео отклонено",$"Ваше видео {HandlerVideos.GetVideoByVideoId(idVideo).Title}, было отклонено модерацией, попробуйте опубликовать заного");
+            var video = HandlerVideos.GetVideoByVideoId(idVideo);
+            HandlerNotifications.SendNotify(account,HandlerVideos.GetAccountByVideoId(idVideo),"Lineup отклонен",$"Ваш lineup: {video.Title}, был отклонен модерацией, попробуйте опубликовать заного");
             await HandlerVideos.DeleteVideo(idVideo);
-            HandlerScreenshots.DeleteScreenshotsByLineupId(idVideo);
+            if (video.ScreenShotsId != 0)
+            {
+                HandlerScreenshots.DeleteScreenshotsById(video.ScreenShotsId);
+            }
             await Response.WriteAsJsonAsync(new {message = "success"});
         }
         else

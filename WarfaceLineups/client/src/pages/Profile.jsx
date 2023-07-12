@@ -104,7 +104,7 @@ const Profile = observer(() => {
                     icon: <LogoutOutlined/>,
                 },
                 getItem('Admin Panel', 'sub2', <DesktopOutlined />, [
-                    getItem('Не верифицированные видео', 'unverifiedvideos', null),
+                    getItem('Не верифицированные lineups', 'unverifiedvideos', null),
                     getItem('Panel', 'panel', null),
                     getItem('Добавить новость', 'addnews', null),
                 ]),

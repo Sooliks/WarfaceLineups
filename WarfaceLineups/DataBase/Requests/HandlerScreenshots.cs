@@ -13,11 +13,11 @@ public class HandlerScreenshots
             db.SaveChanges();
         }
     }
-    public static void DeleteScreenshotsByLineupId(int lineupId)
+    public static void DeleteScreenshotsById(int id)
     {
         using (Context db = new Context())
         {
-            var screenshots = db.Screenshots.SingleOrDefault(s => s.LineupId == lineupId);
+            var screenshots = db.Screenshots.SingleOrDefault(s => s.Id == id);
             
             
             FileInfo fileInf1 = new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenshots.FirstScreen));
@@ -30,6 +30,13 @@ public class HandlerScreenshots
             db.Screenshots.Remove(screenshots);
             db.SaveChangesAsync();
         }
+    }
+
+    public static Screenshots GetScreenshotsById(int id)
+    {
+        using Context db = new Context();
+        var screenshots = db.Screenshots.SingleOrDefault(v => v.Id == id);
+        return screenshots;
     }
     public static int GetLastIdScreenshots()
     {
