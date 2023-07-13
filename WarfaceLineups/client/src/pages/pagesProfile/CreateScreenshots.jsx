@@ -1,13 +1,32 @@
 import React, {useState} from 'react';
-import {Button, Card, Form, Input, notification, Result, Select, Space, Upload} from "antd";
+import {Button, Card, Form, Input, message, notification, Result, Select, Space, Upload} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {UploadOutlined} from "@ant-design/icons";
 import VideosAPI from "../../http/api/VideosAPI";
 import {useNavigate} from "react-router-dom";
 
+const getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+};
+
 const CreateScreenshots = () => {
     const navigate = useNavigate();
     const [isVisibleResult,setIsVisibleResult] = useState('');
+    const beforeUpload = (file,fileList) => {
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJpgOrPng) {
+            message.error('Вы можете загрузить только JPG/PNG файл!');
+            fileList.filter(f=>f===file)
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+            message.error('Картинка не должна превышать размер 2MB!');
+            fileList.filter(f=>f===file)
+        }
+        return isJpgOrPng && isLt2M;
+    };
     const handlerOnFinish = (values) =>{
         const formData = new FormData();
         if(values.fileList.length<2){
@@ -35,6 +54,10 @@ const CreateScreenshots = () => {
                 setIsVisibleResult('error')
                 return
             }
+            if(data.message === "notformat"){
+                setIsVisibleResult('notformat');
+                return;
+            }
             setIsVisibleResult('error');
         })
     }
@@ -49,6 +72,18 @@ const CreateScreenshots = () => {
             status="error"
             title="Неизвестная ошибка"
             subTitle="Попробуйте еще раз"
+            extra={[
+                <Button type="primary" key="console" onClick={()=>{navigate('/profile');window.location.reload();}}>
+                    Перейти в профиль
+                </Button>,
+            ]}
+        />
+    }
+    if(isVisibleResult === 'notformat'){
+        return <Result
+            status="error"
+            title="Неверный формат"
+            subTitle="Скрины должны быть формата jpg или png и меньше 2 MB"
             extra={[
                 <Button type="primary" key="console" onClick={()=>{navigate('/profile');window.location.reload();}}>
                     Перейти в профиль
@@ -219,12 +254,14 @@ const CreateScreenshots = () => {
                                 }
                             />
                         </Form.Item>
-                        <Form.Item label="Добавьте 3 скрина" valuePropName="fileList" name="fileList" getValueFromEvent={normFile}>
+
+                        <Form.Item label="Добавьте 3 скрина" name="fileList" valuePropName="fileList" getValueFromEvent={normFile}>
                             <Upload
                                 action="http://localhost:5258/api/uploaddo"
                                 listType="picture"
                                 maxCount={3}
                                 multiple
+                                beforeUpload={beforeUpload}
                             >
                                 <Button icon={<UploadOutlined />} style={{width: '100%'}}>Добавить</Button>
                             </Upload>

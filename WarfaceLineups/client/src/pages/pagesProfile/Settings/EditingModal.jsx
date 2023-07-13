@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Modal, Space, Upload, message} from "antd";
 import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
 import {cookies} from "../../../data/cookies";
-import imageCompression from "browser-image-compression";
+
 
 
 const getBase64 = (img, callback) => {
@@ -10,12 +10,7 @@ const getBase64 = (img, callback) => {
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
 };
-const options = {
-    maxSizeKb: 3,
-    maxWidthOrHeight: 30,
-    useWebWorker: true,
-    maxBlockSize:2000
-}
+
 
 
 const EditingModal = ({onHide}) => {
@@ -34,13 +29,11 @@ const EditingModal = ({onHide}) => {
     };
     const handleChange = (info) => {
         if (info.file.status === 'uploading') {
-            info.file.originFileObj.Blob = imageCompression(info.file.originFileObj, options);
             setLoading(true);
             return;
         }
         if (info.file.status === 'done') {
             getBase64(info.file.originFileObj, (url) => {
-                info.file.originFileObj.Blob = imageCompression(info.file.originFileObj, options);
                 setLoading(false);
                 setImageUrl(url);
             });
