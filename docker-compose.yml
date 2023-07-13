@@ -17,6 +17,8 @@ services:
       - db
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - screenshots:/WarfaceLineups/Files/Screenshots
   db:
     image: mysql:latest
     container_name: db_mysql
@@ -72,5 +74,6 @@ services:
     
 volumes:
   mysql-data:
+  screenshots:
   
     

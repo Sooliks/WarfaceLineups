@@ -373,11 +373,4 @@ public class AccountsController : Controller
         }
         await Response.WriteAsJsonAsync(new { message = "error" });
     }
-
-    [HttpPost("api/uploaddo")]
-    public async Task<IResult> UploadBefore()
-    {
-        return Results.Ok();
-    }
-
 }

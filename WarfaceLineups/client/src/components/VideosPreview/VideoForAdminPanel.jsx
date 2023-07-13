@@ -27,7 +27,7 @@ const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut,handleClic
                     onClick={handleClickOnVideo}
                     onMouseOver={e=>handleOnMouseOver(e)}
                     onMouseOut={e=>handleOnMouseOut(e)}
-                    src={video.screenShotsId===0 ? video.urlOnPreview : `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/0`}
+                    src={video.screenShotsId===0 ? video.urlOnPreview : `/api/getlineupscreenshots/${video.screenShotsId}/0`}
                     alt={video.title}
                     style={{height:202, width:360, border: '2px solid transparent', borderRadius:'6px'}}
                 />

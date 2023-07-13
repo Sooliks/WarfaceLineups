@@ -257,7 +257,7 @@ const CreateScreenshots = () => {
 
                         <Form.Item label="Добавьте 3 скрина" name="fileList" valuePropName="fileList" getValueFromEvent={normFile}>
                             <Upload
-                                action="http://localhost:5258/api/uploaddo"
+                                action="/api/uploaddo"
                                 listType="picture"
                                 maxCount={3}
                                 multiple

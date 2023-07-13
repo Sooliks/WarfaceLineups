@@ -78,6 +78,15 @@ public class VideosController : Controller
             IFormFileCollection files = Request.Form.Files;
             foreach (var file in files)
             {
+                if ((file.ContentType == "image/png" || file.ContentType == "image/jpeg") && file.Length < 2000000)
+                {
+                    continue;
+                }
+                await Response.WriteAsJsonAsync(new{ message = "notformat" });
+                return;
+            }
+            foreach (var file in files)
+            {
                 string fileName = $"screenshot_id_{i}_idLineup_{lineupId}.jpg";
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", fileName);
                 using (Stream stream = new FileStream(path, FileMode.Create))
@@ -101,25 +110,32 @@ public class VideosController : Controller
             await Response.WriteAsJsonAsync(new{message = "error"});
         }
     }
+    [HttpPost("api/uploaddo")]
+    public async Task<IResult> UploadBefore()
+    {
+        return Results.Ok();
+    }
+
     [HttpGet("api/getlineupscreenshots/{idScreenshots:int}/{numberScreen:int}")]
     public async Task GetPreviewById(int idScreenshots, int numberScreen)
     {
         try
         {
+            var screenShots = HandlerScreenshots.GetScreenshotsById(idScreenshots);
             switch (numberScreen)
             {
                 case 0:
-                    string path1 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", HandlerScreenshots.GetScreenshotsById(idScreenshots).FirstScreen);
+                    string path1 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenShots.FirstScreen);
                     Response.ContentType = "image/jpg";
                     await Response.SendFileAsync(path1);
                     break;
                 case 1:
-                    string path2 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", HandlerScreenshots.GetScreenshotsById(idScreenshots).SecondScreen);
+                    string path2 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenShots.SecondScreen);
                     Response.ContentType = "image/jpg";
                     await Response.SendFileAsync(path2);
                     break;
                 case 2:
-                    string path3 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", HandlerScreenshots.GetScreenshotsById(idScreenshots).ThirdScreen);
+                    string path3 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenShots.ThirdScreen);
                     Response.ContentType = "image/jpg";
                     await Response.SendFileAsync(path3);
                     break;
