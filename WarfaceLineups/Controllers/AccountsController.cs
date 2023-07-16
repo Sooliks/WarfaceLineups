@@ -183,7 +183,7 @@ public class AccountsController : Controller
                 {
                     img.Format = img.Format; 
                     img.Resize(30, 30); 
-                    img.Quality = 100; 
+                    img.Quality = 30; 
                     fileBytes = img.ToByteArray();
                 }
                 HandlerAvatar.AddNewAvatar(fileBytes,HandlerAccounts.GetIdByAccountLogin(login));

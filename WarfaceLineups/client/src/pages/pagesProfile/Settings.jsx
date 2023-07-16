@@ -6,6 +6,7 @@ import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import SettingsModal from "./Settings/SettingsModal";
 import EditingModal from "./Settings/EditingModal";
+import EllipsisModal from "./Settings/EllipsisModal";
 
 const Settings = observer(() => {
     const {user} = useContext(Context);
@@ -28,6 +29,7 @@ const Settings = observer(() => {
             </Card>
             {isVisibleSettingsModal === 'setting' && <SettingsModal onHide={()=>setIsVisibleModal('')}/>}
             {isVisibleSettingsModal === 'edit' && <EditingModal onHide={()=>setIsVisibleModal('')}/>}
+            {isVisibleSettingsModal === 'ellipsis' && <EllipsisModal onHide={()=>setIsVisibleModal('')}/>}
         </div>
     );
 });

@@ -1,13 +1,17 @@
 import React, {useContext, useState} from 'react';
-import {Avatar, Button, Card, Space, notification, Modal} from "antd";
+import {Avatar, Button, Card, Space, notification, Modal, Typography} from "antd";
 import {HeartFilled, HeartOutlined} from "@ant-design/icons";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import {cookiesFromFavorites} from "../../data/cookies";
 import VideosAPI from "../../http/api/VideosAPI";
 import {Spin} from "antd/lib";
+import ModalOtherProfile from "../ModalOtherProfile";
+
+const { Text, Link } = Typography;
 
 const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
+    const [isVisibleProfile,setIsVisibleProfile] = useState(false);
     const [isVisibleSpin,setIsVisibleSpin] = useState(false);
     const [isVisibleDialogDelete,setIsVisibleDialogDelete] = useState(false);
     const {user, videosFavorite} = useContext(Context);
@@ -46,7 +50,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
         <Space direction={"vertical"}>
             <Card title={video.title} size="large" style={{maxWidth:500, height: "auto", marginBottom: 12, marginRight: 3, padding: 0}}>
                 <img
-                    src={video.screenShotsId===0 ? video.urlOnPreview : `/api/getlineupscreenshots/${video.screenShotsId}/0`}
+                    src={video.screenShotsId===0 ? video.urlOnPreview : `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/0`}
                     alt={video.title}
                     onClick={handleClickOnVideo}
                     onMouseOver={e=>handleOnMouseOver(e)}
@@ -57,7 +61,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                 <Space direction={"horizontal"} style={{display:'flex', justifyContent:'space-between'}}>
                     <Space>
                         <Avatar src={`/api/avatar/${video.ownerId}`} alt={video.title}/>
-                        <p>{video.ownerLogin}</p>
+                        <Text><Link onClick={()=>setIsVisibleProfile(true)}>{video.ownerLogin}</Link></Text>
                         {user.user.role === 'admin' && <Button danger style={{marginLeft:40}} onClick={()=>setIsVisibleDialogDelete(true)}>Удалить</Button>}
                     </Space>
                     {user.isAuth && <Button type="dashed" shape="circle" icon={isActiveIcon ? <HeartFilled/> : <HeartOutlined/>} onClick={handlerClickHeart}/>}
@@ -77,6 +81,9 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                         ]}>
                         {isVisibleSpin && <Spin/>}
                     </Modal>
+                }
+                {isVisibleProfile &&
+                    <ModalOtherProfile loginAccount={video.ownerLogin} onClose={()=>setIsVisibleProfile(false)}/>
                 }
             </Card>
         </Space>

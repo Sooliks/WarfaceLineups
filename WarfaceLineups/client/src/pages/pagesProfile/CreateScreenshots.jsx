@@ -1,15 +1,10 @@
 import React, {useState} from 'react';
-import {Button, Card, Form, Input, message, notification, Result, Select, Space, Upload} from "antd";
+import {Button, Card, Form, Input, notification, Result, Select, Space, Upload} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {UploadOutlined} from "@ant-design/icons";
 import VideosAPI from "../../http/api/VideosAPI";
 import {useNavigate} from "react-router-dom";
 
-const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-};
 
 const CreateScreenshots = () => {
     const navigate = useNavigate();
@@ -17,12 +12,18 @@ const CreateScreenshots = () => {
     const beforeUpload = (file,fileList) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) {
-            message.error('Вы можете загрузить только JPG/PNG файл!');
+            notification.error({
+                message: "Уведомление",
+                description: "Вы можете загрузить только JPG/PNG файл!"
+            })
             fileList.filter(f=>f===file)
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
-            message.error('Картинка не должна превышать размер 2MB!');
+            notification.error({
+                message: "Уведомление",
+                description: "Картинка не должна превышать размер 2MB!"
+            })
             fileList.filter(f=>f===file)
         }
         return isJpgOrPng && isLt2M;
@@ -111,7 +112,6 @@ const CreateScreenshots = () => {
                 <Space style={{width:600}}>
                     <Form
                         encType="multipart/form-data"
-                        action={"http://localhost:5258/api/uploadlineupwithscreenshots"}
                         layout={"vertical"}
                         name="basic"
                         labelCol={{
@@ -257,7 +257,7 @@ const CreateScreenshots = () => {
 
                         <Form.Item label="Добавьте 3 скрина" name="fileList" valuePropName="fileList" getValueFromEvent={normFile}>
                             <Upload
-                                action="/api/uploaddo"
+                                action="http://localhost:5258/api/uploaddo"
                                 listType="picture"
                                 maxCount={3}
                                 multiple
