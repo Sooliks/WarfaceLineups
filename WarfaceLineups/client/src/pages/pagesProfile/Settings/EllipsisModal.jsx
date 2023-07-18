@@ -6,12 +6,13 @@ import {Context} from "../../../index";
 import SettingsAPI from "../../../http/api/SettingsAPI";
 import VideoPreview from "../../../components/VideoPreview";
 import VideosAPI from "../../../http/api/VideosAPI";
-const { Link } = Typography;
+const { Link, Text } = Typography;
 
 const EllipsisModal = ({onHide}) => {
+    const[errorText,setErrorText] = useState('');
     const[loading,setLoading]= useState(true);
     const[currentEditingUrl,setCurrentEditingUrl] = useState();
-    const [url,setUrl] = useState();
+    const [url,setUrl] = useState('');
     const[dataProfile,setDataProfile] = useState({
         lineups: [],
         mainLineup: {},
@@ -54,21 +55,34 @@ const EllipsisModal = ({onHide}) => {
                 setCurrentEditingUrl()
                 setUrl()
                 onHide();
+                setErrorText('');
             }
         }
         switch(currentEditingUrl){
             case 'ВКонтакте':
                 SettingsAPI.changeUrlOnVk(url).then(data=>{
+                    if(!url.startsWith("https://vk.com/")){
+                        setErrorText("Ссылка должна быть на ВКонтакте")
+                        return
+                    }
                     handleResponse(data);
                 })
                 break
             case 'Telegram':
                 SettingsAPI.changeUrlOnTelegram(url).then(data=>{
+                    if(!url.startsWith("https://t.me/")){
+                        setErrorText("Ссылка должна быть на Telegram")
+                        return
+                    }
                     handleResponse(data);
                 })
                 break
             case 'Youtube':
                 SettingsAPI.changeUrlOnYoutube(url).then(data=>{
+                    if(!url.startsWith("https://www.youtube.com/channel/")){
+                        setErrorText("Ссылка должна быть на Youtube канал")
+                        return
+                    }
                     handleResponse(data);
                 })
                 break
@@ -134,6 +148,7 @@ const EllipsisModal = ({onHide}) => {
                                 <Button style={{marginTop: 10, width: "100%"}} onClick={handleSubmitMainLineup}>Принять</Button>
                                 <Modal title={""} open={currentEditingUrl} onOk={handleSubmitChangeUrl} onCancel={()=>setCurrentEditingUrl()}>
                                     <Space style={{marginTop: 30, width: "100%"}} direction={"vertical"}>
+                                        <Text type={"danger"}>{errorText}</Text>
                                         <Input placeholder={`Ссылка на ${currentEditingUrl}`} onChange={(value)=>setUrl(value.target.value)} value={url} />
                                     </Space>
                                 </Modal>
