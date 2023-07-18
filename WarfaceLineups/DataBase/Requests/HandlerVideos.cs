@@ -130,4 +130,10 @@ public class HandlerVideos
         using Context db = new Context();
         return db.Videos.Where(v=> v.OwnerId==ownerId).OrderByDescending(v=>v.Id).Skip(minId).Take(count).ToList();
     }
+
+    public static List<Videos> GetAllVideosByOwnerId(int ownerId)
+    {
+        using Context db = new Context();
+        return db.Videos.Where(v=> v.OwnerId==ownerId).OrderByDescending(v=>v.Id).ToList();
+    }
 }

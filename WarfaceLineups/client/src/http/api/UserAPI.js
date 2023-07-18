@@ -56,8 +56,8 @@ export default class UserAPI {
         return data;
     }
 
-    static getDataProfileForSettings = async(ownerid,page = 1) =>{
-        const {data} = await $client.post('/dataprofileforsettings',{ownerid, page});
+    static getDataProfileForSettings = async(ownerid) =>{
+        const {data} = await $client.post('/dataprofileforsettings',{ownerid});
         return data;
     }
 

@@ -12,7 +12,7 @@ const ModalOtherProfile = ({loginAccount,onClose}) => {
     return (
         <div>
             <Modal
-                title={loginAccount}
+                title={"Профиль пользователя: "+loginAccount}
                 centered
                 open
                 onCancel={onClose}

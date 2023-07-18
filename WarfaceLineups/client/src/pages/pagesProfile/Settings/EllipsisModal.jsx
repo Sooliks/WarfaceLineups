@@ -128,7 +128,7 @@ const EllipsisModal = ({onHide}) => {
                         {loading ? <Spin size="large"/> :
                             <Space direction={"vertical"} style={{width:"100%"}}>
                                 <Select
-                                    defaultValue={dataProfile.mainLineup!==null && dataProfile.mainLineup.title}
+                                    defaultValue={dataProfile.mainLineup!==null ? dataProfile.mainLineup.title : 0}
                                     onChange={(value)=>setMainLineupId(value)}
                                     showSearch
                                     style={{

@@ -377,20 +377,17 @@ public class AccountsController : Controller
     [HttpPost("api/dataprofileforsettings")]
     public async Task GetDataProfileForSettings()
     {
-        const int countVideosOnOnePage = 8;
         string body = "";
         using (StreamReader stream = new StreamReader(Request.Body))
         {
             body = await stream.ReadToEndAsync();
         }
         JObject obj = JObject.Parse(body);
-        int page = (int)obj["page"];
         int ownerId = (int)obj["ownerid"];
-        int minId = (page * countVideosOnOnePage) - countVideosOnOnePage;
         var account = HandlerAccounts.GetAccountById(ownerId);
         await Response.WriteAsJsonAsync(new
         {
-            lineups = HandlerVideos.GetVideosByOwnerIdNotFilter(minId, countVideosOnOnePage, ownerId),
+            lineups = HandlerVideos.GetAllVideosByOwnerId(ownerId),
             mainLineup = HandlerVideos.GetVideoByVideoId(account.MainLineupId),
             urlOnYoutube = account.UrlOnYoutube,
             urlOnVk = account.UrlOnVk,
