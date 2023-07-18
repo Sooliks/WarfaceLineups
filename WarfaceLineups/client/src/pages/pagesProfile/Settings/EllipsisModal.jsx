@@ -35,6 +35,7 @@ const EllipsisModal = ({onHide}) => {
             for(let i=0;i<data.lineups.length;i++){
                 newArr.push({value: `${data.lineups[i].id}`,label:data.lineups[i].title})
             }
+            newArr.unshift({value: 0, label: "Нету"})
             setLineupsForSelect(newArr)
             setLoading(false);
         })
@@ -127,7 +128,9 @@ const EllipsisModal = ({onHide}) => {
                                     }
                                     options={lineupsForSelect}
                                 />
-                                <VideoPreview type={"uservideo"} video={dataProfile.mainLineup}/>
+                                {dataProfile.mainLineup !== null &&
+                                    <VideoPreview type={"uservideo"} video={dataProfile.mainLineup}/>
+                                }
                                 <Button style={{marginTop: 10, width: "100%"}} onClick={handleSubmitMainLineup}>Принять</Button>
                                 <Modal title={""} open={currentEditingUrl} onOk={handleSubmitChangeUrl} onCancel={()=>setCurrentEditingUrl()}>
                                     <Space style={{marginTop: 30, width: "100%"}} direction={"vertical"}>

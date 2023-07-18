@@ -297,4 +297,10 @@ public class VideosController : Controller
             await Response.WriteAsJsonAsync(new {message = "error"});
         }
     }
+
+    [HttpGet("api/getlineupbyid/{id:int}")]
+    public async Task GetLineupById(int id)
+    {
+        await Response.WriteAsJsonAsync(HandlerVideos.GetVideoByVideoId(id));
+    }
 }
