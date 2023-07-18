@@ -10,6 +10,10 @@ public class Accounts
     public string VerificationCode { get; set; }
     public bool IsVerifiedAccount { get; set; } 
     public bool IsPremiumAccount { get; set; }
+    public string UrlOnYoutube { get; set; }
+    public string UrlOnVk { get; set; }
+    public string UrlOnTelegram { get; set; }
+    public int MainLineupId { get; set; }
     
 
     public Accounts()
@@ -26,5 +30,9 @@ public class Accounts
         this.VerificationCode = "";
         this.IsVerifiedAccount = false;
         this.IsPremiumAccount = false;
+        UrlOnTelegram = "";
+        UrlOnVk = "";
+        UrlOnYoutube = "";
+        MainLineupId = 0;
     }
 }

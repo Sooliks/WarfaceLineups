@@ -1,4 +1,5 @@
 import {$client, $clientAuth} from "../index";
+import async from "async";
 
 
 
@@ -52,6 +53,11 @@ export default class UserAPI {
     }
     static recoveryPasswordUploadNewPassword = async (jwt,login,newpassword) =>{
         const {data} = await $client.post('/recoverypassword/recovery',{jwt,login,newpassword});
+        return data;
+    }
+
+    static getDataProfileForSettings = async(ownerid,page = 1) =>{
+        const {data} = await $client.post('/dataprofileforsettings',{ownerid, page});
         return data;
     }
 

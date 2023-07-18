@@ -18,7 +18,7 @@ public class AuthService
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, accounts.Login),
-            new Claim(ClaimTypes.Role, accounts.Role)
+            //new Claim(ClaimTypes.Role, accounts.Role)
         };
         var jwtToken = new JwtSecurityToken(
             issuer: _issuer,

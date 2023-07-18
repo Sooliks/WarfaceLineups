@@ -125,4 +125,9 @@ public class HandlerVideos
             return 0;
         }
     }
+    public static List<Videos> GetVideosByOwnerIdNotFilter(int minId,int count, int ownerId)
+    {
+        using Context db = new Context();
+        return db.Videos.Where(v=> v.OwnerId==ownerId).OrderByDescending(v=>v.Id).Skip(minId).Take(count).ToList();
+    }
 }

@@ -110,6 +110,14 @@ const CreateVideo = () => {
                                         required: true,
                                         message: 'Пожалуйста введите название!',
                                     },
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (!value || getFieldValue('name').length <= 40) {
+                                                return Promise.resolve();
+                                            }
+                                            return Promise.reject(new Error('Название должно быть не более 40 символов'));
+                                        },
+                                    }),
                                 ]}
                             >
                                 <Input  />

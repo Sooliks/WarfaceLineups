@@ -8,7 +8,7 @@ import VideosAPI from "../../http/api/VideosAPI";
 import {Spin} from "antd/lib";
 import ModalOtherProfile from "../ModalOtherProfile";
 
-const { Text, Link } = Typography;
+const { Link } = Typography;
 
 const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
     const [isVisibleProfile,setIsVisibleProfile] = useState(false);
@@ -61,7 +61,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                 <Space direction={"horizontal"} style={{display:'flex', justifyContent:'space-between'}}>
                     <Space>
                         <Avatar src={`/api/avatar/${video.ownerId}`} alt={video.title}/>
-                        <Text><Link onClick={()=>setIsVisibleProfile(true)}>{video.ownerLogin}</Link></Text>
+                        <Link onClick={()=>setIsVisibleProfile(true)}>{video.ownerLogin}</Link>
                         {user.user.role === 'admin' && <Button danger style={{marginLeft:40}} onClick={()=>setIsVisibleDialogDelete(true)}>Удалить</Button>}
                     </Space>
                     {user.isAuth && <Button type="dashed" shape="circle" icon={isActiveIcon ? <HeartFilled/> : <HeartOutlined/>} onClick={handlerClickHeart}/>}

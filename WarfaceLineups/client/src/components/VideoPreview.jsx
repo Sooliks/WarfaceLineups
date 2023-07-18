@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import VideoForLineups from "./VideosPreview/VideoForLineups";
 import VideoForProfile from "./VideosPreview/VideoForProfile";
 import VideoForFavorites from "./VideosPreview/VideoForFavorites";
@@ -25,6 +25,12 @@ const VideoPreview = ({video, type}) => {
     const handleOnMouseOut = (e) =>{
         e.target.style.borderColor="#303030";
     }
+    /*useEffect(()=>{
+        if(video.title.length > 37){
+            video.title = video.title.substring(0,37);
+            video.title += "...";
+        }
+    })*/
 
     return (
         <div>
