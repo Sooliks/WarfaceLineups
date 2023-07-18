@@ -23,21 +23,24 @@ export default class VideosAPI {
         const {data} = await $clientAuth.get('/getvideosunverified');
         return data;
     }
-    static getCountVideos = async (filter) =>{
+    static getCountVideos = async (filter) => {
         const {data} = await $client.post('/getcountvideos',{filter});
         return data;
     }
-    static getCountVideosByOwnerId = async (filter) =>{
+    static getCountVideosByOwnerId = async (filter) => {
         const {data} = await $clientAuth.post('/getcountvideosbyownerid',{filter});
         return data;
     }
-    static deleteVideo = async  (id) =>{
+    static deleteVideo = async  (id) => {
         const {data} = await $clientAuth.post('/deletevideo',{id});
         return data;
     }
-    static publishVideo = async  (id) =>{
+    static publishVideo = async  (id) => {
         const {data} = await $clientAuth.post('/publishvideo',{id});
         return data;
     }
-
+    static getLineupById = async (id) => {
+        const {data} = await $client.get(`/getlineupbyid/${id}`);
+        return data;
+    }
 }

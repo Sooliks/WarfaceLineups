@@ -1,13 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Card, Modal, Row, Select, Space, Spin} from "antd";
+import {Button, Card, Input, Modal, Row, Select, Space, Spin, Typography} from "antd";
 import classes from './styles/EllipsisModal.module.css'
 import UserAPI from "../../../http/api/UserAPI";
 import {Context} from "../../../index";
 import SettingsAPI from "../../../http/api/SettingsAPI";
+import VideoPreview from "../../../components/VideoPreview";
+import VideosAPI from "../../../http/api/VideosAPI";
+const { Link } = Typography;
 
 const EllipsisModal = ({onHide}) => {
     const[loading,setLoading]= useState(true);
     const[currentEditingUrl,setCurrentEditingUrl] = useState();
+    const [url,setUrl] = useState();
     const[dataProfile,setDataProfile] = useState({
         lineups: [],
         mainLineup: {},
@@ -16,6 +20,12 @@ const EllipsisModal = ({onHide}) => {
         urlOnTelegram: "",
     });
     const [mainLineupId,setMainLineupId] = useState(null);
+    useEffect(()=>{
+        if(mainLineupId===null)return
+        VideosAPI.getLineupById(mainLineupId).then(data=>{
+            setDataProfile({...dataProfile,mainLineup: data})
+        })
+    },[mainLineupId])
     const [lineupsForSelect,setLineupsForSelect] = useState([]);
     const {user} = useContext(Context);
     useEffect(()=>{
@@ -32,16 +42,34 @@ const EllipsisModal = ({onHide}) => {
 
     const handleSubmitMainLineup = () => {
         SettingsAPI.changeMainLineup(mainLineupId).then(data=>{
-
+            if(data.message==="success"){
+                onHide();
+            }
         })
     }
     const handleSubmitChangeUrl = () => {
+        const handleResponse = (data) =>{
+            if(data.message === "success") {
+                setCurrentEditingUrl()
+                setUrl()
+                onHide();
+            }
+        }
         switch(currentEditingUrl){
-            case 'vk':
+            case 'ВКонтакте':
+                SettingsAPI.changeUrlOnVk(url).then(data=>{
+                    handleResponse(data);
+                })
                 break
-            case 'tg':
+            case 'Telegram':
+                SettingsAPI.changeUrlOnTelegram(url).then(data=>{
+                    handleResponse(data);
+                })
                 break
-            case 'yt':
+            case 'Youtube':
+                SettingsAPI.changeUrlOnYoutube(url).then(data=>{
+                    handleResponse(data);
+                })
                 break
         }
     }
@@ -59,28 +87,29 @@ const EllipsisModal = ({onHide}) => {
                 ]}
             >
                 <Space direction={"horizontal"} style={{display:'flex', alignItems: 'flex-start'}}>
-                    <Card title={"Ссылки"} style={{width:390}}>
+                    <Card title={"Ссылки"} style={{width:700}}>
                         <Space direction={"vertical"} style={{display:'flex', alignItems: 'flex-start'}}>
                             <Row style={{display:'flex', alignItems: 'flex-start'}}>
-                                <h3>Youtube: {dataProfile.urlOnYoutube!=="" && <p>{dataProfile.urlOnYoutube}</p>}
-                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('yt')}>{dataProfile.urlOnTelegram!=="" ? 'Изменить' : 'Добавить'}</Button>
+                                <h3>
+                                    {'Youtube:'} {dataProfile.urlOnYoutube!=="" && <Link href={dataProfile.urlOnYoutube} target="_blank">{dataProfile.urlOnYoutube}</Link>}
+                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('Youtube')}>{dataProfile.urlOnTelegram!=="" ? 'Изменить' : 'Добавить'}</Button>
                                 </h3>
                             </Row>
                             <Row style={{display:'flex', alignItems: 'flex-start'}}>
                                 <h3>
-                                    Вконтакте: {dataProfile.urlOnVk!=="" && <p>{dataProfile.urlOnVk}</p>}
-                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('vk')}>{dataProfile.urlOnTelegram!=="" ? 'Изменить' : 'Добавить'}</Button>
+                                    {'Вконтакте:'} {dataProfile.urlOnVk!=="" && <Link href={dataProfile.urlOnVk} target="_blank">{dataProfile.urlOnVk}</Link>}
+                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('ВКонтакте')}>{dataProfile.urlOnTelegram!=="" ? 'Изменить' : 'Добавить'}</Button>
                                 </h3>
                             </Row>
                             <Row style={{display:'flex', alignItems: 'flex-start'}}>
                                 <h3>
-                                    Telegram: {dataProfile.urlOnTelegram!=="" && <p>{dataProfile.urlOnTelegram}</p>}
-                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('tg')}>{dataProfile.urlOnTelegram!=="" ? 'Изменить' : 'Добавить'}</Button>
+                                    {'Telegram:'} {dataProfile.urlOnTelegram!=="" && <Link href={dataProfile.urlOnTelegram} target="_blank">{dataProfile.urlOnTelegram}</Link>}
+                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('Telegram')}>{dataProfile.urlOnTelegram!=="" ? 'Изменить' : 'Добавить'}</Button>
                                 </h3>
                             </Row>
                         </Space>
                     </Card>
-                    <Card title={"Главный lineup"} style={{width:390}}>
+                    <Card title={"Главный lineup"} style={{width:459}}>
                         {loading ? <Spin size="large"/> :
                             <Space direction={"vertical"} style={{width:"100%"}}>
                                 <Select
@@ -98,11 +127,12 @@ const EllipsisModal = ({onHide}) => {
                                     }
                                     options={lineupsForSelect}
                                 />
+                                <VideoPreview type={"uservideo"} video={dataProfile.mainLineup}/>
                                 <Button style={{marginTop: 10, width: "100%"}} onClick={handleSubmitMainLineup}>Принять</Button>
-                                <Modal title="Basic Modal" open={currentEditingUrl} onOk={handleSubmitChangeUrl} onCancel={()=>setCurrentEditingUrl()}>
-                                    <p>Some contents...</p>
-                                    <p>Some contents...</p>
-                                    <p>Some contents...</p>
+                                <Modal title={""} open={currentEditingUrl} onOk={handleSubmitChangeUrl} onCancel={()=>setCurrentEditingUrl()}>
+                                    <Space style={{marginTop: 30, width: "100%"}} direction={"vertical"}>
+                                        <Input placeholder={`Ссылка на ${currentEditingUrl}`} onChange={(value)=>setUrl(value.target.value)} value={url} />
+                                    </Space>
                                 </Modal>
                             </Space>
                         }
