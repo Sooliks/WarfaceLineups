@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {Button, Card, Select, Space} from "antd";
 import Search from "antd/es/input/Search";
+import {CloseCircleOutlined, CloseOutlined} from "@ant-design/icons";
 
-const Filter = ({onChangeFilter, direction, widthFilter =270, isVisibleSearch=true}) => {
+const Filter = ({onChangeFilter, direction, dropFilterButtonIcon = false, widthFilter =270, isVisibleSearch=true}) => {
     const[filter,setFilter] = useState({
         typeSide:10,
         typeGameMap:10,
@@ -127,7 +128,11 @@ const Filter = ({onChangeFilter, direction, widthFilter =270, isVisibleSearch=tr
                             { value: 2, label: '2' },
                         ]}
                     />
-                    <Button style={{width: '100%'}} onClick={dropFilter}>Сбросить фильтр</Button>
+                    {dropFilterButtonIcon ?
+                        <Button icon={<CloseOutlined />} style={{width: 40, height: 40}} onClick={dropFilter}/>
+                        :
+                        <Button style={{width: '100%'}} onClick={dropFilter}>Сбросить фильтр</Button>
+                    }
                 </Space>
             </Card>
             {isVisibleSearch &&

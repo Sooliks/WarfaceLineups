@@ -46,17 +46,18 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
             >
                 <Space direction={"horizontal"} style={{display:'flex', alignItems: 'flex-start'}}>
                     <Space direction={"vertical"} style={{display:'flex', alignItems: 'flex-start', justifyContent:'flex-start', margin:12}}>
-                        <Card title={"Ссылки"} style={{margin:12, width:463.4}}>
+                        <Card title={"Ссылки"} style={{width:463.4}}>
 
                         </Card>
-                        <Card style={{margin:12}}>
-                            <VideoPreview video={dataProfile.mainLineup} type={"uservideo"}/>
-                        </Card>
-                        <Filter isVisibleSearch={false} onChangeFilter={handlerChangeFilter} direction={"vertical"} widthFilter={415}/>
+                        {dataProfile.mainLineup !== null &&
+                            <Card style={{margin: 12}}>
+                                <VideoPreview video={dataProfile.mainLineup} type={"uservideo"}/>
+                            </Card>
+                        }
                     </Space>
-                    <Card style={{marginTop:20, height: 800, width:1250}}>
+                    <Card style={{marginTop:12, height: 800, width:1250}}>
                         <Space style={{display:'flex', alignItems: 'flex-start', justifyContent:'flex-start'}}>
-
+                            <Filter isVisibleSearch={false} onChangeFilter={handlerChangeFilter} direction={"horizontal"} widthFilter={50} dropFilterButtonIcon/>
                         </Space>
                         <Space className={classes.pagination}>
                             {dataProfile.lineups.length!==0 && totalCountVideos > 8 && <Pagination onChange={page=>setCurrentPage(page)} pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} />}
