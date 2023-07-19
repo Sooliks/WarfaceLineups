@@ -5,14 +5,14 @@ import {LoadingOutlined} from "@ant-design/icons";
 const VideoForProfile = ({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
     return (
         <Space direction={"vertical"}>
-            <Card title={video.title} size="large" style={{maxWidth:500, height: 377, marginBottom: 12, marginRight: 3, padding: 0}}>
+            <Card title={video.title} size="large" style={{maxWidth:500, height: 346, marginBottom: 12, marginRight: 3, padding: 0}}>
                 <img
                     src={video.screenShotsId===0 ? video.urlOnPreview : `/api/getlineupscreenshots/${video.screenShotsId}/0`}
                     alt={video.title}
                     onClick={handleClickOnVideo}
                     onMouseOver={e=>handleOnMouseOver(e)}
                     onMouseOut={e=>handleOnMouseOut(e)}
-                    style={{height:202, width:360, border: '2px solid transparent', borderRadius:'6px'}}
+                    style={{height:202, width:342, border: '2px solid transparent', borderRadius:'6px'}}
                 />
                 <br/>
                 <Space direction={"horizontal"} style={{display:'flex', justifyContent:'space-between'}}>

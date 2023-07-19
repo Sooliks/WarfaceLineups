@@ -134,6 +134,6 @@ public class HandlerVideos
     public static List<Videos> GetAllVideosByOwnerId(int ownerId)
     {
         using Context db = new Context();
-        return db.Videos.Where(v=> v.OwnerId==ownerId).OrderByDescending(v=>v.Id).ToList();
+        return db.Videos.Where(v=> v.OwnerId==ownerId && v.IsVerified == true).OrderByDescending(v=>v.Id).ToList();
     }
 }

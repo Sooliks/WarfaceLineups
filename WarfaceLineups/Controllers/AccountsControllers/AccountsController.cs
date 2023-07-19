@@ -395,4 +395,29 @@ public class AccountsController : Controller
             
         });
     }
+    
+    [HttpPost("api/dataprofile")]
+    public async Task GetDataProfile()
+    {
+        const int countVideosOnOnePage = 8;
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        int ownerId = (int)obj["ownerid"];
+        int page = (int)obj["page"];
+        int minId = (page * countVideosOnOnePage) - countVideosOnOnePage;
+        var account = HandlerAccounts.GetAccountById(ownerId);
+        await Response.WriteAsJsonAsync(new
+        {
+            lineups = HandlerVideos.GetVideosByOwnerId(minId,countVideosOnOnePage,obj,ownerId),
+            mainLineup = HandlerVideos.GetVideoByVideoId(account.MainLineupId),
+            urlOnYoutube = account.UrlOnYoutube,
+            urlOnVk = account.UrlOnVk,
+            urlOnTelegram = account.UrlOnTelegram,
+            
+        });
+    }
 }

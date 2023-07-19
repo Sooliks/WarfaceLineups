@@ -137,7 +137,7 @@ const Profile = observer(() => {
                         defaultOpenKeys={['sub1']}
                     />
                 }
-                <Space direction="horizontal" size="large" style={{margin:12}}>
+                <Space direction="horizontal" size="large" style={{marginTop:12}}>
                     {current === 'info' && user.isAuth && <Info/>}
                     {current === 'videos' && user.isAuth && <Videos/>}
                     {current === 'favorites' && user.isAuth && <Favorites/>}

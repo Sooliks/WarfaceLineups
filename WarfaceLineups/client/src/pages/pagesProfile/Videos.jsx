@@ -32,7 +32,7 @@ const Videos = () => {
         <Space direction={"vertical"}>
             <Filter onChangeFilter={handlerChangeFilter} direction={"horizontal"} isVisibleSearch={false} widthFilter={270}/>
             {loading ? <Spin size="large" style={{marginTop: 30}}/> :
-                <Space direction="horizontal" style={{display: 'flex', marginLeft: 12}} size={[2, 4]} wrap>
+                <Space direction="horizontal" style={{display: 'flex', marginLeft: 0}} size={[2, 4]} wrap>
                     {videos.length !== 0 ? videos.map(videos =>
                         <VideoPreview video={videos} key={videos.id} type={"uservideo"}/>
                     ) : <h3>Вы еще не загрузили видео</h3>}

@@ -58,7 +58,7 @@ const Filter = ({onChangeFilter, direction, widthFilter =270, isVisibleSearch=tr
         setFilter(newFilter)
     }
     return (
-        <Space direction={direction} size="large" align={"start"} style={{ display: 'flex', margin: 12 }}>
+        <Space direction={direction} size="large" align={"start"} style={{ display: 'flex' }}>
             <Card title="Фильтр">
                 <Space direction={direction} style={{width: direction==="horizontal" ? "auto" : widthFilter}}>
                     <Select
