@@ -55,9 +55,12 @@ export default class UserAPI {
         const {data} = await $client.post('/recoverypassword/recovery',{jwt,login,newpassword});
         return data;
     }
-
     static getDataProfileForSettings = async(ownerid) =>{
         const {data} = await $client.post('/dataprofileforsettings',{ownerid});
+        return data;
+    }
+    static getDataProfile = async(ownerid, filter, page) =>{
+        const {data} = await $client.post('/dataprofile',{ownerid, filter, page});
         return data;
     }
 

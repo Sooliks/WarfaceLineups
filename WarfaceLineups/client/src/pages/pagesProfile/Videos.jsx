@@ -30,7 +30,7 @@ const Videos = () => {
     }
     return (
         <Space direction={"vertical"}>
-            <Filter onChangeFilter={handlerChangeFilter} direction={"horizontal"} widthFilter={{display:'flex', justifyContent: 'space-around'}} isVisibleSearch={false}/>
+            <Filter onChangeFilter={handlerChangeFilter} direction={"horizontal"} isVisibleSearch={false} widthFilter={270}/>
             {loading ? <Spin size="large" style={{marginTop: 30}}/> :
                 <Space direction="horizontal" style={{display: 'flex', marginLeft: 12}} size={[2, 4]} wrap>
                     {videos.length !== 0 ? videos.map(videos =>

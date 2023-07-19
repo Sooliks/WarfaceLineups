@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Card, Select, Space} from "antd";
 import Search from "antd/es/input/Search";
 
-const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) => {
+const Filter = ({onChangeFilter, direction, widthFilter =270, isVisibleSearch=true}) => {
     const[filter,setFilter] = useState({
         typeSide:10,
         typeGameMap:10,
@@ -60,10 +60,10 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
     return (
         <Space direction={direction} size="large" align={"start"} style={{ display: 'flex', margin: 12 }}>
             <Card title="Фильтр">
-                <Space direction={direction} style={widthFilter}>
+                <Space direction={direction} style={{width: direction==="horizontal" ? "auto" : widthFilter}}>
                     <Select
                         value={filter.typeGameMap}
-                        style={{width: 270}}
+                        style={{width: direction!=="horizontal" ? "100%" : 270}}
                         placeholder="Выберите карту"
                         size={"large"}
                         className={"filterMap"}
@@ -85,7 +85,7 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
                     />
                     <Select
                         value={filter.typeFeature}
-                        style={{width: 270}}
+                        style={{width: direction!=="horizontal" ? "100%" : 270}}
                         placeholder="Выберите тип гранаты"
                         fullWidth
                         size={"large"}
@@ -101,7 +101,7 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
                     />
                     <Select
                         value={filter.typeSide}
-                        style={{width: 270}}
+                        style={{width: direction!=="horizontal" ? "100%" : 270}}
                         placeholder="Выберите тип стороны"
                         fullWidth
                         size={"large"}
@@ -115,7 +115,7 @@ const Filter = ({onChangeFilter, direction, widthFilter, isVisibleSearch=true}) 
                     />
                     <Select
                         value={filter.typePlant}
-                        style={{width: 270}}
+                        style={{width: direction!=="horizontal" ? "100%" : 270}}
                         placeholder="Выберите плент"
                         fullWidth
                         size={"large"}

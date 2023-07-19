@@ -22,7 +22,7 @@ const Favorites = () => {
     return (
         <div>
             <Affix offsetTop={10}>
-                <Filter onChangeFilter={handlerChangeFilter} isVisibleSearch={false}/>
+                <Filter onChangeFilter={handlerChangeFilter} isVisibleSearch={false} direction={"horizontal"}/>
             </Affix>
             <Space style={{overflowY:'auto'}}>
                 <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
