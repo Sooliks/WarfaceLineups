@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Image, Modal, Pagination, Space} from "antd";
+import {Card, Modal, Space} from "antd";
 import Filter from "./Filter";
 import UserAPI from "../http/api/UserAPI";
-import classes from "../pages/styles/Profile.module.css";
 import VideoPreview from "./VideoPreview";
+import SettingsAPI from "../http/api/SettingsAPI";
+
 
 const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalCountVideos,setTotalCountVideos] = useState(8);
     const [dataProfile,setDataProfile] = useState({
         lineups: [],
         mainLineup: {},
@@ -24,11 +24,23 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
     })
     useEffect(()=>{
         UserAPI.getDataProfile(ownerId,filter,currentPage).then(data=>{
+            setDataProfile({...dataProfile,
+                lineups: [...dataProfile.lineups,...data.lineups],
+                mainLineup: data.mainLineup,
+                urlOnYoutube: data.urlOnYoutube,
+                urlOnVk: data.urlOnVk,
+                urlOnTelegram: data.urlOnTelegram,
+            })
+        })
+    },[currentPage])
+    useEffect(()=>{
+        UserAPI.getDataProfile(ownerId,filter,1).then(data=>{
             setDataProfile(data);
         })
-    },[currentPage,filter])
+    },[filter])
 
     const handlerChangeFilter = (newFilter) =>{
+        setDataProfile({...dataProfile, })
         setFilter(newFilter);
     }
 
@@ -46,21 +58,21 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
             >
                 <Space direction={"horizontal"} style={{display:'flex', alignItems: 'flex-start'}}>
                     <Space direction={"vertical"} style={{display:'flex', alignItems: 'flex-start', justifyContent:'flex-start', margin:12}}>
-                        <Card title={"Ссылки"} style={{width:463.4}}>
+                        <Card title={"Ссылки"} style={{width:392}}>
 
                         </Card>
                         {dataProfile.mainLineup !== null &&
-                            <Card style={{margin: 12}}>
-                                <VideoPreview video={dataProfile.mainLineup} type={"uservideo"}/>
-                            </Card>
+                            <VideoPreview video={dataProfile.mainLineup} type={"uservideo"}/>
                         }
                     </Space>
-                    <Card style={{marginTop:12, height: 800, width:1250}}>
-                        <Space style={{display:'flex', alignItems: 'flex-start', justifyContent:'flex-start'}}>
+                    <Card style={{marginTop:12, height: 850, width:1350}}>
+                        <Space style={{display:'flex', alignItems: 'flex-start', justifyContent:'flex-start'}} direction={"vertical"}>
                             <Filter isVisibleSearch={false} onChangeFilter={handlerChangeFilter} direction={"horizontal"} widthFilter={50} dropFilterButtonIcon/>
-                        </Space>
-                        <Space className={classes.pagination}>
-                            {dataProfile.lineups.length!==0 && totalCountVideos > 8 && <Pagination onChange={page=>setCurrentPage(page)} pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} />}
+                            <Space size={[2, 3]} wrap style={{height:670,overflowY:'auto',width:'1320px', alignItems:'flex-start'}}>
+                                {dataProfile.lineups.map(lineup=>
+                                    <VideoPreview type={"uservideo"}  video={lineup}/>
+                                )}
+                            </Space>
                         </Space>
                     </Card>
                 </Space>
