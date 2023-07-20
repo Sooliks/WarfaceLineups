@@ -55,7 +55,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                     onClick={handleClickOnVideo}
                     onMouseOver={e=>handleOnMouseOver(e)}
                     onMouseOut={e=>handleOnMouseOut(e)}
-                    style={{height:202, width:360, border: '2px solid transparent', borderRadius:'6px'}}
+                    style={{height:198, width:345, border: '2px solid transparent', borderRadius:'6px'}}
                 />
                 <br/>
                 <Space direction={"horizontal"} style={{display:'flex', justifyContent:'space-between'}}>

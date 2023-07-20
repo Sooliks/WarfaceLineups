@@ -27,18 +27,18 @@ const Lineups = () => {
             setLoading(false);
         })
     },[currentPage,filter])
-    const handlerChangeFilter = (newFilter) =>{
-        setFilter(newFilter);
+    const handlerChangeFilter = (newFilter) => {
         setCurrentPage(1);
+        setFilter(newFilter);
     }
     return (
         <App>
             <Space direction="horizontal" size="large" align={"start"} style={{ display: 'flex'}}>
-                <Space style={{margin:12}}>
-                    <Filter onChangeFilter={handlerChangeFilter} direction={"vertical"} widthFilter={270}/>
+                <Space style={{marginTop:12, marginLeft: 12}}>
+                    <Filter onChangeFilter={handlerChangeFilter} direction={"vertical"} widthFilter={200}/>
                 </Space>
                 {loading ? <Spin size="large" style={{marginTop:30}}/> :
-                    <Space direction="horizontal" style={{display: 'flex', margin: 12}} size={[2, 4]} wrap>
+                    <Space direction="horizontal" style={{display: 'flex', marginTop: 12}} size={[2, 4]} wrap>
                         {videos.length !== 0 ? videos.map(videos =>
                                 <VideoPreview video={videos} key={videos.id} type={"default"}/>
                             )

@@ -137,9 +137,9 @@ const Filter = ({onChangeFilter, direction, dropFilterButtonIcon = false, widthF
             </Card>
             {isVisibleSearch &&
                 <Card title="Найти">
-                    <Space direction="vertical" style={{width: 270}}>
+                    <Space direction="vertical" style={{width:widthFilter}}>
                         <Search placeholder="Поиск по названию" allowClear onSearch={handlerChangeFilterSearch}
-                                style={{width: '100%'}}/>
+                                style={{width: direction!=="horizontal" ? "100%" : 270}}/>
                     </Space>
                 </Card>
             }
