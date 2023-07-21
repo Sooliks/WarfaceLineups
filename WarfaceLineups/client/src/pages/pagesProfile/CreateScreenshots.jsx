@@ -139,10 +139,10 @@ const CreateScreenshots = () => {
                                 },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
-                                        if (!value || getFieldValue('name').length <= 40) {
+                                        if (!value || getFieldValue('name').length <= 36) {
                                             return Promise.resolve();
                                         }
-                                        return Promise.reject(new Error('Название должно быть не более 40 символов'));
+                                        return Promise.reject(new Error('Название должно быть не более 36 символов'));
                                     },
                                 }),
                             ]}

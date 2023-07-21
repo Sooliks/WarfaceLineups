@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Card, Modal, Space, Spin} from "antd";
+import {Card, Divider, Modal, Space, Spin, Typography} from "antd";
 import Filter from "./Filter";
 import UserAPI from "../http/api/UserAPI";
 import VideoPreview from "./VideoPreview";
 import SettingsAPI from "../http/api/SettingsAPI";
 import {entries} from "mobx";
 import VideosAPI from "../http/api/VideosAPI";
-
+const { Link, Text } = Typography;
 
 const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -32,14 +32,14 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
         if(loading)return;
         if(observer.current) observer.current.disconnect();
         const callback = function(entries,observer){
-            if(entries[0].isIntersecting && currentPage < (dataProfile.totalCountLineups/8)){
-                setCurrentPage((prev)=>prev+1);
+            if(entries[0].isIntersecting){
+                setCurrentPage((page)=>page+1);
             }
         }
         observer.current = new IntersectionObserver(callback);
         observer.current.observe(lastElement.current);
     },[loading])
-    //TODO доделать
+
     useEffect(()=>{
         UserAPI.getDataProfile(ownerId,filter,currentPage).then(data=>{
             setDataProfile({...dataProfile,
@@ -52,16 +52,11 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
             })
             setLoading(false)
         })
-    },[currentPage])
-    useEffect(()=>{
-        UserAPI.getDataProfile(ownerId,filter,1).then(data=>{
-            setDataProfile(data);
-            setLoading(false)
-        })
-    },[filter])
-
+    },[currentPage,filter])
     const handlerChangeFilter = (newFilter) =>{
-        setDataProfile({...dataProfile, })
+        setDataProfile({...dataProfile,
+            lineups: []
+        })
         setFilter(newFilter);
     }
 
@@ -86,7 +81,26 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
                             margin: 12
                         }}>
                             <Card title={"Ссылки"} style={{width: 392}}>
-
+                                <Space direction={"vertical"} split={<Divider type="horizontal" />}>
+                                {dataProfile.urlOnYoutube !== "" &&
+                                    <Space>
+                                        <p>Youtube</p>
+                                        <Link href={dataProfile.urlOnYoutube} target="_blank">{dataProfile.urlOnYoutube}</Link>
+                                    </Space>
+                                }
+                                {dataProfile.urlOnVk !== "" &&
+                                    <Space>
+                                        <p>ВКонтакте</p>
+                                        <Link href={dataProfile.urlOnVk} target="_blank">{dataProfile.urlOnVk}</Link>
+                                    </Space>
+                                }
+                                {dataProfile.urlOnTelegram !== "" &&
+                                    <Space>
+                                        <p>Telegram</p>
+                                        <Link href={dataProfile.urlOnTelegram} target="_blank">{dataProfile.urlOnTelegram}</Link>
+                                    </Space>
+                                }
+                                </Space>
                             </Card>
                             {dataProfile.mainLineup !== null &&
                                 <VideoPreview video={dataProfile.mainLineup} type={"uservideo"}/>
@@ -106,7 +120,7 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
                                     {dataProfile.lineups.map(lineup =>
                                         <VideoPreview type={"uservideo"} video={lineup}/>
                                     )}
-                                    <div ref={lastElement}></div>
+                                    <div ref={lastElement} style={{width:40,height:40, backgroundColor:'red', border:'solid 2px red'}}></div>
                                 </Space>
                             </Space>
                         </Card>

@@ -107,13 +107,13 @@ const EllipsisModal = ({onHide}) => {
                             <Row style={{display:'flex', alignItems: 'flex-start'}}>
                                 <h3>
                                     {'Youtube:'} {dataProfile.urlOnYoutube!=="" && <Link href={dataProfile.urlOnYoutube} target="_blank">{dataProfile.urlOnYoutube}</Link>}
-                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('Youtube')}>{dataProfile.urlOnTelegram!=="" ? 'Изменить' : 'Добавить'}</Button>
+                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('Youtube')}>{dataProfile.urlOnYoutube!=="" ? 'Изменить' : 'Добавить'}</Button>
                                 </h3>
                             </Row>
                             <Row style={{display:'flex', alignItems: 'flex-start'}}>
                                 <h3>
                                     {'Вконтакте:'} {dataProfile.urlOnVk!=="" && <Link href={dataProfile.urlOnVk} target="_blank">{dataProfile.urlOnVk}</Link>}
-                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('ВКонтакте')}>{dataProfile.urlOnTelegram!=="" ? 'Изменить' : 'Добавить'}</Button>
+                                    <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('ВКонтакте')}>{dataProfile.urlOnVk!=="" ? 'Изменить' : 'Добавить'}</Button>
                                 </h3>
                             </Row>
                             <Row style={{display:'flex', alignItems: 'flex-start'}}>
@@ -124,7 +124,7 @@ const EllipsisModal = ({onHide}) => {
                             </Row>
                         </Space>
                     </Card>
-                    <Card title={"Главный lineup"} style={{width:459}}>
+                    <Card title={"Главный lineup"} style={{width:442}}>
                         {loading ? <Spin size="large"/> :
                             <Space direction={"vertical"} style={{width:"100%"}}>
                                 <Select

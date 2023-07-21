@@ -15,6 +15,7 @@ public class Context : DbContext
     public DbSet<Avatar> Avatar { get; set; }
     public DbSet<Notifications> Notifications { get; set; }
     public DbSet<Screenshots> Screenshots { get; set; }
+    public DbSet<Reports> Reports { get; set; }
 
     public Context()
     {
@@ -44,5 +45,6 @@ public class Context : DbContext
         modelBuilder.ApplyConfiguration(new AvatarConfig());
         modelBuilder.ApplyConfiguration(new NotificationsConfig());
         modelBuilder.ApplyConfiguration(new ScreenshotsConfig());
+        modelBuilder.ApplyConfiguration(new ReportsConfig());
     }
 }
