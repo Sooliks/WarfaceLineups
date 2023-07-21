@@ -83,7 +83,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                     </Modal>
                 }
                 {isVisibleProfile &&
-                    <ModalOtherProfile loginAccount={video.ownerLogin} ownerId={video.ownerId} onClose={()=>setIsVisibleProfile(false)}/>
+                    <ModalOtherProfile ownerId={video.ownerId} onClose={()=>setIsVisibleProfile(false)}/>
                 }
             </Card>
         </Space>

@@ -8,7 +8,7 @@ import {entries} from "mobx";
 import VideosAPI from "../http/api/VideosAPI";
 const { Link, Text } = Typography;
 
-const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
+const ModalOtherProfile = ({ownerId,onClose}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const[loading,setLoading] = useState(true);
     const lastElement = useRef();
@@ -19,7 +19,8 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
         urlOnYoutube: "",
         urlOnVk: "",
         urlOnTelegram: "",
-        totalCountLineups: 0
+        totalCountLineups: 0,
+        login: ""
     });
     const[filter,setFilter] = useState({
         typeSide:10,
@@ -49,6 +50,7 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
                 urlOnVk: data.urlOnVk,
                 urlOnTelegram: data.urlOnTelegram,
                 totalCountLineups: data.totalCountLineups,
+                login: data.login,
             })
             setLoading(false)
         })
@@ -63,7 +65,7 @@ const ModalOtherProfile = ({ownerId,loginAccount,onClose}) => {
     return (
         <div>
             <Modal
-                title={"    Профиль пользователя: "+loginAccount}
+                title={"    Профиль пользователя: "+dataProfile.login}
                 centered
                 open
                 onCancel={onClose}

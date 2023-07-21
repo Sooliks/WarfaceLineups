@@ -15,7 +15,7 @@ public class HandlerReports
         var r = db.Reports.FirstOrDefault(r => r.LineupId == lineupId && r.SenderId == sender.Id);
         if (r != null) return false;
         
-        var report = new Reports(sender.Id,lineupId, typeReport);
+        var report = new Reports(sender.Id, sender.Login,lineupId, typeReport);
         db.Reports.Add(report);
         db.SaveChanges();
         return true;

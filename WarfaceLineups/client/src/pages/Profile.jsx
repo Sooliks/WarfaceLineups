@@ -23,6 +23,7 @@ import {cookies} from "../data/cookies";
 import AddNews from "./pagesProfile/AdminPanel/AddNews";
 import Notifications from "./pagesProfile/Notifications";
 import CreateScreenshots from "./pagesProfile/CreateScreenshots";
+import Reports from "./pagesProfile/AdminPanel/Reports";
 
 
 
@@ -107,6 +108,7 @@ const Profile = observer(() => {
                     getItem('Не верифицированные lineups', 'unverifiedvideos', null),
                     getItem('Panel', 'panel', null),
                     getItem('Добавить новость', 'addnews', null),
+                    getItem('Reports', 'reports', null),
                 ]),
             ])
         }
@@ -148,6 +150,7 @@ const Profile = observer(() => {
                     {current === 'panel' && user.user.role === 'admin' && user.isAuth && <Panel/>}
                     {current === 'addnews' && user.user.role === 'admin' && user.isAuth && <AddNews/>}
                     {current === 'addnewscreenshots' && user.isAuth && <CreateScreenshots/>}
+                    {current === 'reports' && user.user.role === 'admin' && user.isAuth && <Reports/>}
                 </Space>
             </Space>
         </App>

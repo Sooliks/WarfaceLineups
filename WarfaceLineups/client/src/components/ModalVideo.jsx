@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Form, Modal, Select, Space, Typography} from "antd";
 import YouTube from 'react-youtube';
 import ReportsAPI from "../http/api/ReportsAPI";
+import {Context} from "../index";
 const { Text } = Typography;
 
 const ModalVideo = ({video, onClose}) => {
+    const {user} = useContext(Context);
     const[videoId,setVideoId] = useState();
 
     const [text,setText] = useState({
@@ -98,42 +100,44 @@ const ModalVideo = ({video, onClose}) => {
                                 <p>Сторона: {video.typeSide ? "Защита" : "Атака"}</p>
                                 <p>Плент: {video.typePlant}</p>
                             </Card>
-                            <Card title={"Пожаловаться"} style={{width:255}}>
-                                {text.text === '' ?
-                                    <Form
-                                        layout={"vertical"}
-                                        name="basic"
-                                        onFinish={handleClickReport}
-                                        autoComplete="off"
-                                    >
-                                        <Form.Item
-                                            label=""
-                                            name="reportSelect"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Пожалуйста выберите нарушение',
-                                                },
-                                            ]}
+                            {user.isAuth &&
+                                <Card title={"Пожаловаться"} style={{width: 255}}>
+                                    {text.text === '' ?
+                                        <Form
+                                            layout={"vertical"}
+                                            name="basic"
+                                            onFinish={handleClickReport}
+                                            autoComplete="off"
                                         >
-                                            <Select
-                                                placeholder={"Выберите нарушение"}
-                                                style={{ width: '100%' }}
-                                                options={[
-                                                    { value: 'tags', label: 'Теги не соответвуют' },
-                                                    { value: 'dontWork', label: 'Lineup не работает' },
-                                                    { value: 'other', label: 'Другое' },
+                                            <Form.Item
+                                                label=""
+                                                name="reportSelect"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Пожалуйста выберите нарушение',
+                                                    },
                                                 ]}
-                                            />
-                                        </Form.Item>
-                                        <Form.Item>
-                                            <Button htmlType="submit" style={{width:'100%'}}>Отправить</Button>
-                                        </Form.Item>
-                                    </Form>
-                                    :
-                                    <Text type={text.type}>{text.text}</Text>
-                                }
-                            </Card>
+                                            >
+                                                <Select
+                                                    placeholder={"Выберите нарушение"}
+                                                    style={{width: '100%'}}
+                                                    options={[
+                                                        {value: 'tags', label: 'Теги не соответвуют'},
+                                                        {value: 'dontWork', label: 'Lineup не работает'},
+                                                        {value: 'other', label: 'Другое'},
+                                                    ]}
+                                                />
+                                            </Form.Item>
+                                            <Form.Item>
+                                                <Button htmlType="submit" style={{width: '100%'}}>Отправить</Button>
+                                            </Form.Item>
+                                        </Form>
+                                        :
+                                        <Text type={text.type}>{text.text}</Text>
+                                    }
+                                </Card>
+                            }
                         </Space>
                         <Card title={"Описание"} style={{width:'100%'}}>
                             <h4>{video.description}</h4>

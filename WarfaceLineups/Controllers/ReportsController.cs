@@ -52,8 +52,10 @@ public class ReportsController : Controller
                 await Response.WriteAsJsonAsync("error");
                 return;
             }
+            await Response.WriteAsJsonAsync(HandlerReports.GetExpectedReportsList());
+            return;
         }
-        await Response.WriteAsJsonAsync(HandlerReports.GetExpectedReportsList());
+        await Response.WriteAsJsonAsync("error");
     }
 
     [HttpPost("api/setcompletereport")]
