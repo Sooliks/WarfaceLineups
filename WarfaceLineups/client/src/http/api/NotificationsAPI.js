@@ -5,15 +5,27 @@ import {$clientAuth} from "../index";
 
 export default class NotificationsAPI {
     static getNotifications = async () => {
-        const {data} = await $clientAuth.post('/getnotifications');
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/getnotifications');
+            return data;
+        }catch (e) {
+
+        }
     }
     static deleteNotifications = async (id) => {
-        const {data} = await $clientAuth.post('/deletenotify',{id});
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/deletenotify', {id});
+            return data;
+        }catch (e) {
+
+        }
     }
     static getCountNotificationsOfAccount = async () =>{
-        const {data} = await $clientAuth.post('/getcountnotifications');
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/getcountnotifications');
+            return data;
+        }catch (e) {
+
+        }
     }
 }

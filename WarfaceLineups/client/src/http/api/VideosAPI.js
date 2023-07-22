@@ -4,43 +4,83 @@ import {$client, $clientAuth} from "../index";
 
 export default class VideosAPI {
     static getVideos = async (page, filter) => {
-        const {data} = await $client.post('/videos', {page,filter});
-        return data;
+        try {
+            const {data} = await $client.post('/videos', {page, filter});
+            return data;
+        }catch (e) {
+
+        }
     }
     static getVideosById = async (page, filter) =>{
-        const {data} = await $clientAuth.post('/getvideosbyownerid', {page,filter});
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/getvideosbyownerid', {page, filter});
+            return data;
+        }catch (e) {
+
+        }
     }
     static uploadVideo = async (values) => {
-        const {data} = await $clientAuth.post('/uploadvideo', {values});
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/uploadvideo', {values});
+            return data;
+        }catch (e) {
+
+        }
     }
     static uploadLineupWithScreenshots = async (values) =>{
-        const {data} = await $clientAuth.post('/uploadlineupwithscreenshots', values);
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/uploadlineupwithscreenshots', values);
+            return data;
+        }catch (e) {
+
+        }
     }
     static getUnVerifiedVideos = async () => {
-        const {data} = await $clientAuth.get('/getvideosunverified');
-        return data;
+        try {
+            const {data} = await $clientAuth.get('/getvideosunverified');
+            return data;
+        }catch (e) {
+
+        }
     }
     static getCountVideos = async (filter) => {
-        const {data} = await $client.post('/getcountvideos',{filter});
-        return data;
+        try {
+            const {data} = await $client.post('/getcountvideos', {filter});
+            return data;
+        }catch (e) {
+
+        }
     }
     static getCountVideosByOwnerId = async (filter) => {
-        const {data} = await $clientAuth.post('/getcountvideosbyownerid',{filter});
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/getcountvideosbyownerid', {filter});
+            return data;
+        }catch (e) {
+
+        }
     }
     static deleteVideo = async  (id) => {
-        const {data} = await $clientAuth.post('/deletevideo',{id});
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/deletevideo', {id});
+            return data;
+        }catch (e) {
+
+        }
     }
     static publishVideo = async  (id) => {
-        const {data} = await $clientAuth.post('/publishvideo',{id});
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/publishvideo', {id});
+            return data;
+        }catch (e) {
+
+        }
     }
     static getLineupById = async (id) => {
-        const {data} = await $client.get(`/getlineupbyid/${id}`);
-        return data;
+        try {
+            const {data} = await $client.get(`/getlineupbyid/${id}`);
+            return data;
+        }catch (e) {
+
+        }
     }
 }

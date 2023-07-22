@@ -5,11 +5,19 @@ import {$client, $clientAuth} from "../index";
 
 export default class NewsAPI {
     static publishNews = async (news) => {
-        const {data} = await $clientAuth.post('/publishnews', {news});
-        return data;
+        try {
+            const {data} = await $clientAuth.post('/publishnews', {news});
+            return data;
+        }catch (e){
+
+        }
     }
     static getNews = async (filter) => {
-        const {data} = await $client.get(`/news/${filter}`);
-        return data;
+        try {
+            const {data} = await $client.get(`/news/${filter}`);
+            return data;
+        }catch (e) {
+
+        }
     }
 }

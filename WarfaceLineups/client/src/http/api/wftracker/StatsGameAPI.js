@@ -4,13 +4,17 @@ import async from "async";
 
 export default class StatsGameAPI {
     static getOnlineServer = async (region) => {
-        if(region==="ru"){
-            const {data} = await $wfapi.get(`https://warface-statistics.firebaseio.com//summary/ru-alpha.json`);
-            return data;
-        }
-        if(region==="eu"){
-            const {data} = await $wfapi.get(`https://warface-statistics.firebaseio.com//summary/eu.json`);
-            return data;
+        try {
+            if (region === "ru") {
+                const {data} = await $wfapi.get(`https://warface-statistics.firebaseio.com//summary/ru-alpha.json`);
+                return data;
+            }
+            if (region === "eu") {
+                const {data} = await $wfapi.get(`https://warface-statistics.firebaseio.com//summary/eu.json`);
+                return data;
+            }
+        }catch (e) {
+
         }
     }
     static getTop10ClansRu = async () =>{
