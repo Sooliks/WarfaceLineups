@@ -7,7 +7,7 @@ public class HandlerComments
     public static void AddNewComment(Accounts owner, int lineupId, string text)
     {
         using Context db = new Context();
-        var comment = new Comments(owner.Id, lineupId, owner.Login, text);
+        var comment = new Comments(owner.Id, lineupId,HandlerVideos.GetAccountByVideoId(lineupId).Id, owner.Login, text);
         db.Comments.Add(comment);
         db.SaveChangesAsync();
     }

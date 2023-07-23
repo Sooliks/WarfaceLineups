@@ -23,11 +23,15 @@ const Comments = ({comments = new Array()}) => {
                         itemLayout="horizontal"
                         dataSource={comments}
                         renderItem={(comment) => (
-                            <List.Item actions={[user.user.id === comment.ownerId && <Link onClick={()=>setIsVisibleEditing(true)}>Редактировать</Link>, user.user.role === 'admin' && <Link onClick={()=>handleClickDeleteCommentAdmin(comment.id)}>Удалить</Link>]}>
+                            <List.Item actions={[
+                                user.user.id === comment.ownerId && <Link onClick={()=>setIsVisibleEditing(true)}>Редактировать</Link>,
+                                user.user.role === 'admin' && <Link onClick={()=>handleClickDeleteCommentAdmin(comment.id)}>Удалить как админ</Link>,
+                                user.user.id === comment.ownerIdLineup && <Link onClick={()=>handleClickDeleteCommentAdmin(comment.id)}>Удалить</Link>
+                            ]}>
                                 <List.Item.Meta
                                     avatar={<Avatar src={`/api/avatar/${comment.ownerId}`}/>}
                                     title={<a href="https://ant.design">{comment.ownerLogin}</a>}
-                                    description={comment.description}
+                                    description={comment.text}
                                 />
                             </List.Item>
                         )}
