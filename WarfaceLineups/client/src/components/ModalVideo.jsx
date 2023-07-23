@@ -3,11 +3,14 @@ import {Button, Card, Form, Modal, Select, Space, Typography} from "antd";
 import YouTube from 'react-youtube';
 import ReportsAPI from "../http/api/ReportsAPI";
 import {Context} from "../index";
+import Comments from "./ui/Comments";
+import CommentsAPI from "../http/api/CommentsAPI";
 const { Text } = Typography;
 
 const ModalVideo = ({video, onClose}) => {
     const {user} = useContext(Context);
     const[videoId,setVideoId] = useState();
+    const[comments,setComments] = useState([]);
 
     const [text,setText] = useState({
         type: '',
@@ -15,6 +18,7 @@ const ModalVideo = ({video, onClose}) => {
     });
     useEffect(()=>{
         setVideoId(video.urlOnVideo?.slice(video.urlOnVideo.lastIndexOf('=') + 1))
+        CommentsAPI.getComments(video.id).then(data=>setComments(data));
     },[])
     const getNameTypeGameMapById = (id) =>{
         switch (id){
@@ -89,7 +93,7 @@ const ModalVideo = ({video, onClose}) => {
                     <Space direction={"vertical"}>
                         <YouTube videoId={videoId}/>
                         <Card style={{width:'100%', height:400}} title={"Комментарии"}>
-
+                            <Comments comments={comments}/>
                         </Card>
                     </Space>
                     <Space direction={"vertical"} style={{width:600}}>

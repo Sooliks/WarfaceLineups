@@ -399,7 +399,6 @@ public class AccountsController : Controller
     [HttpPost("api/dataprofile")]
     public async Task GetDataProfile()
     {
-        Console.WriteLine("запрос");
         const int countVideosOnOnePage = 8;
         string body = "";
         using (StreamReader stream = new StreamReader(Request.Body))

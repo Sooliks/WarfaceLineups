@@ -1,5 +1,5 @@
 import {$wfapi} from './index.js'
-import async from "async";
+
 
 
 export default class StatsGameAPI {

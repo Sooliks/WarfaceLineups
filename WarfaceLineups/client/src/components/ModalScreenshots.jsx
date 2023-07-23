@@ -1,8 +1,15 @@
-import React from 'react';
-import {Card, Image, Modal, Space} from "antd";
-
+import React, {useContext, useState} from 'react';
+import {Button, Card, Form, Image, Modal, Select, Space, Typography} from "antd";
+import {Context} from "../index";
+import ReportsAPI from "../http/api/ReportsAPI";
+const { Text } = Typography;
 
 const ModalScreenshots = ({video, onClose}) => {
+    const {user} = useContext(Context);
+    const [text,setText] = useState({
+        type: '',
+        text: ''
+    });
     const getNameTypeGameMapById = (id) =>{
         switch (id){
             case 2:
@@ -33,6 +40,32 @@ const ModalScreenshots = ({video, onClose}) => {
                 return"Осколочная граната"
         }
     }
+    const handleClickReport = (values) => {
+        ReportsAPI.addReport(video.id,values.reportSelect).then(data=>{
+            if(data.message === "success"){
+                setText({...text,
+                    text:"Успешно отравлено",
+                    type: 'success'
+                })
+                return
+            }
+            if(data.message === "exists"){
+                setText({...text,
+                    text:"Вы уже отправляли репорт на этот лайнап",
+                    type: 'danger'
+                })
+                return
+            }
+            if(data.message === "error"){
+                setText({...text,
+                    text:"Неизвестная ошибка",
+                    type: 'danger'
+                })
+                return
+            }
+        })
+    }
+
     return (
         <div>
             <Modal
@@ -46,7 +79,7 @@ const ModalScreenshots = ({video, onClose}) => {
                 ]}
             >
                 <Space direction={"vertical"} style={{display:'flex', alignItems: 'flex-start'}}>
-                    <Space direction={"horizontal"} style={{width:1242,display:'flex', alignItems: 'flex-start', justifyContent:'space-around'}}>
+                    <Space direction={"horizontal"} style={{width:1242,display:'flex', alignItems: 'flex-start', justifyContent:'space-between'}}>
                         <Card style={{height:250}}>
                             <Image width={200} src={`/api/getlineupscreenshots/${video.screenShotsId}/0`}/>
                         </Card>
@@ -57,16 +90,61 @@ const ModalScreenshots = ({video, onClose}) => {
                             <Image width={200} src={`/api/getlineupscreenshots/${video.screenShotsId}/2`}/>
                         </Card>
                     </Space>
-                    <Card title={"Описание"} style={{width:1242}}>
-                        <h4>{video.description}</h4>
-                    </Card>
-                    <Space direction={"vertical"}>
-                        <Card title={"Теги"} style={{width:1242}}>
-                            <p>Карта: {getNameTypeGameMapById(video.typeGameMap)}</p>
-                            <p>Граната: {getTypeFeatureById(video.typeFeature)}</p>
-                            <p>Сторона: {video.typeSide ? "Защита" : "Атака"}</p>
-                            <p>Плент: {video.typePlant}</p>
-                        </Card>
+                    <Space style={{width:1242, alignItems:'flex-start', justifyContent:'space-between'}}>
+                        <Space direction={"vertical"}>
+                            <Card title={"Описание"} style={{width:640}}>
+                                <h4>{video.description}</h4>
+                            </Card>
+                            <Card style={{width:'100%', height:400}} title={"Комментарии"}>
+
+                            </Card>
+                        </Space>
+                        <Space direction={"horizontal"} style={{width:'100%',alignItems:'flex-start', justifyContent:'space-between'}}>
+                            <Card title={"Теги"} style={{width:330}}>
+                                <p>Карта: {getNameTypeGameMapById(video.typeGameMap)}</p>
+                                <p>Граната: {getTypeFeatureById(video.typeFeature)}</p>
+                                <p>Сторона: {video.typeSide ? "Защита" : "Атака"}</p>
+                                <p>Плент: {video.typePlant}</p>
+                            </Card>
+                            {user.isAuth &&
+                                <Card title={"Пожаловаться"} style={{width: 255}}>
+                                    {text.text === '' ?
+                                        <Form
+                                            layout={"vertical"}
+                                            name="basic"
+                                            onFinish={handleClickReport}
+                                            autoComplete="off"
+                                        >
+                                            <Form.Item
+                                                label=""
+                                                name="reportSelect"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Пожалуйста выберите нарушение',
+                                                    },
+                                                ]}
+                                            >
+                                                <Select
+                                                    placeholder={"Выберите нарушение"}
+                                                    style={{width: '100%'}}
+                                                    options={[
+                                                        {value: 'tags', label: 'Теги не соответвуют'},
+                                                        {value: 'dontWork', label: 'Lineup не работает'},
+                                                        {value: 'other', label: 'Другое'},
+                                                    ]}
+                                                />
+                                            </Form.Item>
+                                            <Form.Item>
+                                                <Button htmlType="submit" style={{width: '100%'}}>Отправить</Button>
+                                            </Form.Item>
+                                        </Form>
+                                        :
+                                        <Text type={text.type}>{text.text}</Text>
+                                    }
+                                </Card>
+                            }
+                        </Space>
                     </Space>
                 </Space>
             </Modal>

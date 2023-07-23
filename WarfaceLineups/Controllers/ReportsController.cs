@@ -81,6 +81,8 @@ public class ReportsController : Controller
             }
             HandlerReports.SetReportAsVerified(reportId);
             await Response.WriteAsJsonAsync(new { message = "success" });
+            return;
         }
+        await Response.WriteAsJsonAsync(new { message = "error" });
     }
 }

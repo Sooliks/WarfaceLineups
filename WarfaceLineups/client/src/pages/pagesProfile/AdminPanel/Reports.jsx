@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, Card, Divider, Space, Typography} from "antd";
+import {Avatar, Button, Card, Divider, notification, Space, Typography} from "antd";
 import ReportsAPI from "../../../http/api/ReportsAPI";
 import ModalOtherProfile from "../../../components/ModalOtherProfile";
 import VideosAPI from "../../../http/api/VideosAPI";
 import ModalVideo from "../../../components/ModalVideo";
 import ModalScreenshots from "../../../components/ModalScreenshots";
 
-const { Text, Link } = Typography;
+const { Link } = Typography;
 
 const Reports = () => {
     const [isVisibleProfile,setIsVisibleProfile] = useState(false)
@@ -30,14 +30,30 @@ const Reports = () => {
             }
         });
     }
+    const handleClickCompleteReport = (reportId) =>{
+        ReportsAPI.setCompleteReport(reportId).then(data=>{
+            if(data.message === "success"){
+                setReports((prev)=> prev.filter(r=>r.id !== reportId))
+            }
+            else {
+                notification.error({
+                    message: "Уведомление",
+                    description: "Неизвестная ошибка"
+                })
+            }
+        })
+    }
 
 
     return (
-        <Card title={"Reports"} style={{width:900, height:700}}>
-            <Space direction={"vertical"} style={{overflowY:'auto'}}>
+        <Card title={"Reports"} style={{width:700, height:700}}>
+            <Space direction={"vertical"} style={{overflowY:'auto',width:"100%"}}>
                 {reports.length!==0 ? reports.map(report=>
-                    <Card key={report.id}>
+                    <Card key={report.id} style={{width:"100%", minWidth:650}}>
                         <Space split={<Divider type="vertical" />}>
+                            <Space>
+                                <p>#{report.id}</p>
+                            </Space>
                             <Space>
                                 <p>Отправил: </p>
                                 <Space>
@@ -52,6 +68,9 @@ const Reports = () => {
                             </Space>
                             <Space>
                                 <Link onClick={()=>handleClickCheckLineup(report.lineupId)}>Lineup</Link>
+                            </Space>
+                            <Space>
+                                <Button type={"primary"} onClick={()=>handleClickCompleteReport(report.id)}>Завершить</Button>
                             </Space>
                         </Space>
                         {isVisibleModalVideo && <ModalVideo video={lineup} onClose={()=>setIsVisibleModalVideo(false)}/>}
