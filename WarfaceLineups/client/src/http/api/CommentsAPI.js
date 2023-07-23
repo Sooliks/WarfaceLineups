@@ -29,6 +29,15 @@ export default class CommentsAPI {
 
         }
     }
+    static deleteCommentOwnerLineup = async (idComment) => {
+        try {
+            const {data} = await $clientAuth.post('/deletecomment/ownerlineup', {idComment});
+            return data;
+        }
+        catch (e) {
+
+        }
+    }
     static deleteCommentAdmin = async (idComment) => {
         try {
             const {data} = await $clientAuth.post('/deletecomment/admin', {idComment});

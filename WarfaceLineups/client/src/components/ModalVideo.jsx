@@ -93,7 +93,7 @@ const ModalVideo = ({video, onClose}) => {
                     <Space direction={"vertical"}>
                         <YouTube videoId={videoId}/>
                         <Card style={{width:'100%', height:400}} title={"Комментарии"}>
-                            <Comments comments={comments}/>
+                            <Comments comments={comments} lineupId={video.id}/>
                         </Card>
                     </Space>
                     <Space direction={"vertical"} style={{width:600}}>
