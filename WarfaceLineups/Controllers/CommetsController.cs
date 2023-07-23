@@ -56,6 +56,7 @@ public class CommetsController : Controller
                 return;
             }
             await Response.WriteAsJsonAsync(new { message = "error" });
+            return;
         }
         await Response.WriteAsJsonAsync(new { message = "error" });
     }
@@ -81,6 +82,33 @@ public class CommetsController : Controller
                 return;
             }
             await Response.WriteAsJsonAsync(new { message = "error" });
+            return;
+        }
+        await Response.WriteAsJsonAsync(new { message = "error" });
+    }
+    [HttpPost("api/deletecomment/ownerlineup")]
+    public async Task DeleteCommentOwnerLineup()
+    {
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        int idComment = (int)obj["idComment"];
+        if (AuthService.CheckIsValidToken(jwtToken, login))
+        {
+            var account = HandlerAccounts.GetAccountByLogin(login);
+            if (HandlerComments.IsCommentBelongToAccount(account,idComment))
+            {
+                HandlerComments.DeleteComment(idComment);
+                await Response.WriteAsJsonAsync(new { message = "success" });
+                return;
+            }
+            await Response.WriteAsJsonAsync(new { message = "error" });
+            return;
         }
         await Response.WriteAsJsonAsync(new { message = "error" });
     }

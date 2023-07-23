@@ -32,4 +32,15 @@ public class HandlerComments
         
         return false;
     }
+
+    public static bool IsCommentBelongToAccount(Accounts account, int commentId)
+    {
+        using Context db = new Context();
+        var comment = db.Comments.SingleOrDefault(c => c.Id == commentId);
+        if (comment.OwnerIdLineup == account.Id)
+        {
+            return true;
+        }
+        return false;
+    }
 }
