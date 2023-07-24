@@ -1,36 +1,53 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Avatar, Button, Card, Divider, Form, Input, List, Skeleton, Space, Typography} from "antd";
 import {Context} from "../../index";
 import CommentsAPI from "../../http/api/CommentsAPI";
 import ModalOtherProfile from "../ModalOtherProfile";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import CommentItem from "./CommentItem";
 
 const { Link } = Typography;
 
 
 
 
-const Comments = ({comments = new Array(), lineup}) => {
+const Comments = ({lineup}) => {
+    const [actions,setActions] = useState();
+    const[comments,setComments] = useState([]);
     const[isVisibleEditing,setIsVisibleEditing] = useState(false);
-    const [isVisibleProfile,setIsVisibleProfile] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [currentPage,setCurrentPage] = useState(1);
 
     const {user} = useContext(Context);
 
     const handleClickDeleteCommentAdmin = (id) => {
-        CommentsAPI.deleteCommentAdmin(id).then(data=>{
-
-        })
+        try {
+            CommentsAPI.deleteCommentAdmin(id).then(data => {
+                if (data.message === "success") {
+                    setComments((comments) => comments.filter(c => c.id !== id));
+                }
+            })
+        }catch (e){}
     }
     const handleClickDeleteCommentOwnerLineup = (id) =>{
-        CommentsAPI.deleteCommentOwnerLineup(id).then(data=>{
+        try {
+            CommentsAPI.deleteCommentOwnerLineup(id).then(data => {
+                if (data.message === "success") {
+                    setComments((comments) => comments.filter(c => c.id !== id));
+                }
+            })
+        }catch (e) {
 
-        })
+        }
     }
     const handleClickDeleteCommentOwnerComment = (id) =>{
-        CommentsAPI.deleteCommentUser(id).then(data=>{
-
-        })
+        try {
+            CommentsAPI.deleteCommentUser(id).then(data => {
+                if (data.message === "success") {
+                    setComments((comments) => comments.filter(c => c.id !== id));
+                }
+            })
+        }catch (e) {}
     }
     const handleClickSubmitComment = (values) =>{
         CommentsAPI.addComment(lineup.id,values.text).then(data=>{
@@ -42,10 +59,20 @@ const Comments = ({comments = new Array(), lineup}) => {
             return;
         }
         setLoading(true);
+        CommentsAPI.getComments(lineup.id,currentPage).then(data=>{
+            setComments([...comments,...data])
+            setCurrentPage((prev)=>prev+1)
+            setLoading(false);
+        }).catch(()=>{
+            setLoading(false);
+        });
     };
+    useEffect(()=>{
+        loadMoreData();
+    },[])
 
     return (
-        <Card style={{width:'100%', height:400}} title={"Комментарии"}>
+        <Card style={{width:'100%', height:410}} title={"Комментарии"}>
             <Space direction={"vertical"} style={{height:'100%',justifyContent:"space-between", width:'100%', alignItems:'flex-start'}}>
                 <Space style={{width:'100%'}}>
                     {comments.length > 0 ?
@@ -53,7 +80,7 @@ const Comments = ({comments = new Array(), lineup}) => {
                             id="scrollableDiv"
                             style={{
                                 height: 260,
-                                width:590,
+                                width:560,
                                 overflow: 'auto',
                                 padding: '0 16px',
                                 border: '1px solid rgba(140, 140, 140, 0.35)',
@@ -69,7 +96,8 @@ const Comments = ({comments = new Array(), lineup}) => {
                                         paragraph={{
                                             rows: 1,
                                         }}
-                                        active
+                                        active={true}
+                                        loading={loading}
                                     />
                                 }
                                 endMessage={<Divider plain>Больше нету 🤐</Divider>}
@@ -78,22 +106,15 @@ const Comments = ({comments = new Array(), lineup}) => {
                                 <List
                                     itemLayout="vertical"
                                     dataSource={comments}
-                                    renderItem={(comment) => (
-                                        <List.Item style={{width:'100%'}} actions={[
-                                            user.user.id === comment.ownerId && <Link onClick={()=>setIsVisibleEditing(true)}>Редактировать</Link>,
-                                            user.user.role === 'admin' && <Link onClick={()=>handleClickDeleteCommentAdmin(comment.id)}>Удалить как админ</Link>,
-                                            user.user.id === comment.ownerIdLineup ?
-                                                <Link onClick={()=>handleClickDeleteCommentOwnerLineup(comment.id)}>Удалить</Link>
-                                                :
-                                                user.user.id === comment.ownerId && <Link onClick={()=>handleClickDeleteCommentOwnerComment(comment.id)}>Удалить</Link>,
-                                        ]}>
-                                            <List.Item.Meta
-                                                avatar={<Avatar src={`/api/avatar/${comment.ownerId}`}/>}
-                                                title={<Link onClick={()=>setIsVisibleProfile(true)}>{comment.ownerLogin}</Link>}
-                                                description={comment.text}
-                                            />
-                                        </List.Item>
-                                    )}
+                                    renderItem={(comment) =>
+                                        <CommentItem
+                                            comment={comment}
+                                            onClickDeleteCommentAdmin={e=>handleClickDeleteCommentAdmin(e)}
+                                            onClickDeleteCommentOwnerComment={e=>handleClickDeleteCommentOwnerComment(e)}
+                                            onClickDeleteCommentOwnerLineup={e=>handleClickDeleteCommentOwnerLineup(e)}
+                                            onClickEditing={()=>setIsVisibleEditing(true)}
+                                        />
+                                    }
                                 />
                             </InfiniteScroll>
                         </div>
@@ -102,7 +123,7 @@ const Comments = ({comments = new Array(), lineup}) => {
                     }
                 </Space>
                 {user.isAuth ?
-                    <Space style={{width:'100%'}}>
+                    <Space style={{width:560}}>
                         <Form
                             layout={"inline"}
                             name="basic"
@@ -110,6 +131,7 @@ const Comments = ({comments = new Array(), lineup}) => {
                             autoComplete="off"
                         >
                             <Form.Item
+                                style={{width:420}}
                                 label=""
                                 name="text"
                                 rules={[
@@ -128,9 +150,6 @@ const Comments = ({comments = new Array(), lineup}) => {
                     </Space>
                     :
                     <h4>Оставлять комментарии могут только авторизованные пользователи</h4>
-                }
-                {isVisibleProfile &&
-                    <ModalOtherProfile ownerId={lineup.ownerId} onClose={()=>setIsVisibleProfile(false)}/>
                 }
             </Space>
         </Card>

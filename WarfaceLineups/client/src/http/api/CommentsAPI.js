@@ -12,9 +12,9 @@ export default class CommentsAPI {
 
         }
     }
-    static getComments = async (lineupId) => {
+    static getComments = async (lineupId,page) => {
         try {
-            const {data} = await $client.get(`/comments/${lineupId}`);
+            const {data} = await $client.get(`/comments/${lineupId}&&page=${page}`);
             return data;
         }catch (e) {
 

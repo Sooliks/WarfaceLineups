@@ -120,6 +120,15 @@ const Profile = observer(() => {
             setCurrent(null);
             cookies.set('jwt',null);
             cookies.set('login',null);
+            user.setUser({...user.user,
+                id: null,
+                login: 'Здесь логин',
+                email: "Здесь email",
+                role: 'member',
+                jwt: "",
+                isVerifiedAccount: false,
+                isPremiumAccount: false
+            })
             return
         }
         setCurrent(e.key);

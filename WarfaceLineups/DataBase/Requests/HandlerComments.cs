@@ -11,10 +11,12 @@ public class HandlerComments
         db.Comments.Add(comment);
         db.SaveChangesAsync();
     }
-    public static List<Comments> GetAllCommentsByLineupId(int lineupId)
+    public static List<Comments> GetAllCommentsByLineupIdAndPage(int lineupId, int page)
     {
         using Context db = new Context();
-        return db.Comments.Where(c=>c.LineupId == lineupId).ToList();
+        const int countCommentsOnOnePage = 8;
+        int minId = (page * countCommentsOnOnePage) - countCommentsOnOnePage;
+        return db.Comments.OrderByDescending(c=>c.Id).Where(c=>c.LineupId == lineupId).Skip(minId).Take(countCommentsOnOnePage).ToList();
     }
     public static void DeleteComment(int idComment)
     {

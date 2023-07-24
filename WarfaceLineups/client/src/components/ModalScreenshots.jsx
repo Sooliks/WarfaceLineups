@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import {Button, Card, Form, Image, Modal, Select, Space, Typography} from "antd";
 import {Context} from "../index";
 import ReportsAPI from "../http/api/ReportsAPI";
+import Comments from "./ui/Comments";
 const { Text } = Typography;
 
 const ModalScreenshots = ({video, onClose}) => {
@@ -95,9 +96,7 @@ const ModalScreenshots = ({video, onClose}) => {
                             <Card title={"Описание"} style={{width:640}}>
                                 <h4>{video.description}</h4>
                             </Card>
-                            <Card style={{width:'100%', height:400}} title={"Комментарии"}>
-
-                            </Card>
+                            <Comments lineup={video}/>
                         </Space>
                         <Space direction={"horizontal"} style={{width:'100%',alignItems:'flex-start', justifyContent:'space-between'}}>
                             <Card title={"Теги"} style={{width:330}}>

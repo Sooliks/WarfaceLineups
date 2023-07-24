@@ -29,10 +29,10 @@ public class CommetsController : Controller
         }
         await Response.WriteAsJsonAsync(new { message = "error" });
     }
-    [HttpGet("api/comments/{lineupId:int}")]
-    public async Task GetComments(int lineupId)
+    [HttpGet("api/comments/{lineupId:int}&&page={page:int}")]
+    public async Task GetComments(int lineupId, int page)
     {
-        await Response.WriteAsJsonAsync(HandlerComments.GetAllCommentsByLineupId(lineupId));
+        await Response.WriteAsJsonAsync(HandlerComments.GetAllCommentsByLineupIdAndPage(lineupId,page));
     }
     [HttpPost("api/deletecomment/user")]
     public async Task DeleteCommentUser()
