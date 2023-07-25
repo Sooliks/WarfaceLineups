@@ -1,11 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Button, Card, Input, Modal, Row, Select, Space, Spin, Typography} from "antd";
+import React, {useContext, useEffect, useMemo, useState} from 'react';
+import {Button, Card, Input, Modal, Row, Select, Space, Spin, Tooltip, Typography} from "antd";
 import classes from './styles/EllipsisModal.module.css'
 import UserAPI from "../../../http/api/UserAPI";
 import {Context} from "../../../index";
 import SettingsAPI from "../../../http/api/SettingsAPI";
 import VideoPreview from "../../../components/VideoPreview";
 import VideosAPI from "../../../http/api/VideosAPI";
+import {CloseOutlined} from "@ant-design/icons";
 const { Link, Text } = Typography;
 
 const EllipsisModal = ({onHide}) => {
@@ -49,15 +50,17 @@ const EllipsisModal = ({onHide}) => {
             }
         })
     }
-    const handleSubmitChangeUrl = () => {
-        const handleResponse = (data) =>{
-            if(data.message === "success") {
-                setCurrentEditingUrl()
-                setUrl()
-                onHide();
-                setErrorText('');
-            }
+    const handleResponse = (data) =>{
+        if(data.message === "success") {
+            setCurrentEditingUrl()
+            setUrl()
+            onHide();
+            setErrorText('');
         }
+    }
+
+
+    const handleSubmitChangeUrl = () => {
         switch(currentEditingUrl){
             case 'ВКонтакте':
                 SettingsAPI.changeUrlOnVk(url).then(data=>{
@@ -89,6 +92,26 @@ const EllipsisModal = ({onHide}) => {
         }
     }
 
+    const dropUrl = (current) => {
+        switch(current){
+            case 'ВКонтакте':
+                SettingsAPI.changeUrlOnVk("").then(data=>{
+                    handleResponse(data);
+                })
+                break
+            case 'Telegram':
+                SettingsAPI.changeUrlOnTelegram("").then(data=>{
+                    handleResponse(data);
+                })
+                break
+            case 'Youtube':
+                SettingsAPI.changeUrlOnYoutube("").then(data=>{
+                    handleResponse(data);
+                })
+                break
+        }
+    }
+
 
     return (
         <div>
@@ -102,24 +125,27 @@ const EllipsisModal = ({onHide}) => {
                 ]}
             >
                 <Space direction={"horizontal"} style={{display:'flex', alignItems: 'flex-start'}}>
-                    <Card title={"Ссылки"} style={{width:700}}>
+                    <Card title={"Ссылки"} style={{width:710}}>
                         <Space direction={"vertical"} style={{display:'flex', alignItems: 'flex-start'}}>
                             <Row style={{display:'flex', alignItems: 'flex-start'}}>
                                 <h3>
                                     {'Youtube:'} {dataProfile.urlOnYoutube!=="" && <Link href={dataProfile.urlOnYoutube} target="_blank">{dataProfile.urlOnYoutube}</Link>}
                                     <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('Youtube')}>{dataProfile.urlOnYoutube!=="" ? 'Изменить' : 'Добавить'}</Button>
+                                    {dataProfile.urlOnYoutube!=="" && <Tooltip placement="topLeft" title={"Удалить"}> <Button icon={<CloseOutlined />} style={{width: 32, height: 32}} onClick={()=>dropUrl('Youtube')}/> </Tooltip>}
                                 </h3>
                             </Row>
                             <Row style={{display:'flex', alignItems: 'flex-start'}}>
                                 <h3>
                                     {'Вконтакте:'} {dataProfile.urlOnVk!=="" && <Link href={dataProfile.urlOnVk} target="_blank">{dataProfile.urlOnVk}</Link>}
                                     <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('ВКонтакте')}>{dataProfile.urlOnVk!=="" ? 'Изменить' : 'Добавить'}</Button>
+                                    {dataProfile.urlOnVk!=="" && <Tooltip placement="topLeft" title={"Удалить"}> <Button icon={<CloseOutlined />} style={{width: 32, height: 32}} onClick={()=>dropUrl('ВКонтакте')}/> </Tooltip>}
                                 </h3>
                             </Row>
                             <Row style={{display:'flex', alignItems: 'flex-start'}}>
                                 <h3>
                                     {'Telegram:'} {dataProfile.urlOnTelegram!=="" && <Link href={dataProfile.urlOnTelegram} target="_blank">{dataProfile.urlOnTelegram}</Link>}
                                     <Button className={classes.buttonEdit} onClick={()=>setCurrentEditingUrl('Telegram')}>{dataProfile.urlOnTelegram!=="" ? 'Изменить' : 'Добавить'}</Button>
+                                    {dataProfile.urlOnTelegram!=="" && <Tooltip placement="topLeft" title={"Удалить"}> <Button icon={<CloseOutlined size={"small"} />} style={{width: 32, height: 32}} onClick={()=>dropUrl('Telegram')}/> </Tooltip>}
                                 </h3>
                             </Row>
                         </Space>

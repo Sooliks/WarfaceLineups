@@ -20,7 +20,7 @@ const CommentItem = ({comment, onClickDeleteCommentOwnerComment, onClickDeleteCo
             newArr.push(<Link onClick={()=>setIsVisibleEditing(true)}>Редактировать</Link>);
             setActions(newArr)
         }
-        if(user.role === 'admin'){
+        if(user.user.role === 'admin'){
             const newArr = actions;
             newArr.push(<Link onClick={()=>onClickDeleteCommentAdmin(comment.id)}>Удалить как админ</Link>)
             setActions(newArr)

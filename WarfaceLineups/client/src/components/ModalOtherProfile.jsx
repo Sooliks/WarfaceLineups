@@ -108,6 +108,9 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                                     <Link href={dataProfile.urlOnTelegram} target="_blank">{dataProfile.urlOnTelegram}</Link>
                                 </Space>
                             }
+                            {dataProfile.urlOnVk === "" && dataProfile.urlOnTelegram === "" && dataProfile.urlOnYoutube === "" &&
+                                <h4>Пользователь не добавил ссылки</h4>
+                            }
                             </Space>
                         </Card>
                         {dataProfile.mainLineup !== null &&

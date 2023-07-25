@@ -48,9 +48,9 @@ const Reports = () => {
 
     return (
         <Card title={"Reports"} style={{width:700, height:700}}>
-            <Space direction={"vertical"} style={{overflowY:'auto',width:"100%"}}>
+            <Space direction={"vertical"} style={{overflowY:'auto',width:"100%", height:600}}>
                 {reports.length!==0 ? reports.map(report=>
-                    <Card key={report.id} style={{width:"100%", minWidth:650}}>
+                    <Card key={report.id} style={{width:"100%", minWidth:620}}>
                         <Space split={<Divider type="vertical" />}>
                             <Space>
                                 <p>#{report.id}</p>

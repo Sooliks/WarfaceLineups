@@ -146,4 +146,14 @@ public class HandlerVideos
         using Context db = new Context();
         return db.Videos.Where(v=> v.OwnerId==ownerId && v.IsVerified == true).OrderByDescending(v=>v.Id).ToList();
     }
+    public static int GetCountVideosIsVerifiedByOwnerId(JObject infoFilter, int id)
+    {
+        using Context db = new Context();
+        int typeSide = (int)infoFilter["filter"]["typeSide"];
+        int typeGameMap = (int)infoFilter["filter"]["typeGameMap"];
+        int typeFeature = (int)infoFilter["filter"]["typeFeature"];
+        byte typePlant = (byte)infoFilter["filter"]["typePlant"];
+        string search = (string)infoFilter["filter"]["search"];
+        return db.Videos.Where(v=> (v.TypeSide == typeSide || typeSide == 10) && (v.TypeFeature == typeFeature || typeFeature == 10) && (v.TypeGameMap == typeGameMap || typeGameMap == 10) && (v.TypePlant == typePlant || typePlant == 10) && (v.Title.ToLower().StartsWith(search.ToLower()) || v.Title == "") && (v.IsVerified == true) && v.OwnerId == id).Count();
+    }
 }

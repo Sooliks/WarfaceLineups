@@ -317,6 +317,10 @@ public class VideosController : Controller
         int ownerId = (int)obj["ownerid"];
         int page = (int)obj["page"];
         int minId = (page * countVideosOnOnePage) - countVideosOnOnePage;
-        await Response.WriteAsJsonAsync(HandlerVideos.GetVideosByOwnerId(minId, countVideosOnOnePage, obj, ownerId));
+        await Response.WriteAsJsonAsync(new
+        {
+            lineups = HandlerVideos.GetVideosByOwnerId(minId, countVideosOnOnePage, obj, ownerId),
+            count = HandlerVideos.GetCountVideosIsVerifiedByOwnerId(obj,ownerId)
+        });
     }
 }
