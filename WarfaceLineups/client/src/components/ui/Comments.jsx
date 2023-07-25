@@ -11,7 +11,7 @@ import CommentItem from "./CommentItem";
 
 
 const Comments = ({lineup}) => {
-    const[comments,setComments] = useState([]);
+    const [comments,setComments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage,setCurrentPage] = useState(1);
 
@@ -68,6 +68,7 @@ const Comments = ({lineup}) => {
         loadMoreData();
     },[])
 
+
     return (
         <Card style={{width:'100%', height:410}} title={"Комментарии"}>
             <Space direction={"vertical"} style={{height:'100%',justifyContent:"space-between", width:'100%', alignItems:'flex-start'}}>
@@ -109,10 +110,10 @@ const Comments = ({lineup}) => {
                                             onClickDeleteCommentAdmin={e=>handleClickDeleteCommentAdmin(e)}
                                             onClickDeleteCommentOwnerComment={e=>handleClickDeleteCommentOwnerComment(e)}
                                             onClickDeleteCommentOwnerLineup={e=>handleClickDeleteCommentOwnerLineup(e)}
-                                            updateComments={()=>{
-                                                setComments([]);
-                                                setCurrentPage(1);
-                                                loadMoreData();
+                                            updateComment={(c,newText)=>{
+                                                const newArr = comments;
+                                                newArr[newArr.indexOf(c)].text = newText;
+                                                setComments(newArr);
                                             }}
                                         />
                                     }

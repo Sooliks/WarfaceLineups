@@ -399,7 +399,7 @@ public class AccountsController : Controller
     [HttpPost("api/dataprofile")]
     public async Task GetDataProfile()
     {
-        const int countVideosOnOnePage = 8;
+        const int countVideosOnOnePage = 9;
         string body = "";
         using (StreamReader stream = new StreamReader(Request.Body))
         {
@@ -421,4 +421,5 @@ public class AccountsController : Controller
             login = account.Login
         });
     }
+    
 }

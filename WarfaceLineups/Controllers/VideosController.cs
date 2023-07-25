@@ -303,4 +303,20 @@ public class VideosController : Controller
     {
         await Response.WriteAsJsonAsync(HandlerVideos.GetVideoByVideoId(id));
     }
+
+    [HttpPost("api/getlineupsbyownerid")]
+    public async Task GetLineupsByOwnerId()
+    {
+        const int countVideosOnOnePage = 9;
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        int ownerId = (int)obj["ownerid"];
+        int page = (int)obj["page"];
+        int minId = (page * countVideosOnOnePage) - countVideosOnOnePage;
+        await Response.WriteAsJsonAsync(HandlerVideos.GetVideosByOwnerId(minId, countVideosOnOnePage, obj, ownerId));
+    }
 }

@@ -6,7 +6,7 @@ import CommentsAPI from "../../http/api/CommentsAPI";
 
 const { Link } = Typography;
 
-const CommentItem = ({comment, onClickDeleteCommentOwnerComment, onClickDeleteCommentOwnerLineup,onClickDeleteCommentAdmin, updateComments}) => {
+const CommentItem = ({comment, onClickDeleteCommentOwnerComment, onClickDeleteCommentOwnerLineup,onClickDeleteCommentAdmin, updateComment}) => {
     const {user} = useContext(Context);
     const [actions,setActions] = useState([]);
     const [, updateState] = React.useState();
@@ -40,7 +40,7 @@ const CommentItem = ({comment, onClickDeleteCommentOwnerComment, onClickDeleteCo
         CommentsAPI.updateComment(comment.id,values.comment).then(data=>{
             if(data.message==="success"){
                 setIsVisibleEditing(false);
-                updateComments();
+                updateComment(comment,values.comment);
             }
         })
     }
