@@ -6,6 +6,7 @@ import VideoPreview from "./VideoPreview";
 import InfiniteScroll from "react-infinite-scroll-component";
 import VideosAPI from "../http/api/VideosAPI";
 import CommentItem from "./ui/CommentItem";
+import {cookiesFromFavorites} from "../data/cookies";
 const { Link } = Typography;
 
 const ModalOtherProfile = ({ownerId,onClose}) => {
@@ -28,7 +29,8 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
         typePlant: 10
     })
     useEffect(()=>{
-        UserAPI.getDataProfile(ownerId,filter,currentPage).then(data=>setDataProfile(data));
+        UserAPI.getDataProfile(ownerId,filter,1).then(data=>setDataProfile(data));
+        setCurrentPage((prev)=>prev+1)
     },[])
     const loadMoreData = () => {
         if (loading) {
@@ -46,11 +48,11 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
     };
 
 
-    const handlerChangeFilter = (newFilter) =>{
-        setDataProfile({...dataProfile,
-            lineups: []
-        })
-        setFilter(newFilter);
+    const handlerChangeFilter = (filter) =>{
+        setFilter(filter);
+        setDataProfile({})
+        setDataProfile({...dataProfile, lineups: dataProfile.lineups.filter(v => (v.typeSide === filter.typeSide || filter.typeSide === 10) && (v.typeFeature === filter.typeFeature || filter.typeFeature === 10) && (v.typeGameMap === filter.typeGameMap || filter.typeGameMap === 10) && (v.typePlant === filter.typePlant || filter.typePlant === 10) && (v.title.toLowerCase().startsWith(filter.search.toLowerCase()) || filter.search === ""))})
+
     }
 
     return (
@@ -111,7 +113,7 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                                         overflow: 'auto',
                                         padding: '0 16px',
                                         border: '1px solid rgba(140, 140, 140, 0.35)',
-                                        width: 1230,
+                                        width: 1210,
                                         display: 'flex',
                                         flexDirection: 'row',
                                     }}
@@ -119,11 +121,11 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                                     <InfiniteScroll
                                         dataLength={dataProfile.lineups.length}
                                         next={loadMoreData}
-                                        hasMore
+                                        hasMore={dataProfile.lineups.length < dataProfile.totalCountLineups}
                                         loader={<Skeleton paragraph={{rows: 1}} active/>}
-                                        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                                        endMessage={<Divider plain>Это все, ничего больше 🤐</Divider>}
                                         scrollableTarget="scrollableDiv"
-                                        style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}
+                                        style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop:12}}
                                     >
                                         {dataProfile.lineups.map(lineup =>
                                             <VideoPreview type={"uservideo"} video={lineup}/>
