@@ -3,6 +3,7 @@ import {Avatar, Button, Card, Space} from "antd";
 import {HeartFilled, HeartOutlined} from "@ant-design/icons";
 import {cookies} from "../../data/cookies";
 import {Context} from "../../index";
+import {isDevelopmentMode} from "../../conf";
 
 const VideoForFavorites = ({video,handleClickOnVideo,handleOnMouseOver,handleOnMouseOut}) => {
     const {videosFavorite} = useContext(Context);
@@ -18,7 +19,7 @@ const VideoForFavorites = ({video,handleClickOnVideo,handleOnMouseOver,handleOnM
         <Space direction={"vertical"}>
             <Card title={video.title} size="large" style={{maxWidth:500, height: "auto", marginBottom: 12, marginRight: 3, padding: 0}}>
                 <img
-                    src={video.screenShotsId===0 ? video.urlOnPreview : `/api/getlineupscreenshots/${video.screenShotsId}/0`}
+                    src={video.screenShotsId===0 ? video.urlOnPreview : isDevelopmentMode ? `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/0` : `/api/getlineupscreenshots/${video.screenShotsId}/0`}
                     alt={video.title}
                     onClick={handleClickOnVideo}
                     onMouseOver={e=>handleOnMouseOver(e)}

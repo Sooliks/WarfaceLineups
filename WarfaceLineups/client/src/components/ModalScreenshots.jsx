@@ -3,6 +3,7 @@ import {Button, Card, Form, Image, Modal, Select, Space, Typography} from "antd"
 import {Context} from "../index";
 import ReportsAPI from "../http/api/ReportsAPI";
 import Comments from "./ui/Comments";
+import {isDevelopmentMode} from "../conf";
 const { Text } = Typography;
 
 const ModalScreenshots = ({video, onClose}) => {
@@ -82,13 +83,13 @@ const ModalScreenshots = ({video, onClose}) => {
                 <Space direction={"vertical"} style={{display:'flex', alignItems: 'flex-start'}}>
                     <Space direction={"horizontal"} style={{width:1242,display:'flex', alignItems: 'flex-start', justifyContent:'space-between'}}>
                         <Card style={{height:250}}>
-                            <Image width={200} src={`/api/getlineupscreenshots/${video.screenShotsId}/0`}/>
+                            <Image width={200} src={isDevelopmentMode ? `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/0` : `/api/getlineupscreenshots/${video.screenShotsId}/0`}/>
                         </Card>
                         <Card style={{height:250}}>
-                            <Image width={200} src={`/api/getlineupscreenshots/${video.screenShotsId}/1`}/>
+                            <Image width={200} src={isDevelopmentMode ? `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/1` : `/api/getlineupscreenshots/${video.screenShotsId}/1`}/>
                         </Card>
                         <Card style={{height:250}}>
-                            <Image width={200} src={`/api/getlineupscreenshots/${video.screenShotsId}/2`}/>
+                            <Image width={200} src={isDevelopmentMode ? `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/2` : `/api/getlineupscreenshots/${video.screenShotsId}/2`}/>
                         </Card>
                     </Space>
                     <Space style={{width:1242, alignItems:'flex-start', justifyContent:'space-between'}}>

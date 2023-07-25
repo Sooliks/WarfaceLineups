@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Avatar, Card, Skeleton} from "antd";
+import React, {useContext, useState} from 'react';
+import {Avatar, Card} from "antd";
 import Meta from "antd/es/card/Meta";
 import {EditOutlined, EllipsisOutlined, SettingOutlined} from "@ant-design/icons";
 import {Context} from "../../index";
@@ -7,6 +7,7 @@ import {observer} from "mobx-react-lite";
 import SettingsModal from "./Settings/SettingsModal";
 import EditingModal from "./Settings/EditingModal";
 import EllipsisModal from "./Settings/EllipsisModal";
+import {isDevelopmentMode} from "../../conf";
 
 const Settings = observer(() => {
     const {user} = useContext(Context);
@@ -22,7 +23,7 @@ const Settings = observer(() => {
                 ]}
             >
                 <Meta
-                    avatar={<Avatar src={`/api/avatar/${user.user.id}`} alt={user.user.login}/>}
+                    avatar={<Avatar src={isDevelopmentMode ? `http://localhost:5258/api/avatar/${user.user.id}` : `/api/avatar/${user.user.id}`} alt={user.user.login}/>}
                     title={user.user.login}
                     description=""
                 />

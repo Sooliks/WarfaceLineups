@@ -3,6 +3,7 @@ import {Avatar, Button, Form, Input, List, Modal, Typography} from "antd";
 import {Context} from "../../index";
 import ModalOtherProfile from "../ModalOtherProfile";
 import CommentsAPI from "../../http/api/CommentsAPI";
+import {isDevelopmentMode} from "../../conf";
 
 const { Link } = Typography;
 
@@ -48,7 +49,7 @@ const CommentItem = ({comment, onClickDeleteCommentOwnerComment, onClickDeleteCo
     return (
         <List.Item style={{width:'100%'}} actions={[...actions]}>
             <List.Item.Meta
-                avatar={<Avatar src={`/api/avatar/${comment.ownerId}`}/>}
+                avatar={<Avatar src={isDevelopmentMode ? `http://localhost:5258/api/avatar/${comment.ownerId}` : `/api/avatar/${comment.ownerId}`}/>}
                 title={<Link onClick={()=>setIsVisibleProfile(true)}>{comment.ownerLogin}</Link>}
                 description={comment.text}
             />

@@ -1,12 +1,13 @@
 import axios from "axios";
 import {cookies} from "../data/cookies";
+import {isDevelopmentMode} from "../conf";
 
 
 const $client = axios.create({
-    baseURL: 'http://localhost:5258/api'
+    baseURL: isDevelopmentMode ? 'http://localhost:5258/api' : '/api'
 })
 const $clientAuth = axios.create({
-    baseURL: 'http://localhost:5258/api'
+    baseURL: isDevelopmentMode ? 'http://localhost:5258/api' : '/api'
 })
 
 const authInterceptor = config =>{

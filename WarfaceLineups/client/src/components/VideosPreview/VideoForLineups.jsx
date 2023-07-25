@@ -7,6 +7,7 @@ import {cookiesFromFavorites} from "../../data/cookies";
 import VideosAPI from "../../http/api/VideosAPI";
 import {Spin} from "antd/lib";
 import ModalOtherProfile from "../ModalOtherProfile";
+import {isDevelopmentMode} from "../../conf";
 
 const { Link } = Typography;
 
@@ -50,7 +51,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
         <Space direction={"vertical"}>
             <Card title={video.title} size="large" style={{maxWidth:500, height: "auto", marginBottom: 12, marginRight: 3, padding: 0}}>
                 <img
-                    src={video.screenShotsId===0 ? video.urlOnPreview : `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/0`}
+                    src={video.screenShotsId===0 ? video.urlOnPreview : isDevelopmentMode ? `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/0` : `api/getlineupscreenshots/${video.screenShotsId}/0`}
                     alt={video.title}
                     onClick={handleClickOnVideo}
                     onMouseOver={e=>handleOnMouseOver(e)}
@@ -60,7 +61,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                 <br/>
                 <Space direction={"horizontal"} style={{display:'flex', justifyContent:'space-between'}}>
                     <Space>
-                        <Avatar src={`/api/avatar/${video.ownerId}`} alt={video.title}/>
+                        <Avatar src={isDevelopmentMode ? `http://localhost:5258/api/avatar/${video.ownerId}` : `/api/avatar/${video.ownerId}`} alt={video.title}/>
                         <Link onClick={()=>setIsVisibleProfile(true)}>{video.ownerLogin}</Link>
                         {user.user.role === 'admin' && <Button danger style={{marginLeft:40}} onClick={()=>setIsVisibleDialogDelete(true)}>Удалить</Button>}
                     </Space>

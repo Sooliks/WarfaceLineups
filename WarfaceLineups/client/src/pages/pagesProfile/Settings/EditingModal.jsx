@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, Modal, Space, Upload, message} from "antd";
 import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
 import {cookies} from "../../../data/cookies";
+import {isDevelopmentMode} from "../../../conf";
 
 
 
@@ -75,7 +76,7 @@ const EditingModal = ({onHide}) => {
                         }}
                         beforeUpload={beforeUpload}
                         onChange={handleChange}
-                        action={`/api/uploadavatar`}
+                        action={isDevelopmentMode ? `http://localhost:5258/api/uploadavatar` : `/api/uploadavatar`}
                         //customRequest={uploadAvatar}
                     >
                         {imageUrl ? (

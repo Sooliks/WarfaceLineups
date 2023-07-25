@@ -2,6 +2,7 @@ import React from 'react';
 import {Avatar, Button, Card, Space} from "antd";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import VideosAPI from "../../http/api/VideosAPI";
+import {isDevelopmentMode} from "../../conf";
 
 
 const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut,handleClickOnVideo}) => {
@@ -27,7 +28,7 @@ const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut,handleClic
                     onClick={handleClickOnVideo}
                     onMouseOver={e=>handleOnMouseOver(e)}
                     onMouseOut={e=>handleOnMouseOut(e)}
-                    src={video.screenShotsId===0 ? video.urlOnPreview : `/api/getlineupscreenshots/${video.screenShotsId}/0`}
+                    src={video.screenShotsId===0 ? video.urlOnPreview : isDevelopmentMode ? `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/0` : `/api/getlineupscreenshots/${video.screenShotsId}/0`}
                     alt={video.title}
                     style={{height:202, width:345, border: '2px solid transparent', borderRadius:'6px'}}
                 />

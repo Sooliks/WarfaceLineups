@@ -5,6 +5,7 @@ import ModalOtherProfile from "../../../components/ModalOtherProfile";
 import VideosAPI from "../../../http/api/VideosAPI";
 import ModalVideo from "../../../components/ModalVideo";
 import ModalScreenshots from "../../../components/ModalScreenshots";
+import {isDevelopmentMode} from "../../../conf";
 
 const { Link } = Typography;
 
@@ -57,7 +58,7 @@ const Reports = () => {
                             <Space>
                                 <p>Отправил: </p>
                                 <Space>
-                                    <Avatar src={`/api/avatar/${report.senderId}`} alt={report.senderId}/>
+                                    <Avatar src={isDevelopmentMode ? `http://localhost:5258/api/avatar/${report.senderId}` : `/api/avatar/${report.senderId}`} alt={report.senderId}/>
                                     <Link onClick={()=>setIsVisibleProfile(true)}>{report.senderLogin}</Link>
                                 </Space>
                             </Space>
