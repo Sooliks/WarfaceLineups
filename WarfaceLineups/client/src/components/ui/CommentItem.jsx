@@ -49,7 +49,7 @@ const CommentItem = ({comment, onClickDeleteCommentOwnerComment, onClickDeleteCo
     return (
         <List.Item style={{width:'100%'}} actions={[...actions]}>
             <List.Item.Meta
-                avatar={<Avatar src={isDevelopmentMode ? `http://localhost:5258/api/avatar/${comment.ownerId}` : `/api/avatar/${comment.ownerId}`}/>}
+                avatar={<Avatar alt={comment.ownerLogin} src={isDevelopmentMode ? `http://localhost:5258/api/avatar/${comment.ownerId}` : `/api/avatar/${comment.ownerId}`}/>}
                 title={<Link onClick={()=>setIsVisibleProfile(true)}>{comment.ownerLogin}</Link>}
                 description={comment.text}
             />

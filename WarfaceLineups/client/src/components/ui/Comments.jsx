@@ -87,7 +87,7 @@ const Comments = ({lineup}) => {
                             <InfiniteScroll
                                 dataLength={comments.length}
                                 next={loadMoreData}
-                                hasMore={comments.length < 50}
+                                hasMore
                                 loader={
                                     <Skeleton
                                         avatar

@@ -417,7 +417,7 @@ public class AccountsController : Controller
             urlOnYoutube = account.UrlOnYoutube,
             urlOnVk = account.UrlOnVk,
             urlOnTelegram = account.UrlOnTelegram,
-            totalCountLineups = HandlerVideos.GetCountVideosByOwnerId(obj,account.Id),
+            totalCountLineups = HandlerVideos.GetCountVideosIsVerifiedByOwnerId(obj,account.Id),
             login = account.Login
         });
     }

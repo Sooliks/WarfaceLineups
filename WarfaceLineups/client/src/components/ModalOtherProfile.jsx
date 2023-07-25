@@ -10,8 +10,10 @@ import {cookiesFromFavorites} from "../data/cookies";
 const { Link } = Typography;
 
 const ModalOtherProfile = ({ownerId,onClose}) => {
+
+    const [elseText,setElseText] = useState('В этом профиле пока нету лайнапов')
     const [currentPage, setCurrentPage] = useState(1);
-    const[loading,setLoading] = useState(false);
+    const [loading,setLoading] = useState(false);
     const [dataProfile,setDataProfile] = useState({
         lineups: [],
         mainLineup: {},
@@ -29,17 +31,28 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
         typePlant: 10
     })
     useEffect(()=>{
-        UserAPI.getDataProfile(ownerId,filter,1).then(data=>setDataProfile(data));
+        firstLoaded();
+    },[filter])
+    const firstLoaded = () => {
+        UserAPI.getDataProfile(ownerId,filter,1).then(data=>{
+            setDataProfile(data);
+            if(data.lineups.length === 0) {
+                setElseText('Не найдено');
+            }
+        });
         setCurrentPage((prev)=>prev+1)
-    },[])
+    }
+
     const loadMoreData = () => {
         if (loading) {
-            console.log('vidno', currentPage)
             return;
         }
         setLoading(true);
         VideosAPI.getLineupsByOwnerId(filter,ownerId,currentPage).then(data=>{
-            setDataProfile({...dataProfile, lineups: [...dataProfile.lineups,...data]})
+            setDataProfile({...dataProfile,
+                lineups: [...dataProfile.lineups,...data.lineups],
+                totalCountLineups: data.count
+            })
             setCurrentPage((prev)=>prev+1)
             setLoading(false)
         }).catch(()=>{
@@ -50,9 +63,10 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
 
     const handlerChangeFilter = (filter) =>{
         setFilter(filter);
-        setDataProfile({})
-        setDataProfile({...dataProfile, lineups: dataProfile.lineups.filter(v => (v.typeSide === filter.typeSide || filter.typeSide === 10) && (v.typeFeature === filter.typeFeature || filter.typeFeature === 10) && (v.typeGameMap === filter.typeGameMap || filter.typeGameMap === 10) && (v.typePlant === filter.typePlant || filter.typePlant === 10) && (v.title.toLowerCase().startsWith(filter.search.toLowerCase()) || filter.search === ""))})
-
+        setCurrentPage(1);
+        setDataProfile({...dataProfile,lineups: []})
+        //firstLoaded();
+        //setDataProfile({...dataProfile, lineups: dataProfile.lineups.filter(v => (v.typeSide === filter.typeSide || filter.typeSide === 10) && (v.typeFeature === filter.typeFeature || filter.typeFeature === 10) && (v.typeGameMap === filter.typeGameMap || filter.typeGameMap === 10) && (v.typePlant === filter.typePlant || filter.typePlant === 10) && (v.title.toLowerCase().startsWith(filter.search.toLowerCase()) || filter.search === ""))})
     }
 
     return (
@@ -62,7 +76,7 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                 centered
                 open
                 onCancel={onClose}
-                width={1840}
+                width={1790}
                 footer={[
 
                 ]}
@@ -100,7 +114,7 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                             <VideoPreview video={dataProfile.mainLineup} type={"uservideo"}/>
                         }
                     </Space>
-                    <Card style={{marginTop: 12, height: 850, width: 1350}}>
+                    <Card style={{marginTop: 12, height: 850, width: 1300}}>
                         <Space style={{display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start'}}
                                direction={"vertical"}>
                             <Filter isVisibleSearch={false} onChangeFilter={handlerChangeFilter}
@@ -112,7 +126,9 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                                         height: 670,
                                         overflow: 'auto',
                                         padding: '0 16px',
-                                        border: '1px solid rgba(140, 140, 140, 0.35)',
+                                        borderTop: '1px solid rgba(140, 140, 140, 0.35)',
+                                        borderRight: '1px solid rgba(140, 140, 140, 0.35)',
+                                        borderLeft: '1px solid rgba(140, 140, 140, 0.35)',
                                         width: 1210,
                                         display: 'flex',
                                         flexDirection: 'row',
@@ -122,10 +138,10 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                                         dataLength={dataProfile.lineups.length}
                                         next={loadMoreData}
                                         hasMore={dataProfile.lineups.length < dataProfile.totalCountLineups}
-                                        loader={<Skeleton paragraph={{rows: 1}} active/>}
-                                        endMessage={<Divider plain>Это все, ничего больше 🤐</Divider>}
+                                        loader={<Skeleton.Node active style={{height:354, width:394}}> <div></div> </Skeleton.Node>}
+                                        endMessage={<Divider orientation={"center"} plain style={{width:1110}}>Это все, ничего больше 🤐</Divider>}
                                         scrollableTarget="scrollableDiv"
-                                        style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop:12}}
+                                        style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop:12, width:'100%'}}
                                     >
                                         {dataProfile.lineups.map(lineup =>
                                             <VideoPreview type={"uservideo"} video={lineup}/>
@@ -133,7 +149,7 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                                     </InfiniteScroll>
                                 </div>
                                 :
-                                <h3>В этом профиле пока нету лайнапов</h3>
+                                <h3>{elseText}</h3>
                             }
                         </Space>
                     </Card>
