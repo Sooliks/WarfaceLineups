@@ -34,7 +34,6 @@ public class HandlerComments
         
         return false;
     }
-
     public static bool IsCommentBelongToAccount(Accounts account, int commentId)
     {
         using Context db = new Context();
@@ -44,5 +43,15 @@ public class HandlerComments
             return true;
         }
         return false;
+    }
+
+    
+    public static void UpdateComment(int commentId, string newComment)
+    {
+        using Context db = new Context();
+        var comment = db.Comments.SingleOrDefault(c => c.Id == commentId);
+        comment.Text = newComment;
+        db.Comments.Update(comment);
+        db.SaveChangesAsync();
     }
 }

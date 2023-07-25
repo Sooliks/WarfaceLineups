@@ -112,5 +112,33 @@ public class CommetsController : Controller
         }
         await Response.WriteAsJsonAsync(new { message = "error" });
     }
-    
+
+    [HttpPost("api/updatecomment")]
+    public async Task UpdateComment()
+    {
+        var jwtToken = Request.Headers["authorization"];
+        var login = Request.Headers["login"];
+        string body = "";
+        using (StreamReader stream = new StreamReader(Request.Body))
+        {
+            body = await stream.ReadToEndAsync();
+        }
+        JObject obj = JObject.Parse(body);
+        int idComment = (int)obj["idComment"];
+        string newComment = (string)obj["newComment"];
+        if (AuthService.CheckIsValidToken(jwtToken, login))
+        {
+            var account = HandlerAccounts.GetAccountByLogin(login);
+            if (HandlerComments.IsAccountOwnerComment(account,idComment))
+            {
+                HandlerComments.UpdateComment(idComment,newComment);
+                await Response.WriteAsJsonAsync(new { message = "success" });
+                return;
+            }
+            await Response.WriteAsJsonAsync(new { message = "error" });
+            return;
+        }
+        await Response.WriteAsJsonAsync(new { message = "error" });
+    }
+
 }

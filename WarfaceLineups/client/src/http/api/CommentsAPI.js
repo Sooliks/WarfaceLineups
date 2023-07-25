@@ -47,4 +47,13 @@ export default class CommentsAPI {
 
         }
     }
+    static updateComment = async (idComment, newComment) => {
+        try {
+            const {data} = await $clientAuth.post('/updatecomment', {idComment,newComment});
+            return data;
+        }
+        catch (e) {
+
+        }
+    }
 }

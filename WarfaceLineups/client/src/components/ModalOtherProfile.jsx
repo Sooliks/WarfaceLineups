@@ -1,18 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Card, Divider, Modal, Space, Spin, Typography} from "antd";
+import React, {useEffect, useState} from 'react';
+import {Card, Divider, List, Modal, Skeleton, Space, Spin, Typography} from "antd";
 import Filter from "./Filter";
 import UserAPI from "../http/api/UserAPI";
 import VideoPreview from "./VideoPreview";
-import SettingsAPI from "../http/api/SettingsAPI";
-import {entries} from "mobx";
+import InfiniteScroll from "react-infinite-scroll-component";
 import VideosAPI from "../http/api/VideosAPI";
-const { Link, Text } = Typography;
+import CommentItem from "./ui/CommentItem";
+const { Link } = Typography;
 
 const ModalOtherProfile = ({ownerId,onClose}) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const[loading,setLoading] = useState(true);
-    const lastElement = useRef();
-    const observer = useRef();
+    const[loading,setLoading] = useState(false);
     const [dataProfile,setDataProfile] = useState({
         lineups: [],
         mainLineup: {},
@@ -30,31 +28,24 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
         typePlant: 10
     })
     useEffect(()=>{
-        if(loading)return;
-        if(observer.current) observer.current.disconnect();
-        const callback = function(entries,observer){
-            if(entries[0].isIntersecting){
-                setCurrentPage((page)=>page+1);
-            }
+        UserAPI.getDataProfile(ownerId,filter,currentPage).then(data=>setDataProfile(data));
+    },[])
+    const loadMoreData = () => {
+        if (loading) {
+            console.log('vidno', currentPage)
+            return;
         }
-        observer.current = new IntersectionObserver(callback);
-        observer.current.observe(lastElement.current);
-    },[loading])
-
-    useEffect(()=>{
-        UserAPI.getDataProfile(ownerId,filter,currentPage).then(data=>{
-            setDataProfile({...dataProfile,
-                lineups: [...dataProfile.lineups,...data.lineups],
-                mainLineup: data.mainLineup,
-                urlOnYoutube: data.urlOnYoutube,
-                urlOnVk: data.urlOnVk,
-                urlOnTelegram: data.urlOnTelegram,
-                totalCountLineups: data.totalCountLineups,
-                login: data.login,
-            })
+        setLoading(true);
+        VideosAPI.getLineupsByOwnerId(filter,ownerId,currentPage).then(data=>{
+            setDataProfile({...dataProfile, lineups: [...dataProfile.lineups,...data]})
+            setCurrentPage((prev)=>prev+1)
+            setLoading(false)
+        }).catch(()=>{
             setLoading(false)
         })
-    },[currentPage,filter])
+    };
+
+
     const handlerChangeFilter = (newFilter) =>{
         setDataProfile({...dataProfile,
             lineups: []
@@ -74,61 +65,73 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
 
                 ]}
             >
-                {!loading ?
-                    <Space direction={"horizontal"} style={{display: 'flex', alignItems: 'flex-start'}}>
-                        <Space direction={"vertical"} style={{
-                            display: 'flex',
-                            alignItems: 'flex-start',
-                            justifyContent: 'flex-start',
-                            margin: 12
-                        }}>
-                            <Card title={"Ссылки"} style={{width: 392}}>
-                                <Space direction={"vertical"} split={<Divider type="horizontal" />}>
-                                {dataProfile.urlOnYoutube !== "" &&
-                                    <Space>
-                                        <p>Youtube</p>
-                                        <Link href={dataProfile.urlOnYoutube} target="_blank">{dataProfile.urlOnYoutube}</Link>
-                                    </Space>
-                                }
-                                {dataProfile.urlOnVk !== "" &&
-                                    <Space>
-                                        <p>ВКонтакте</p>
-                                        <Link href={dataProfile.urlOnVk} target="_blank">{dataProfile.urlOnVk}</Link>
-                                    </Space>
-                                }
-                                {dataProfile.urlOnTelegram !== "" &&
-                                    <Space>
-                                        <p>Telegram</p>
-                                        <Link href={dataProfile.urlOnTelegram} target="_blank">{dataProfile.urlOnTelegram}</Link>
-                                    </Space>
-                                }
+                <Space direction={"horizontal"} style={{display: 'flex', alignItems: 'flex-start'}}>
+                    <Space direction={"vertical"} style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start',
+                        margin: 12
+                    }}>
+                        <Card title={"Ссылки"} style={{width: 392}}>
+                            <Space direction={"vertical"} split={<Divider type="horizontal" />}>
+                            {dataProfile.urlOnYoutube !== "" &&
+                                <Space>
+                                    <p>Youtube</p>
+                                    <Link href={dataProfile.urlOnYoutube} target="_blank">{dataProfile.urlOnYoutube}</Link>
                                 </Space>
-                            </Card>
-                            {dataProfile.mainLineup !== null &&
-                                <VideoPreview video={dataProfile.mainLineup} type={"uservideo"}/>
                             }
-                        </Space>
-                        <Card style={{marginTop: 12, height: 850, width: 1350}}>
-                            <Space style={{display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start'}}
-                                   direction={"vertical"}>
-                                <Filter isVisibleSearch={false} onChangeFilter={handlerChangeFilter}
-                                        direction={"horizontal"} widthFilter={50} dropFilterButtonIcon/>
-                                <Space size={[2, 3]} wrap style={{
+                            {dataProfile.urlOnVk !== "" &&
+                                <Space>
+                                    <p>ВКонтакте</p>
+                                    <Link href={dataProfile.urlOnVk} target="_blank">{dataProfile.urlOnVk}</Link>
+                                </Space>
+                            }
+                            {dataProfile.urlOnTelegram !== "" &&
+                                <Space>
+                                    <p>Telegram</p>
+                                    <Link href={dataProfile.urlOnTelegram} target="_blank">{dataProfile.urlOnTelegram}</Link>
+                                </Space>
+                            }
+                            </Space>
+                        </Card>
+                        {dataProfile.mainLineup !== null &&
+                            <VideoPreview video={dataProfile.mainLineup} type={"uservideo"}/>
+                        }
+                    </Space>
+                    <Card style={{marginTop: 12, height: 850, width: 1350}}>
+                        <Space style={{display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start'}}
+                               direction={"vertical"}>
+                            <Filter isVisibleSearch={false} onChangeFilter={handlerChangeFilter}
+                                    direction={"horizontal"} widthFilter={50} dropFilterButtonIcon/>
+                            <div
+                                id="scrollableDiv"
+                                style={{
                                     height: 670,
-                                    overflowY: 'auto',
-                                    width: '1320px',
-                                    alignItems: 'flex-start'
-                                }}>
+                                    overflow: 'auto',
+                                    padding: '0 16px',
+                                    border: '1px solid rgba(140, 140, 140, 0.35)',
+                                    width:1230,
+                                    display:'flex',
+                                    flexDirection:'row',
+                                }}
+                            >
+                                <InfiniteScroll
+                                    dataLength={dataProfile.lineups.length}
+                                    next={loadMoreData}
+                                    hasMore
+                                    loader={<Skeleton paragraph={{ rows: 1 }} active />}
+                                    endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                                    scrollableTarget="scrollableDiv"
+                                    style={{ display: 'flex', flexDirection: 'row', flexWrap:'wrap'}}
+                                >
                                     {dataProfile.lineups.map(lineup =>
                                         <VideoPreview type={"uservideo"} video={lineup}/>
                                     )}
-                                    <div ref={lastElement} style={{width:40,height:40, backgroundColor:'red', border:'solid 2px red'}}></div>
-                                </Space>
-                            </Space>
-                        </Card>
-                    </Space>
-                    : <Spin size="large"/>
-                }
+                                </InfiniteScroll>
+                            </div>
+                        </Space>
+                    </Card>
+                </Space>
             </Modal>
         </div>
     );

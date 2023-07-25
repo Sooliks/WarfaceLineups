@@ -1,20 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Avatar, Button, Card, Divider, Form, Input, List, Skeleton, Space, Typography} from "antd";
+import {Button, Card, Divider, Form, Input, List, Skeleton, Space} from "antd";
 import {Context} from "../../index";
 import CommentsAPI from "../../http/api/CommentsAPI";
-import ModalOtherProfile from "../ModalOtherProfile";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CommentItem from "./CommentItem";
 
-const { Link } = Typography;
+
 
 
 
 
 const Comments = ({lineup}) => {
-    const [actions,setActions] = useState();
     const[comments,setComments] = useState([]);
-    const[isVisibleEditing,setIsVisibleEditing] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentPage,setCurrentPage] = useState(1);
 
@@ -51,7 +48,7 @@ const Comments = ({lineup}) => {
     }
     const handleClickSubmitComment = (values) =>{
         CommentsAPI.addComment(lineup.id,values.text).then(data=>{
-
+            //TODO сделать динамичное добавление коммента
         })
     }
     const loadMoreData = () => {
@@ -112,7 +109,11 @@ const Comments = ({lineup}) => {
                                             onClickDeleteCommentAdmin={e=>handleClickDeleteCommentAdmin(e)}
                                             onClickDeleteCommentOwnerComment={e=>handleClickDeleteCommentOwnerComment(e)}
                                             onClickDeleteCommentOwnerLineup={e=>handleClickDeleteCommentOwnerLineup(e)}
-                                            onClickEditing={()=>setIsVisibleEditing(true)}
+                                            updateComments={()=>{
+                                                setComments([]);
+                                                setCurrentPage(1);
+                                                loadMoreData();
+                                            }}
                                         />
                                     }
                                 />

@@ -83,4 +83,12 @@ export default class VideosAPI {
 
         }
     }
+    static getLineupsByOwnerId = async (filter,ownerid,page) => {
+        try {
+            const {data} = await $client.post('/getlineupsbyownerid', {filter,ownerid,page});
+            return data;
+        }catch (e) {
+
+        }
+    }
 }
