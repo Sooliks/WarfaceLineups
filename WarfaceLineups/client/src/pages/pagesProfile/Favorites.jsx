@@ -25,7 +25,7 @@ const Favorites = () => {
                 <Filter onChangeFilter={handlerChangeFilter} isVisibleSearch={false} direction={"horizontal"}/>
             </Affix>
             <Space style={{overflowY:'auto'}}>
-                <Space direction="horizontal" style={{ display: 'flex',  margin: 12 }} size={[2, 4]} wrap>
+                <Space direction="horizontal" style={{ display: 'flex',  marginTop: 12 }} size={[2, 4]} wrap>
                     {videos?.length!==0 ? videos?.map(video=>
                         <VideoPreview video={video} key={video.id} type={"favorites"}/>
                     ): <h3>Вы не добавили не одно видео в избранное</h3>}

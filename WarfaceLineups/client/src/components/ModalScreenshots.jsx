@@ -82,20 +82,20 @@ const ModalScreenshots = ({video, onClose}) => {
             >
                 <Space direction={"vertical"} style={{display:'flex', alignItems: 'flex-start'}}>
                     <Space direction={"horizontal"} style={{width:1242,display:'flex', alignItems: 'flex-start', justifyContent:'space-between'}}>
-                        <Card style={{height:250}}>
+                        <Card>
                             <Image width={200} src={isDevelopmentMode ? `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/0` : `/api/getlineupscreenshots/${video.screenShotsId}/0`}/>
                         </Card>
-                        <Card style={{height:250}}>
+                        <Card>
                             <Image width={200} src={isDevelopmentMode ? `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/1` : `/api/getlineupscreenshots/${video.screenShotsId}/1`}/>
                         </Card>
-                        <Card style={{height:250}}>
+                        <Card>
                             <Image width={200} src={isDevelopmentMode ? `http://localhost:5258/api/getlineupscreenshots/${video.screenShotsId}/2` : `/api/getlineupscreenshots/${video.screenShotsId}/2`}/>
                         </Card>
                     </Space>
                     <Space style={{width:1242, alignItems:'flex-start', justifyContent:'space-between'}}>
                         <Space direction={"vertical"}>
-                            <Card title={"Описание"} style={{width:640}}>
-                                <h4>{video.description}</h4>
+                            <Card title={"Описание"} style={{width:642}}>
+                                <Text>{video.description}</Text>
                             </Card>
                             <Comments lineup={video}/>
                         </Space>

@@ -141,7 +141,7 @@ const ModalVideo = ({video, onClose}) => {
                             }
                         </Space>
                         <Card title={"Описание"} style={{width:'100%'}}>
-                            <h4>{video.description}</h4>
+                            <Text>{video.description}</Text>
                         </Card>
                     </Space>
                 </Space>

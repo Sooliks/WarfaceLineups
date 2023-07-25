@@ -121,7 +121,7 @@ const Comments = ({lineup}) => {
                             </InfiniteScroll>
                         </div>
                         :
-                        <h3>Оставьте комментарий первым</h3>
+                        <h3 style={{marginBottom:230}}>Оставьте комментарий первым</h3>
                     }
                 </Space>
                 {user.isAuth ?
