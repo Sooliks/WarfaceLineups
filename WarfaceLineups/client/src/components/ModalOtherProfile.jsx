@@ -103,32 +103,36 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                                direction={"vertical"}>
                             <Filter isVisibleSearch={false} onChangeFilter={handlerChangeFilter}
                                     direction={"horizontal"} widthFilter={50} dropFilterButtonIcon/>
-                            <div
-                                id="scrollableDiv"
-                                style={{
-                                    height: 670,
-                                    overflow: 'auto',
-                                    padding: '0 16px',
-                                    border: '1px solid rgba(140, 140, 140, 0.35)',
-                                    width:1230,
-                                    display:'flex',
-                                    flexDirection:'row',
-                                }}
-                            >
-                                <InfiniteScroll
-                                    dataLength={dataProfile.lineups.length}
-                                    next={loadMoreData}
-                                    hasMore
-                                    loader={<Skeleton paragraph={{ rows: 1 }} active />}
-                                    endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-                                    scrollableTarget="scrollableDiv"
-                                    style={{ display: 'flex', flexDirection: 'row', flexWrap:'wrap'}}
+                            {dataProfile.lineups.length > 0 ?
+                                <div
+                                    id="scrollableDiv"
+                                    style={{
+                                        height: 670,
+                                        overflow: 'auto',
+                                        padding: '0 16px',
+                                        border: '1px solid rgba(140, 140, 140, 0.35)',
+                                        width: 1230,
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                    }}
                                 >
-                                    {dataProfile.lineups.map(lineup =>
-                                        <VideoPreview type={"uservideo"} video={lineup}/>
-                                    )}
-                                </InfiniteScroll>
-                            </div>
+                                    <InfiniteScroll
+                                        dataLength={dataProfile.lineups.length}
+                                        next={loadMoreData}
+                                        hasMore
+                                        loader={<Skeleton paragraph={{rows: 1}} active/>}
+                                        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                                        scrollableTarget="scrollableDiv"
+                                        style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}
+                                    >
+                                        {dataProfile.lineups.map(lineup =>
+                                            <VideoPreview type={"uservideo"} video={lineup}/>
+                                        )}
+                                    </InfiniteScroll>
+                                </div>
+                                :
+                                <h3>В этом профиле пока нету лайнапов</h3>
+                            }
                         </Space>
                     </Card>
                 </Space>

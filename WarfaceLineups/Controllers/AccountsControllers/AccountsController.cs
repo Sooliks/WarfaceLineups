@@ -182,16 +182,16 @@ public class AccountsController : Controller
                 using (MagickImage img = new MagickImage(fileBytes))
                 {
                     img.Format = img.Format; 
-                    img.Resize(30, 30); 
-                    img.Quality = 30; 
+                    img.Resize(70, 70); 
+                    img.Quality = 85; 
                     fileBytes = img.ToByteArray();
                 }
                 HandlerAvatar.AddNewAvatar(fileBytes,HandlerAccounts.GetIdByAccountLogin(login));
             }
-            await Response.WriteAsJsonAsync(new {message = "success"});
+            await Response.WriteAsJsonAsync(new { message = "success"} );
             return;
         }
-        await Response.WriteAsJsonAsync(new {message = "error"});
+        await Response.WriteAsJsonAsync(new { message = "error" });
     }
 
     [HttpGet("api/avatar/{id:int}")]
