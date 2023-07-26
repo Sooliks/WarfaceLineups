@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Card, Select, Space} from "antd";
+import {Button, Card, Select, Space, Tooltip} from "antd";
 import Search from "antd/es/input/Search";
 import {CloseCircleOutlined, CloseOutlined} from "@ant-design/icons";
 
@@ -129,7 +129,9 @@ const Filter = ({onChangeFilter, direction, dropFilterButtonIcon = false, widthF
                         ]}
                     />
                     {dropFilterButtonIcon ?
-                        <Button icon={<CloseOutlined />} style={{width: 40, height: 40}} onClick={dropFilter}/>
+                        <Tooltip placement="top" title={"Сбросить фильтр"}>
+                            <Button icon={<CloseOutlined />} style={{width: 40, height: 40}} onClick={dropFilter}/>
+                        </Tooltip>
                         :
                         <Button style={{width: '100%'}} onClick={dropFilter}>Сбросить фильтр</Button>
                     }

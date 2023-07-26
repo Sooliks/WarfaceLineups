@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 
-import {Button, Card, Space, Typography} from "antd";
+import {Button, Card, Space, Tooltip, Typography} from "antd";
 import {Context} from "../index";
 const { Text } = Typography;
 
@@ -35,7 +35,12 @@ const Premium = () => {
                         <input type="hidden" name="label" value={user.user.login}/>
                         <input type="hidden" name="quickpay-form" value="button"/>
                         <input type="hidden" name="sum" value="250" datatype="number"/>
-                        <Button htmlType="submit" shape="round" size={"large"} style={{width:500}} disabled={!user.isAuth}>Купить Premium</Button>
+                        {user.isAuth && <Button htmlType="submit" shape="round" size={"large"} style={{width:500}}>Купить Premium</Button>}
+                        {!user.isAuth &&
+                            <Tooltip placement="top" title={"Для того чтобы купить premium нужно авторизоваться"}>
+                                <Button htmlType="submit" shape="round" size={"large"} style={{width:500}} disabled>Купить Premium</Button>
+                            </Tooltip>
+                        }
                     </form>
                 </Space>
             </Card>

@@ -42,6 +42,7 @@ const CommentItem = ({comment, onClickDeleteCommentOwnerComment, onClickDeleteCo
             if(data.message==="success"){
                 setIsVisibleEditing(false);
                 updateComment(comment,values.comment);
+                forceUpdate();
             }
         })
     }

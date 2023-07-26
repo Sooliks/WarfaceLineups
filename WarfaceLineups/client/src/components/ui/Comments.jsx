@@ -18,6 +18,7 @@ const Comments = ({lineup}) => {
     const {user} = useContext(Context);
 
     const handleClickDeleteCommentAdmin = (id) => {
+        console.log(id)
         try {
             CommentsAPI.deleteCommentAdmin(id).then(data => {
                 if (data.message === "success") {
@@ -49,6 +50,9 @@ const Comments = ({lineup}) => {
     const handleClickSubmitComment = (values) =>{
         CommentsAPI.addComment(lineup.id,values.text).then(data=>{
             //TODO сделать динамичное добавление коммента
+            if(data.message === "success"){
+                setComments(data.comments)
+            }
         })
     }
     const loadMoreData = () => {
@@ -121,7 +125,7 @@ const Comments = ({lineup}) => {
                             </InfiniteScroll>
                         </div>
                         :
-                        <h3 style={{marginBottom:230}}>Оставьте комментарий первым</h3>
+                        user.isAuth && <h3 style={{marginBottom:230}}>Оставьте комментарий первым</h3>
                     }
                 </Space>
                 {user.isAuth ?
@@ -151,7 +155,7 @@ const Comments = ({lineup}) => {
                         </Form>
                     </Space>
                     :
-                    <h4>Оставлять комментарии могут только авторизованные пользователи</h4>
+                    <h3 style={{marginBottom:20}}>Оставлять комментарии могут только авторизованные пользователи</h3>
                 }
             </Space>
         </Card>

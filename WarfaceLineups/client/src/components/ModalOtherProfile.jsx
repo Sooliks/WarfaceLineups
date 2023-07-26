@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Divider, List, Modal, Skeleton, Space, Spin, Typography} from "antd";
+import {Card, Divider, Modal, Skeleton, Space, Typography} from "antd";
 import Filter from "./Filter";
 import UserAPI from "../http/api/UserAPI";
 import VideoPreview from "./VideoPreview";
 import InfiniteScroll from "react-infinite-scroll-component";
 import VideosAPI from "../http/api/VideosAPI";
-import CommentItem from "./ui/CommentItem";
-import {cookiesFromFavorites} from "../data/cookies";
+
 const { Link } = Typography;
 
 const ModalOtherProfile = ({ownerId,onClose}) => {
@@ -34,8 +33,10 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
         firstLoaded();
     },[filter])
     const firstLoaded = () => {
+        setLoading(true)
         UserAPI.getDataProfile(ownerId,filter,1).then(data=>{
             setDataProfile(data);
+            setLoading(false)
         });
         setCurrentPage((prev)=>prev+1)
     }
@@ -147,7 +148,7 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                                         style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop:12, width:'100%'}}
                                     >
                                         {dataProfile.lineups.map(lineup =>
-                                            <VideoPreview type={"uservideo"} video={lineup}/>
+                                            <VideoPreview key={lineup.id} type={"uservideo"} video={lineup}/>
                                         )}
                                     </InfiniteScroll>
                                 </div>

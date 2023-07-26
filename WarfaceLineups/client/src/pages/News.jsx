@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Select, Space} from "antd";
+import {Card, Select, Space, Typography} from "antd";
 import NewsAPI from "../http/api/NewsAPI";
+const { Text } = Typography;
+
 
 const News = () => {
     const [filter, setFilter] = useState(1);
@@ -37,7 +39,11 @@ const News = () => {
             </Card>
             <Space direction={"vertical"}>
                 {news.length!==0 ? news.map(news=>
-                    <Card key={news.id} title={news.title} style={{width:800, height: 'auto', minHeight: 140, wordWrap:'break-word'}}>{news.text}</Card>
+                    <Card key={news.id} title={news.title} style={{width:800, height: 'auto', minHeight: 140, wordWrap:'break-word'}}>
+                        <Text>
+                            {news.text}
+                        </Text>
+                    </Card>
                 ): <h3>Пока нету новостей</h3>}
             </Space>
         </Space>
