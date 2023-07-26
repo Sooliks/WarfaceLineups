@@ -36,9 +36,6 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
     const firstLoaded = () => {
         UserAPI.getDataProfile(ownerId,filter,1).then(data=>{
             setDataProfile(data);
-            if(data.lineups.length === 0) {
-                setElseText('Не найдено');
-            }
         });
         setCurrentPage((prev)=>prev+1)
     }
@@ -65,6 +62,9 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
         setFilter(filter);
         setCurrentPage(1);
         setDataProfile({...dataProfile,lineups: []})
+        if(dataProfile.lineups.length === 0) {
+            setElseText('Не найдено');
+        }
         //firstLoaded();
         //setDataProfile({...dataProfile, lineups: dataProfile.lineups.filter(v => (v.typeSide === filter.typeSide || filter.typeSide === 10) && (v.typeFeature === filter.typeFeature || filter.typeFeature === 10) && (v.typeGameMap === filter.typeGameMap || filter.typeGameMap === 10) && (v.typePlant === filter.typePlant || filter.typePlant === 10) && (v.title.toLowerCase().startsWith(filter.search.toLowerCase()) || filter.search === ""))})
     }

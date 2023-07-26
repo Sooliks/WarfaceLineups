@@ -39,7 +39,7 @@ const Videos = () => {
                 </Space>
             }
             <Space className={classes.pagination}>
-                {videos.length!==0 && totalCountVideos > 8 && <Pagination onChange={page=>setCurrentPage(page)} pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} />}
+                {videos.length!==0 && totalCountVideos > 8 && <Pagination current={currentPage} onChange={page=>setCurrentPage(page)} pageSize={8} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false} />}
             </Space>
 
         </Space>

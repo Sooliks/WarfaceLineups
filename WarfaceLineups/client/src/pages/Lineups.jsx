@@ -52,7 +52,7 @@ const Lineups = () => {
                 }
             </Space>
             <Space className={classes.pagination}>
-                {videos.length!==0 && totalCountVideos > 8 && <Pagination pageSize={8} onChange={page=>setCurrentPage(page)} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false}/>}
+                {videos.length!==0 && totalCountVideos > 8 && <Pagination current={currentPage} pageSize={8} onChange={page=>setCurrentPage(page)} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false}/>}
             </Space>
         </App>
     );
