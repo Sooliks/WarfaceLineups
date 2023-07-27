@@ -77,7 +77,6 @@ const EditingModal = ({onHide}) => {
                         beforeUpload={beforeUpload}
                         onChange={handleChange}
                         action={isDevelopmentMode ? `http://localhost:5258/api/uploadavatar` : `/api/uploadavatar`}
-                        //customRequest={uploadAvatar}
                     >
                         {imageUrl ? (
                             <img

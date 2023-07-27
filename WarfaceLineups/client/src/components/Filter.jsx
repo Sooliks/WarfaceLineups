@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Card, Select, Space, Tooltip} from "antd";
 import Search from "antd/es/input/Search";
-import {CloseCircleOutlined, CloseOutlined} from "@ant-design/icons";
+import {CloseOutlined} from "@ant-design/icons";
 
 const Filter = ({onChangeFilter, direction, dropFilterButtonIcon = false, widthFilter =270, isVisibleSearch=true}) => {
     const[filter,setFilter] = useState({

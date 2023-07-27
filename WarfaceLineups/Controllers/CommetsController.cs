@@ -24,7 +24,7 @@ public class CommetsController : Controller
         {
             var account = HandlerAccounts.GetAccountByLogin(login);
             HandlerComments.AddNewComment(account,idLineup,text);
-            await Response.WriteAsJsonAsync(new { message = "success" });
+            await Response.WriteAsJsonAsync(new { message = "success", comments = HandlerComments.GetAllCommentsByLineupIdAndPage(idLineup,1) });
             return;
         }
         await Response.WriteAsJsonAsync(new { message = "error" });

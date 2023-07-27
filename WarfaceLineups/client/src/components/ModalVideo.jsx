@@ -4,7 +4,7 @@ import YouTube from 'react-youtube';
 import ReportsAPI from "../http/api/ReportsAPI";
 import {Context} from "../index";
 import Comments from "./ui/Comments";
-import CommentsAPI from "../http/api/CommentsAPI";
+
 const { Text } = Typography;
 
 const ModalVideo = ({video, onClose}) => {

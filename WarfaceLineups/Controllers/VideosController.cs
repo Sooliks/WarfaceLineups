@@ -122,21 +122,19 @@ public class VideosController : Controller
         try
         {
             var screenShots = HandlerScreenshots.GetScreenshotsById(idScreenshots);
+            Response.ContentType = "image/jpg";
             switch (numberScreen)
             {
                 case 0:
                     string path1 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenShots.FirstScreen);
-                    Response.ContentType = "image/jpg";
                     await Response.SendFileAsync(path1);
                     break;
                 case 1:
                     string path2 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenShots.SecondScreen);
-                    Response.ContentType = "image/jpg";
                     await Response.SendFileAsync(path2);
                     break;
                 case 2:
                     string path3 = Path.Combine(Directory.GetCurrentDirectory(), "Files/Screenshots", screenShots.ThirdScreen);
-                    Response.ContentType = "image/jpg";
                     await Response.SendFileAsync(path3);
                     break;
             }

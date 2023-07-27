@@ -23,7 +23,7 @@ public class HandlerComments
         using Context db = new Context();
         var comment = db.Comments.SingleOrDefault(c=>c.Id==idComment);
         db.Comments.Remove(comment);
-        db.SaveChangesAsync();
+        db.SaveChanges();
     }
 
     public static bool IsAccountOwnerComment(Accounts account, int commentId)

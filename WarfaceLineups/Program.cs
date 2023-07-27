@@ -8,8 +8,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "_myAllowSpecificOrigins",
         policy =>
         {
-            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-            policy.WithMethods("POST", "GET", "PUT", "DELETE");
+            policy.AllowAnyHeader().AllowAnyMethod();
+            policy.WithOrigins("http://localhost:3000");
             policy.WithHeaders(HeaderNames.ContentType);
         });
 });
@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
-var env = builder.Environment;
+
 
 
 app.UseCors("_myAllowSpecificOrigins");
