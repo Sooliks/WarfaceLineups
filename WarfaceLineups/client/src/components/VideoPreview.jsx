@@ -8,7 +8,7 @@ import ModalScreenshots from "./ModalScreenshots";
 
 
 
-const VideoPreview = ({video, type, key}) => {
+const VideoPreview = ({video, type, key, videoPreview = true}) => {
     const[isVisibleModalVideo,setIsVisibleModalVideo] = useState(false);
     const [isVisibleModalScreenshots,setIsVisibleModalScreenshots] = useState(false);
     const handleClickOnVideo = () =>{
@@ -41,7 +41,7 @@ const VideoPreview = ({video, type, key}) => {
             </div>
             <div>
                 {type === "uservideo" &&
-                    <VideoForProfile video={video} handleClickOnVideo={handleClickOnVideo} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut}/>
+                    <VideoForProfile video={video} handleClickOnVideo={handleClickOnVideo} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut} videoPreview={videoPreview}/>
                 }
             </div>
             <div>

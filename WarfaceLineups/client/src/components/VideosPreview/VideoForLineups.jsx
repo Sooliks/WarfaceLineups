@@ -72,7 +72,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                     />
                 }
                 {isVisibleVideoPreview &&
-                    <Space onMouseOut={() => setIsVisibleVideoPreview(false)}>
+                    <Space onMouseOut={() => setIsVisibleVideoPreview(false)} onClick={handleClickOnVideo}>
                         <YouTube
                             videoId={videoId}
                             opts={{
@@ -89,9 +89,7 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
                                 showinfo: 0,
                                 mute: 1,
                                 autohide: 1,
-                                playbackRate: 2.5,
                                 start: 0,
-                                speed:2,
                             },
                             }}
                             onReady={(e)=>e.target.setPlaybackRate(2.5)}

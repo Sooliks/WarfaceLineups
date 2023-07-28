@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Button, Carousel, Space, Typography } from "antd";
 
 import {useNavigate} from "react-router-dom";
 import classes from './styles/Start.module.css'
+import {Context} from "../index";
 const { Text, Link } = Typography;
 
 
@@ -16,6 +17,9 @@ const Start = () => {
         textAlign: 'center',
     };
     const navigate = useNavigate();
+    const {nav} = useContext(Context);
+
+
     return (
         <div>
             <div>
@@ -33,7 +37,10 @@ const Start = () => {
             <Space direction={"vertical"} style={{display:'flex', alignItems: 'center'}}>
                 <h1>Warface Lineups</h1>
                 <Space direction={"horizontal"}>
-                    <Button type={"primary"} onClick={()=>navigate("/profile")}>Начать</Button>
+                    <Button type={"primary"} onClick={()=>{
+                        nav.setNav("/profile")
+                        navigate("/profile");
+                    }}>Начать</Button>
                 </Space>
             </Space>
             <Space className={classes.footer} direction={"vertical"} style={{display:'flex',justifyContent:'center'}}>

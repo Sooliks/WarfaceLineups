@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Menu} from 'antd';
 import {
     ArrowsAltOutlined,
@@ -17,6 +17,7 @@ import News from "../pages/News";
 import WarfaceTracker from "../pages/WarfaceTracker";
 import Start from "../pages/Start";
 import PasswordRecovery from "../pages/PasswordRecovery";
+import {Context} from "../index";
 
 
 
@@ -55,20 +56,21 @@ const items = [
 
 
 const AppRouter = () => {
-    const [current, setCurrent] = useState(null);
+    const {nav} = useContext(Context);
     const location = useLocation();
     useEffect(()=>{
-        setCurrent(location.pathname);
+        nav.setNav(location.pathname);
     },[])
     const handlerClickNav = (e) =>{
-        setCurrent(e.key);
+        console.log(e.key)
+        nav.setNav(e.key);
         navigate(e.key);
     }
     const navigate = useNavigate();
     return (
         <App>
             <div>
-                <Menu onClick={handlerClickNav} selectedKeys={[current]} mode="horizontal" items={items} />
+                <Menu onClick={handlerClickNav} selectedKeys={[nav.nav]} mode="horizontal" items={items} />
                 <Routes>
                     <Route path={"/profile"} element={<Profile/>}/>
                     <Route path={"/lineups"} element={<Lineups/>}/>

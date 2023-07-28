@@ -169,7 +169,7 @@ const EllipsisModal = ({onHide}) => {
                                     options={lineupsForSelect}
                                 />
                                 {dataProfile.mainLineup !== null &&
-                                    <VideoPreview type={"uservideo"} video={dataProfile.mainLineup}/>
+                                    <VideoPreview type={"uservideo"} video={dataProfile.mainLineup} videoPreview={false}/>
                                 }
                                 <Button style={{marginTop: 10, width: "100%"}} onClick={handleSubmitMainLineup}>Принять</Button>
                                 <Modal title={""} open={currentEditingUrl} onOk={handleSubmitChangeUrl} onCancel={()=>setCurrentEditingUrl()}>
