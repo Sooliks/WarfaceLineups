@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Tacktics = () => {
+const Tactics = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const Tacktics = () => {
     );
 };
 
-export default Tacktics;
+export default Tactics;

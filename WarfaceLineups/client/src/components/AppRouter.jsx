@@ -1,12 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Menu} from 'antd';
 import {
+    AimOutlined,
     ArrowsAltOutlined,
     CrownOutlined,
     FileDoneOutlined,
-    ProfileOutlined,
-    RadarChartOutlined,
-    UserOutlined
+    RadarChartOutlined, SolutionOutlined,
+    UserOutlined, VideoCameraOutlined
 } from '@ant-design/icons';
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import Profile from "../pages/Profile";
@@ -18,6 +18,8 @@ import WarfaceTracker from "../pages/WarfaceTracker";
 import Start from "../pages/Start";
 import PasswordRecovery from "../pages/PasswordRecovery";
 import {Context} from "../index";
+import Tactics from "../pages/Tactics";
+import AimTracking from "../pages/AimTracking";
 
 
 
@@ -35,7 +37,7 @@ const items = [
     {
         label: 'Lineups',
         key: '/lineups',
-        icon: <ProfileOutlined/>,
+        icon: <VideoCameraOutlined />,
     },
     {
         label: 'Premium',
@@ -48,9 +50,19 @@ const items = [
         icon: <FileDoneOutlined/>,
     },
     {
+        label: 'Tactics',
+        key: '/tactics',
+        icon: <SolutionOutlined/>,
+    },
+    {
         label: 'Warface Tracker',
         key: '/wftracker',
         icon: <RadarChartOutlined/>,
+    },
+    {
+        label: 'Aim Tracking',
+        key: '/aimtracking',
+        icon: <AimOutlined/>,
     },
 ]
 
@@ -79,6 +91,8 @@ const AppRouter = () => {
                     <Route path={"/wftracker"} element={<WarfaceTracker/>}/>
                     <Route path={"/"} element={<Start/>}/>
                     <Route path={"/passwordrecovery"} element={<PasswordRecovery/>}/>
+                    <Route path={"/tactics"} element={<Tactics/>}/>
+                    <Route path={"/aimtracking"} element={<AimTracking/>}/>
                 </Routes>
             </div>
         </App>
