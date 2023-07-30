@@ -120,7 +120,7 @@ public class HandlerVideos
     public static Videos GetVideoByVideoId(int videoId)
     {
         using Context db = new Context();
-        var video = db.Videos.SingleOrDefault(v => v.Id == videoId);
+        var video = db.Videos.SingleOrDefault(v => v.Id == videoId && v.IsVerified == true);
         return video;
     }
     public static int GetLastIdLineup()
