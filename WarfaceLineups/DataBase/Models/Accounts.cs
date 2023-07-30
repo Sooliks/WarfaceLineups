@@ -14,6 +14,7 @@ public class Accounts
     public string UrlOnVk { get; set; }
     public string UrlOnTelegram { get; set; }
     public int MainLineupId { get; set; }
+    public int AimTrackingScore { get; set; }
     
 
     public Accounts()
@@ -34,5 +35,6 @@ public class Accounts
         UrlOnVk = "";
         UrlOnYoutube = "";
         MainLineupId = 0;
+        AimTrackingScore = 0;
     }
 }

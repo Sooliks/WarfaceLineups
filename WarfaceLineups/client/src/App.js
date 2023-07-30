@@ -40,6 +40,8 @@ function App() {
                     setLoading(false);
                 },1200)
             }
+        }).catch(()=>{
+
         })
     },[])
     if(loading){

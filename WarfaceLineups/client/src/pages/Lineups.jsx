@@ -25,6 +25,8 @@ const Lineups = () => {
             setVideos(data);
             VideosAPI.getCountVideos(filter).then(data=>setTotalCountVideos(data));
             setLoading(false);
+        }).catch(()=>{
+
         })
     },[currentPage,filter])
     const handlerChangeFilter = (newFilter) => {
@@ -51,9 +53,13 @@ const Lineups = () => {
                     </Space>
                 }
             </Space>
-            <Space className={classes.pagination}>
-                {videos.length!==0 && totalCountVideos > 8 && <Pagination current={currentPage} pageSize={8} onChange={page=>setCurrentPage(page)} defaultCurrent={1} total={totalCountVideos} showSizeChanger={false}/>}
-            </Space>
+            {!loading &&
+                <Space className={classes.pagination}>
+                    {videos.length !== 0 && totalCountVideos > 8 &&
+                        <Pagination current={currentPage} pageSize={8} onChange={page => setCurrentPage(page)}
+                                    defaultCurrent={1} total={totalCountVideos} showSizeChanger={false}/>}
+                </Space>
+            }
         </App>
     );
 };

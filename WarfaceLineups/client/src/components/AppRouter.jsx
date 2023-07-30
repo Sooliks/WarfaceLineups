@@ -20,6 +20,7 @@ import PasswordRecovery from "../pages/PasswordRecovery";
 import {Context} from "../index";
 import Tactics from "../pages/Tactics";
 import AimTracking from "../pages/AimTracking";
+import RouteOnLineup from "./RouteOnLineup";
 
 
 
@@ -85,7 +86,8 @@ const AppRouter = () => {
                 <Menu onClick={handlerClickNav} selectedKeys={[nav.nav]} mode="horizontal" items={items} />
                 <Routes>
                     <Route path={"/profile"} element={<Profile/>}/>
-                    <Route path={"/lineups"} element={<Lineups/>}/>
+                    <Route path={"/lineups"} element={<Lineups/>}></Route>
+                    <Route path={"/lineups/:id"} element={<RouteOnLineup/>}></Route>
                     <Route path={"/premium"} element={<Premium/>}/>
                     <Route path={"/news"} element={<News/>}/>
                     <Route path={"/wftracker"} element={<WarfaceTracker/>}/>
@@ -93,6 +95,7 @@ const AppRouter = () => {
                     <Route path={"/passwordrecovery"} element={<PasswordRecovery/>}/>
                     <Route path={"/tactics"} element={<Tactics/>}/>
                     <Route path={"/aimtracking"} element={<AimTracking/>}/>
+
                 </Routes>
             </div>
         </App>

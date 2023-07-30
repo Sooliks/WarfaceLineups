@@ -168,4 +168,15 @@ public class HandlerAccounts
         db.Accounts.Update(account);
         db.SaveChanges();
     }
+
+    public static void SetAimTrackingScore(Accounts account, int score)
+    {
+        using Context db = new Context();
+        if (account.AimTrackingScore < score)
+        {
+            account.AimTrackingScore = score;
+            db.Update(account);
+            db.SaveChangesAsync();
+        }
+    }
 }
