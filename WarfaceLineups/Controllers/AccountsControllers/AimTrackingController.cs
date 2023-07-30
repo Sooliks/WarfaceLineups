@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using WarfaceLineups.DataBase;
+using WarfaceLineups.DataBase.Requests;
+using WfTracker.Utils;
 
 namespace WarfaceLineups.Controllers;
 
@@ -16,13 +19,23 @@ public class AimTrackingController : Controller
         JObject obj = JObject.Parse(body);
         var jwtToken = Request.Headers["authorization"];
         var login = Request.Headers["login"];
-        string scoreJwt = (string)obj["score"];
-        Console.WriteLine(scoreJwt);
+        int score = (int)obj["score"];
+        
+        if (AuthService.CheckIsValidToken(jwtToken, login))
+        {
+            var account = HandlerAccounts.GetAccountByLogin(login);
+            HandlerAccounts.SetAimTrackingScore(account,score);
+            await Response.WriteAsJsonAsync( new { message = "success" } );
+            return;
+        }
+        await Response.WriteAsJsonAsync( new { message = "error" } );
     }
 
     [HttpGet("api/rating")]
     public async Task GetRating()
     {
-        
+       await using Context db = new Context();
+       var rating = db.Accounts.OrderByDescending(a => a.AimTrackingScore).Where(a=>a.AimTrackingScore!=0).Take(10).ToList();
+       await Response.WriteAsJsonAsync(rating);
     }
 }
