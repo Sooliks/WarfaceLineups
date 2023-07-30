@@ -5,9 +5,9 @@ import JwtService from "../../utils/JwtService";
 
 
 export default class AimTrackingAPI {
-    static uploadScore = async (_score) => {
+    static uploadScore = async (score) => {
         try {
-            const score = JwtService.generateToken(_score);
+            //const score = JwtService.generateToken(_score);
             const {data} = await $clientAuth.post('/uploadscore', {score});
             return data;
         }catch (e){

@@ -1,30 +1,47 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Progress, Space, Table, Tooltip} from "antd";
 import AimTrackingAPI from "../http/api/AimTrackingAPI";
 import {Context} from "../index";
-
-
+import useSound from 'use-sound'
+import clickSound from '../assets/sounds/click.mp3'
+import missSound from '../assets/sounds/miss.mp3'
+import ModalOtherProfile from "../components/ModalOtherProfile";
 let interval;
 
 const AimTracking = () => {
+    const [idProfile,setIdProfile] = useState();
+
     const [data,setData] = useState( []);
+    const [playSoundClick] = useSound(clickSound,{volume: 0.3})
+    const [playSoundMiss] = useSound(missSound,{volume: 0.3})
+
+
     const columnsStats = [
         {
             title: 'Логин',
             dataIndex: 'login',
             key: 'login',
-            render: (text) => <Button type="link">{text}</Button>,
+            render: (text) => <Button type="link" onClick={()=>{
+                setIsVisibleProfile(true)
+                let profile = data.find(d => d.login === text);
+                setIdProfile(profile.id)
+            }}>{text}</Button>,
         },
         {
             title: 'Очки',
-            dataIndex: 'rate',
-            key: 'rate',
+            dataIndex: 'aimTrackingScore',
+            key: 'aimTrackingScore',
         },
     ];
+    const [isVisibleProfile,setIsVisibleProfile] = useState(false)
+
+
     const [isVisibleAimTargets,setIsVisibleAimTargets] = useState(false);
     const [time,setTime] = useState(0);
     const [targets,setTargets] = useState([]);
     const [score,setScore] = useState(0)
+    const [isFinish,setIsFinish] = useState(false);
+
     const handleClickStart = () => {
         setTargets([])
         setTime(0)
@@ -48,13 +65,24 @@ const AimTracking = () => {
             clearInterval(interval);
             setIsVisibleAimTargets(false)
             setTargets([])
-            AimTrackingAPI.uploadScore(score).then(data=>{
+            setTime(100);
+            setIsFinish(true)
 
-            })
         },100000)
     }
 
+    if(isFinish){
+        AimTrackingAPI.uploadScore(score).then(data=>{
+            AimTrackingAPI.getRating().then(data=>setData(data));
+        }).catch(()=>{
+
+        })
+        setIsFinish(false);
+    }
+
+
     const handleClickOnTarget = (target) => {
+        playSoundClick();
         setTargets(newTargets=>newTargets.filter(t=>t!==target))
         setScore(prev=>prev+1)
         setTargets((prev)=>[...prev,{
@@ -64,13 +92,15 @@ const AimTracking = () => {
     }
     const {user} = useContext(Context);
 
-
+    useEffect(()=>{
+        AimTrackingAPI.getRating().then(data=>setData(data));
+    },[])
 
     return (
         <Space style={{margin:12, alignItems: 'flex-start'}}>
             <Space style={{alignItems: 'flex-start', width: 1000, justifyContent:'space-between'}}>
                 <Card style={{width:290}}>
-                    <Table dataSource={data} columns={columnsStats} onChange={(pagination)=>console.log(pagination)}/>
+                    <Table dataSource={data} columns={columnsStats} pagination={false}/>
                 </Card>
                 <Space>
                     <Card>
@@ -124,6 +154,9 @@ const AimTracking = () => {
                     </Card>
                 </Space>
             </Space>
+            {isVisibleProfile &&
+                <ModalOtherProfile ownerId={idProfile} onClose={()=>setIsVisibleProfile(false)}/>
+            }
         </Space>
     );
 };
