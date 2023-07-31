@@ -21,7 +21,7 @@ const EllipsisModal = ({onHide}) => {
         urlOnVk: "",
         urlOnTelegram: "",
     });
-    const [mainLineupId,setMainLineupId] = useState(null);
+    const [mainLineupId,setMainLineupId] = useState(0);
     useEffect(()=>{
         if(mainLineupId===null)return
         VideosAPI.getLineupById(mainLineupId).then(data=>{
@@ -63,29 +63,29 @@ const EllipsisModal = ({onHide}) => {
     const handleSubmitChangeUrl = () => {
         switch(currentEditingUrl){
             case 'ВКонтакте':
+                if(!url.startsWith("https://vk.com/")){
+                    setErrorText("Ссылка должна быть на ВКонтакте")
+                    return
+                }
                 SettingsAPI.changeUrlOnVk(url).then(data=>{
-                    if(!url.startsWith("https://vk.com/")){
-                        setErrorText("Ссылка должна быть на ВКонтакте")
-                        return
-                    }
                     handleResponse(data);
                 })
                 break
             case 'Telegram':
+                if(!url.startsWith("https://t.me/")){
+                    setErrorText("Ссылка должна быть на Telegram")
+                    return
+                }
                 SettingsAPI.changeUrlOnTelegram(url).then(data=>{
-                    if(!url.startsWith("https://t.me/")){
-                        setErrorText("Ссылка должна быть на Telegram")
-                        return
-                    }
                     handleResponse(data);
                 })
                 break
             case 'Youtube':
+                if(!url.startsWith("https://www.youtube.com/channel/")){
+                    setErrorText("Ссылка должна быть на Youtube канал")
+                    return
+                }
                 SettingsAPI.changeUrlOnYoutube(url).then(data=>{
-                    if(!url.startsWith("https://www.youtube.com/channel/")){
-                        setErrorText("Ссылка должна быть на Youtube канал")
-                        return
-                    }
                     handleResponse(data);
                 })
                 break

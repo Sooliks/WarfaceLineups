@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Button, Carousel, Space, Typography } from "antd";
 
 import {useNavigate} from "react-router-dom";
@@ -18,6 +18,11 @@ const Start = () => {
     };
     const navigate = useNavigate();
     const {nav} = useContext(Context);
+
+    useEffect(()=>{
+        nav.setNav("/")
+        navigate("/");
+    },[])
 
 
     return (

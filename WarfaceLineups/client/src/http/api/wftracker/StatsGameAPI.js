@@ -19,7 +19,8 @@ export default class StatsGameAPI {
     }
     static getTop10ClansRu = async () =>{
         try {
-            const {data} = await $wfapi.get(`/top10/ru`);
+            const {data} = await $wfapi.get('/rating/clan');
+            //const {data} = await $wfapi.get('/top10/ru');
             return data;
         }catch (e) {
             

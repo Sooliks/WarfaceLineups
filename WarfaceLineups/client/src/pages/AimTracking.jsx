@@ -53,12 +53,7 @@ const AimTracking = () => {
         },1000)
 
         for (let i = 0; i < 10; i++){
-            const newTargets = targets;
-            newTargets.push({
-                left: Math.floor(Math.random() * 630) + 1,
-                top: Math.floor(Math.random() * 540) + 1
-            })
-            setTargets(newTargets)
+            addNewTarget();
         }
 
         setTimeout(()=>{
@@ -67,7 +62,6 @@ const AimTracking = () => {
             setTargets([])
             setTime(100);
             setIsFinish(true)
-
         },100000)
     }
 
@@ -79,16 +73,30 @@ const AimTracking = () => {
         })
         setIsFinish(false);
     }
+    const addNewTarget = () => {
+        const checkApprox = (num1, num2, epsilon) => {
+            return Math.abs(num1 - num2) < epsilon;
+        }
+        let left = Math.floor(Math.random() * 630) + 1
+        let top = Math.floor(Math.random() * 540) + 1
 
+        for (let i = 0; i < targets.length; i++){
+            if(checkApprox(left, targets[i].left,30) && checkApprox(top, targets[i].top,30)){
+                addNewTarget()
+                return
+            }
+        }
+        setTargets((prev)=>[...prev,{
+            left: left,
+            top: top
+        }])
+    }
 
     const handleClickOnTarget = (target) => {
         playSoundClick();
         setTargets(newTargets=>newTargets.filter(t=>t!==target))
         setScore(prev=>prev+1)
-        setTargets((prev)=>[...prev,{
-            left: Math.floor(Math.random() * 630) + 1,
-            top: Math.floor(Math.random() * 540) + 1
-        }])
+        addNewTarget();
     }
     const {user} = useContext(Context);
 
@@ -134,6 +142,7 @@ const AimTracking = () => {
                                 <Card style={{width: '100%', height: 600}}>
                                     {targets.map((target,index)=>
                                         <div
+                                            onMouseDown={(e)=>e.preventDefault()}
                                             key={index}
                                             style={{
                                                 border: '0 solid transparent',
