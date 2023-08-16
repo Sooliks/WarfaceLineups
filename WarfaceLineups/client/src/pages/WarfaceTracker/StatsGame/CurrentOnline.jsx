@@ -9,11 +9,11 @@ const CurrentOnline = () => {
         StatsGameAPI.getOnlineServer('ru').then(data=>{
             setOnlineRuServer(data)
             setLoadingr(false);
-        }).catch()
+        }).catch(e=>window.location.reload())
         StatsGameAPI.getOnlineServer('eu').then(data=>{
             setOnlineEuServer(data)
             setLoadinge(false);
-        }).catch()
+        }).catch(e=>window.location.reload())
     },[])
     const[onlineRuServer, setOnlineRuServer] = useState({
         all: 0,

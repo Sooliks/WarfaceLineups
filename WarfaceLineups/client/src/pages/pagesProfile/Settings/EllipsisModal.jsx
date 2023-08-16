@@ -24,23 +24,23 @@ const EllipsisModal = ({onHide}) => {
     const [mainLineupId,setMainLineupId] = useState(0);
     useEffect(()=>{
         if(mainLineupId===null)return
-        VideosAPI.getLineupById(mainLineupId).then(data=>{
-            setDataProfile({...dataProfile,mainLineup: data})
-        })
+        VideosAPI.getLineupById(mainLineupId).then(data => {
+            setDataProfile({...dataProfile, mainLineup: data})
+        }).catch(e=>window.location.reload())
     },[mainLineupId])
     const [lineupsForSelect,setLineupsForSelect] = useState([]);
     const {user} = useContext(Context);
     useEffect(()=>{
-        UserAPI.getDataProfileForSettings(user.user.id).then(data=>{
+        UserAPI.getDataProfileForSettings(user.user.id).then(data => {
             setDataProfile(data);
             let newArr = [];
-            for(let i=0;i<data.lineups.length;i++){
-                newArr.push({value: `${data.lineups[i].id}`,label:data.lineups[i].title})
+            for (let i = 0; i < data.lineups.length; i++) {
+                newArr.push({value: `${data.lineups[i].id}`, label: data.lineups[i].title})
             }
             newArr.unshift({value: 0, label: "Нету"})
             setLineupsForSelect(newArr)
             setLoading(false);
-        })
+        }).catch(e=>window.location.reload())
     },[])
 
     const handleSubmitMainLineup = () => {
@@ -48,7 +48,7 @@ const EllipsisModal = ({onHide}) => {
             if(data.message==="success"){
                 onHide();
             }
-        })
+        }).catch(e=>window.location.reload())
     }
     const handleResponse = (data) =>{
         if(data.message === "success") {

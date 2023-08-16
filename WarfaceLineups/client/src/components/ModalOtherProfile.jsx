@@ -46,15 +46,17 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
             return;
         }
         setLoading(true);
-        VideosAPI.getLineupsByOwnerId(filter,ownerId,currentPage).then(data=>{
-            setDataProfile({...dataProfile,
-                lineups: [...dataProfile.lineups,...data.lineups],
+        VideosAPI.getLineupsByOwnerId(filter, ownerId, currentPage).then(data => {
+            setDataProfile({
+                ...dataProfile,
+                lineups: [...dataProfile.lineups, ...data.lineups],
                 totalCountLineups: data.count
             })
-            setCurrentPage((prev)=>prev+1)
+            setCurrentPage((prev) => prev + 1)
             setLoading(false)
-        }).catch(()=>{
+        }).catch(() => {
             setLoading(false)
+            window.location.reload();
         })
     };
 

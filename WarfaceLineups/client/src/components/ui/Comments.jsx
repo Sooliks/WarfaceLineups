@@ -18,14 +18,11 @@ const Comments = ({lineup}) => {
     const {user} = useContext(Context);
 
     const handleClickDeleteCommentAdmin = (id) => {
-        console.log(id)
-        try {
-            CommentsAPI.deleteCommentAdmin(id).then(data => {
-                if (data.message === "success") {
-                    setComments((comments) => comments.filter(c => c.id !== id));
-                }
-            })
-        }catch (e){}
+        CommentsAPI.deleteCommentAdmin(id).then(data => {
+            if (data.message === "success") {
+                setComments((comments) => comments.filter(c => c.id !== id));
+            }
+        }).catch(e=>window.location.reload())
     }
     const handleClickDeleteCommentOwnerLineup = (id) =>{
         try {

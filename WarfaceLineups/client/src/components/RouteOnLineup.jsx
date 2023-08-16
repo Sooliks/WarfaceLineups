@@ -21,6 +21,7 @@ const RouteOnLineup = () => {
             }
         }).catch(()=>{
             setTypeLineup('notfound')
+            window.location.reload()
         })
     },[])
     return (

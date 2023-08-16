@@ -22,7 +22,7 @@ const Videos = () => {
             setVideos(data);
             VideosAPI.getCountVideosByOwnerId(filter).then(data=>setTotalCountVideos(data));
             setLoading(false);
-        })
+        }).catch(e=>window.location.reload())
     },[filter,currentPage])
     const handlerChangeFilter = (newFilter) =>{
         setFilter(newFilter);

@@ -77,7 +77,7 @@ const CreateVideo = () => {
                 return
             }
             setIsVisibleResult('error')
-        })
+        }).catch(e=>window.location.reload())
     }
     return (
         <Space>

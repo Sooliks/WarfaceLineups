@@ -67,7 +67,7 @@ const AimTracking = () => {
 
     if(isFinish){
         AimTrackingAPI.uploadScore(score).then(data=>{
-            AimTrackingAPI.getRating().then(data=>setData(data));
+            AimTrackingAPI.getRating().then(data=>setData(data)).catch(e=>window.location.reload());
         }).catch(()=>{
 
         })
@@ -101,7 +101,7 @@ const AimTracking = () => {
     const {user} = useContext(Context);
 
     useEffect(()=>{
-        AimTrackingAPI.getRating().then(data=>setData(data));
+        AimTrackingAPI.getRating().then(data=>setData(data)).catch(e=>window.location.reload());
     },[])
 
     return (

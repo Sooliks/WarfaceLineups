@@ -40,7 +40,7 @@ const Top10Clans = () => {
         StatsGameAPI.getTop10ClansRu().then(data=>{
             setDataSource(data);
             setLoading(false);
-        })
+        }).catch(e=>window.location.reload())
     },[])
     const handleClickOnMemberClan = (name) =>{
         setLoading(true);

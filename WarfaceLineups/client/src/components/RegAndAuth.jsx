@@ -76,7 +76,7 @@ const RegAndAuth = observer(() => {
                 cookies.set('jwt', data.jwtToken, {path:'/', maxAge: 86400});
                 cookies.set('login', data.log, {path:'/', maxAge: 86400});
             }
-        })
+        }).catch(e=>window.location.reload())
     };
     const onFinishRegistration = (values) => {
         UserAPI.registration(values.login, values.email, values.password).then((data)=>{
@@ -99,7 +99,7 @@ const RegAndAuth = observer(() => {
                 cookies.set('jwt', data.jwtToken, {path:'/', maxAge: 86400});
                 cookies.set('login', data.log, {path:'/', maxAge: 86400});
             }
-        })
+        }).catch(e=>window.location.reload())
     };
     const [formAuth,formReg] = Form.useForm();
     return (

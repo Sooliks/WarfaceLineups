@@ -65,7 +65,7 @@ const ModalScreenshots = ({video, onClose}) => {
                 })
                 return
             }
-        })
+        }).catch(e=>window.location.reload())
     }
 
     return (

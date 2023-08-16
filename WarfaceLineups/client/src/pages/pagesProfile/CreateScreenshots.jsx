@@ -4,6 +4,7 @@ import TextArea from "antd/es/input/TextArea";
 import {UploadOutlined} from "@ant-design/icons";
 import VideosAPI from "../../http/api/VideosAPI";
 import {useNavigate} from "react-router-dom";
+import {isDevelopmentMode} from "../../conf";
 
 
 const CreateScreenshots = () => {
@@ -265,7 +266,7 @@ const CreateScreenshots = () => {
 
                         <Form.Item label="Добавьте 3 скрина" name="fileList" valuePropName="fileList" getValueFromEvent={normFile}>
                             <Upload
-                                action="http://localhost:5258/api/uploaddo"
+                                action={isDevelopmentMode ? "http://localhost:5258/api/uploaddo" : "api/uploaddo"}
                                 listType="picture"
                                 maxCount={3}
                                 multiple

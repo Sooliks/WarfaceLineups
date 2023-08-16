@@ -38,13 +38,13 @@ const CommentItem = ({comment, onClickDeleteCommentOwnerComment, onClickDeleteCo
     },[])
 
     const submitUpdateComment = (values) => {
-        CommentsAPI.updateComment(comment.id,values.comment).then(data=>{
-            if(data.message==="success"){
+        CommentsAPI.updateComment(comment.id, values.comment).then(data => {
+            if (data.message === "success") {
                 setIsVisibleEditing(false);
-                updateComment(comment,values.comment);
+                updateComment(comment, values.comment);
                 forceUpdate();
             }
-        })
+        }).catch((e)=>window.location.reload())
     }
 
     return (

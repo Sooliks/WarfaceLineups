@@ -41,12 +41,12 @@ const VideoForLineups = observer(({video,handleClickOnVideo,handleOnMouseOver,ha
     }
     const handleClickDeleteVideo = () =>{
         setIsVisibleSpin(true)
-        VideosAPI.deleteVideo(video.id).then(data=>{
-            if(data.message==="success"){
+        VideosAPI.deleteVideo(video.id).then(data => {
+            if (data.message === "success") {
                 setIsVisibleSpin(false);
                 setIsVisibleDialogDelete(false);
             }
-        })
+        }).catch(e=>window.location.reload())
     }
     const[videoId,setVideoId] = useState('');
     const[isVisibleVideoPreview,setIsVisibleVideoPreview] = useState(false)

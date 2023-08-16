@@ -17,7 +17,7 @@ const SettingsModal = ({onHide}) => {
     const handleClickSendEmail = () =>{
         UserAPI.getVerificationCode().then(data=>{
             setRedText(data.message);
-        })
+        }).catch(e=>window.location.reload())
     }
     const [newPassword,setNewPassword] = useState();
     const handleClickChangePassword = (values) =>{
@@ -33,7 +33,7 @@ const SettingsModal = ({onHide}) => {
                     description: "Неверный пароль"
                 })
             }
-        })
+        }).catch(e=>window.location.reload())
     }
     const handleClickUploadCodeOnChangePassword = (values) =>{
         UserAPI.changePasswordSubmitCode(newPassword, values.verificationCode).then(data=>{
@@ -57,7 +57,7 @@ const SettingsModal = ({onHide}) => {
                     description: "Непридвиденная ошибка, обновите страницу"
                 })
             }
-        })
+        }).catch(e=>window.location.reload())
     }
 
     const handleClickUploadCode = (values) =>{

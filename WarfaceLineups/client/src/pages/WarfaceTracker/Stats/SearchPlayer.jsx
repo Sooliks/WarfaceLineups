@@ -7,7 +7,7 @@ const SearchPlayer = () => {
         StatsAPI.getStatsPlayer(value.nickname).then(data=>{
             setDataSource(data);
             setIsVisibleStatsPlayer(true);
-        })
+        }).catch(e=>window.location.reload())
     }
     const [isVisibleStatsPlayer,setIsVisibleStatsPlayer] = useState(false);
     const [dataSource,setDataSource] = useState( []);

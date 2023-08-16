@@ -24,7 +24,7 @@ const PasswordRecovery = () => {
             else {
                 setRedTextEmail(data.message);
             }
-        })
+        }).catch(e=>window.location.reload())
     }
     //2
     const handleUploadCode = (values) => {

@@ -10,7 +10,7 @@ const AddNews = () => {
     const onFinish = (values) => {
         NewsAPI.publishNews(values).then(data=>{
             setIsVisibleResult(data.message)
-        })
+        }).catch(e=>window.location.reload())
     };
     if(isVisibleResult === 'success'){
         return <Result

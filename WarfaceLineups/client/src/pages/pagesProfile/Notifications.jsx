@@ -8,7 +8,7 @@ const { Text } = Typography;
 const Notifications = () => {
     const[notifications,setNotifications] = useState([]);
     useEffect(()=>{
-        NotificationsAPI.getNotifications().then(data=>setNotifications(data));
+        NotificationsAPI.getNotifications().then(data=>setNotifications(data)).catch(e=>window.location.reload());
     },[])
     const handleClickClose = (notify) =>{
         NotificationsAPI.deleteNotifications(notify.id).then(data=>{

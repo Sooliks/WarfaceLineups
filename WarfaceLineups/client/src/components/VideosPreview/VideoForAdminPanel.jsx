@@ -7,18 +7,22 @@ import {isDevelopmentMode} from "../../conf";
 
 const VideoForAdminPanel = ({video,handleOnMouseOver,handleOnMouseOut,handleClickOnVideo}) => {
     const handleClickAccept = () =>{
-        VideosAPI.publishVideo(video.id).then(data=>{
-            if(data.message==="success"){
-                window.location.reload();
-            }
-        })
+        try {
+            VideosAPI.publishVideo(video.id).then(data => {
+                if (data.message === "success") {
+                    window.location.reload();
+                }
+            })
+        }catch (e) {
+            window.location.reload();
+        }
     }
     const handleClickDecline = () =>{
-        VideosAPI.deleteVideo(video.id).then(data=>{
-            if(data.message==="success"){
+        VideosAPI.deleteVideo(video.id).then(data => {
+            if (data.message === "success") {
                 window.location.reload();
             }
-        })
+        }).catch(e=>window.location.reload())
     }
 
     return (

@@ -13,7 +13,7 @@ const News = () => {
     useEffect(()=>{
         NewsAPI.getNews(filter).then(data=>{
             setNews(data);
-        })
+        }).catch(e=>window.location.reload())
     },[filter])
     return (
         <Space direction={"horizontal"} align={"start"} style={{ display: 'flex', margin: 12}}>

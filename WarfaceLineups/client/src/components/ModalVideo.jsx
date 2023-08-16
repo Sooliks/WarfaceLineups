@@ -72,7 +72,7 @@ const ModalVideo = ({video, onClose}) => {
                 })
                 return
             }
-        })
+        }).catch(e=>window.location.reload())
     }
 
 
