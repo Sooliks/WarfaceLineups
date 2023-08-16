@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using WarfaceLineups.DataBase;
 using WarfaceLineups.DataBase.Requests;
+using WarfaceLineups.Models;
 using WfTracker.Utils;
 
 namespace WarfaceLineups.Controllers;
@@ -19,6 +20,8 @@ public class AimTrackingController : Controller
         JObject obj = JObject.Parse(body);
         var jwtToken = Request.Headers["authorization"];
         var login = Request.Headers["login"];
+        
+        
         int score = (int)obj["score"];
         
         if (AuthService.CheckIsValidToken(jwtToken, login))
@@ -36,6 +39,7 @@ public class AimTrackingController : Controller
     {
        await using Context db = new Context();
        var rating = db.Accounts.OrderByDescending(a => a.AimTrackingScore).Where(a=>a.AimTrackingScore!=0).Take(10).ToList();
-       await Response.WriteAsJsonAsync(rating);
+       List<TableRating> tableRating = rating.Select(a => new TableRating (a.Id, a.Login, a.AimTrackingScore)).ToList();
+       await Response.WriteAsJsonAsync(tableRating);
     }
 }

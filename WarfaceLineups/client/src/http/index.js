@@ -13,6 +13,9 @@ const $clientAuth = axios.create({
 const authInterceptor = config =>{
     config.headers.authorization = `${cookies.get('jwt')}`;
     config.headers.login = `${cookies.get('login')}`
+    config.headers.common = {
+        "API-Key":"ss4-27D-2UY-FwX-so2S3-V9w-NLA-KSs"
+    }
     return config;
 }
 $clientAuth.interceptors.request.use(authInterceptor)

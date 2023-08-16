@@ -115,7 +115,7 @@ const ModalOtherProfile = ({ownerId,onClose}) => {
                             </Space>
                         </Card>
                         {dataProfile.mainLineup !== null &&
-                            <VideoPreview video={dataProfile.mainLineup} type={"uservideo"}/>
+                            <VideoPreview video={dataProfile.mainLineup} type={"uservideo"} videoPreview={false}/>
                         }
                     </Space>
                     <Card style={{marginTop: 12, height: 850, width: 1300}}>

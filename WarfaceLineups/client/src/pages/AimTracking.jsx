@@ -81,7 +81,7 @@ const AimTracking = () => {
         let top = Math.floor(Math.random() * 540) + 1
 
         for (let i = 0; i < targets.length; i++){
-            if(checkApprox(left, targets[i].left,30) && checkApprox(top, targets[i].top,30)){
+            if(checkApprox(left, targets[i].left,60) && checkApprox(top, targets[i].top,60)){
                 addNewTarget()
                 return
             }
@@ -139,10 +139,10 @@ const AimTracking = () => {
                                     }
                                 </Card>
                                 :
-                                <Card style={{width: '100%', height: 600}}>
+                                <Card style={{width: '100%', height: 600}} onMouseDown={(e)=>e.preventDefault()}>
                                     {targets.map((target,index)=>
                                         <div
-                                            onMouseDown={(e)=>e.preventDefault()}
+                                            onMouseDown={(e)=>{e.preventDefault(); handleClickOnTarget(target)}}
                                             key={index}
                                             style={{
                                                 border: '0 solid transparent',
@@ -154,7 +154,6 @@ const AimTracking = () => {
                                                 marginLeft: target.left,
                                                 position: 'absolute'
                                             }}
-                                            onClick={()=>handleClickOnTarget(target)}
                                         />
                                     )}
                                 </Card>

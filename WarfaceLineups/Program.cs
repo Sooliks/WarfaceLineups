@@ -14,11 +14,17 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddHealthChecks();//
+
+
 
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseHealthChecks("/health");
+app.MapHealthChecks("/health");
 
 
 

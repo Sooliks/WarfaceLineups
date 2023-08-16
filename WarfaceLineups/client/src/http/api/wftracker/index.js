@@ -1,23 +1,15 @@
 import axios from "axios";
 
 
-axios.defaults.headers.common['Accept'] = ['text/html']
-//axios.defaults.headers.common['Origin'] = null
+//axios.defaults.headers.common['Accept'] = ['text/plain']
+//axios.defaults.withCredentials = true
+
 
 const $wfapi = axios.create({
-    baseURL: 'http://api.warface.ru',
-    //baseURL: 'https://api.wfstats.cf',
-    headers: {
-        "Content-Type" : "text/html"
-    },
+    baseURL: 'https://api.warface.ru',
+    withCredentials: true,
 })
-/*const wfApiInterceptor = config =>{
-    config.headers = {
-        'Content-Type' : 'text/html'
-    };
-    return config;
-}
-$wfapi.interceptors.request.use(wfApiInterceptor)*/
+
 
 export {
     $wfapi

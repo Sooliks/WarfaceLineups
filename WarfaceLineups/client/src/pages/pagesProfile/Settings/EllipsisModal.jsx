@@ -81,7 +81,7 @@ const EllipsisModal = ({onHide}) => {
                 })
                 break
             case 'Youtube':
-                if(!url.startsWith("https://www.youtube.com/channel/")){
+                if(!url.startsWith("https://www.youtube.com/")){
                     setErrorText("Ссылка должна быть на Youtube канал")
                     return
                 }
