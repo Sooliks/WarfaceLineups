@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {App, Card, Menu, Space} from "antd";
+import {Affix, App, Card, Menu, Space} from "antd";
 import {
     DesktopOutlined,
     HeartOutlined,
@@ -139,14 +139,16 @@ const Profile = observer(() => {
                 {!user.isAuth ?
                     <Card className={classes.m}> <RegAndAuth/> </Card>
                     :
-                    <Menu
-                        onClick={handlerClickNav}
-                        selectedKeys={[current]}
-                        mode="inline"
-                        items={items}
-                        style={{width: 270,}}
-                        defaultOpenKeys={['sub1']}
-                    />
+                    <Affix offsetTop>
+                        <Menu
+                            onClick={handlerClickNav}
+                            selectedKeys={[current]}
+                            mode="inline"
+                            items={items}
+                            style={{width: 270,}}
+                            defaultOpenKeys={['sub1']}
+                        />
+                    </Affix>
                 }
                 <Space direction="horizontal" size="large" style={{marginTop:12}}>
                     {current === 'info' && user.isAuth && <Info/>}

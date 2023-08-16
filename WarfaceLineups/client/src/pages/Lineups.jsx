@@ -25,7 +25,7 @@ const Lineups = () => {
             setVideos(data);
             VideosAPI.getCountVideos(filter).then(data=>setTotalCountVideos(data));
             setLoading(false);
-        }).catch(e=>window.location.reload())
+        }).catch(e=>{})
     },[currentPage,filter])
     const handlerChangeFilter = (newFilter) => {
         setCurrentPage(1);

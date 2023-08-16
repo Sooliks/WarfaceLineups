@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import {Menu} from 'antd';
+import React, {useContext, useEffect, useState} from 'react';
+import {Affix, Menu} from 'antd';
 import {
     AimOutlined,
     ArrowsAltOutlined,
@@ -80,10 +80,13 @@ const AppRouter = () => {
         navigate(e.key);
     }
     const navigate = useNavigate();
+    const [container, setContainer] = useState(null);
     return (
         <App>
-            <div>
-                <Menu onClick={handlerClickNav} selectedKeys={[nav.nav]} mode="horizontal" items={items} />
+            <div ref={setContainer}>
+                <Affix target={() => container}>
+                    <Menu onClick={handlerClickNav} selectedKeys={[nav.nav]} mode="horizontal" items={items} />
+                </Affix>
                 <Routes>
                     <Route path={"/profile"} element={<Profile/>}/>
                     <Route path={"/lineups"} element={<Lineups/>}></Route>
@@ -95,7 +98,6 @@ const AppRouter = () => {
                     <Route path={"/passwordrecovery"} element={<PasswordRecovery/>}/>
                     <Route path={"/tactics"} element={<Tactics/>}/>
                     <Route path={"/aimtracking"} element={<AimTracking/>}/>
-
                 </Routes>
             </div>
         </App>

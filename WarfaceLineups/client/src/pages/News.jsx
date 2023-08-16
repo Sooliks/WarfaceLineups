@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Select, Space, Typography} from "antd";
+import {Affix, Card, Select, Space, Typography} from "antd";
 import NewsAPI from "../http/api/NewsAPI";
 const { Text } = Typography;
 
@@ -13,7 +13,7 @@ const News = () => {
     useEffect(()=>{
         NewsAPI.getNews(filter).then(data=>{
             setNews(data);
-        }).catch(e=>window.location.reload())
+        }).catch(e=>{})
     },[filter])
     return (
         <Space direction={"horizontal"} align={"start"} style={{ display: 'flex', margin: 12}}>
