@@ -7,11 +7,11 @@ import {isDevelopmentMode} from "../conf";
 import {useNavigate} from "react-router-dom";
 const { Text } = Typography;
 
-const ModalScreenshots = ({video, onClose}) => {
+const ModalScreenshots = ({video, onClose, changeUrl = false}) => {
     const navigate = useNavigate();
 
     useEffect(()=>{
-        navigate(`/lineups/${video.id}`)
+        if(video.isVerified  && changeUrl) navigate(`/lineups/${video.id}`)
     },[])
 
 
@@ -91,7 +91,7 @@ const ModalScreenshots = ({video, onClose}) => {
                 open
                 onCancel={()=>{
                     onClose()
-                    navigate('/lineups');
+                    if(video.isVerified  && changeUrl) navigate('/lineups');
                 }}
                 width={1300}
                 footer={[

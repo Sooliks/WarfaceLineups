@@ -8,7 +8,7 @@ import ModalScreenshots from "./ModalScreenshots";
 
 
 
-const VideoPreview = ({video, type, key, videoPreview = true}) => {
+const VideoPreview = ({video, type, key, videoPreview = true, changeUrl = false}) => {
     const[isVisibleModalVideo,setIsVisibleModalVideo] = useState(false);
     const [isVisibleModalScreenshots,setIsVisibleModalScreenshots] = useState(false);
     const handleClickOnVideo = () =>{
@@ -49,8 +49,8 @@ const VideoPreview = ({video, type, key, videoPreview = true}) => {
                     <VideoForAdminPanel video={video} handleClickOnVideo={handleClickOnVideo} handleOnMouseOver={handleOnMouseOver} handleOnMouseOut={handleOnMouseOut}/>
                 }
             </div>
-            {isVisibleModalVideo && <ModalVideo video={video} onClose={()=>setIsVisibleModalVideo(false)}/>}
-            {isVisibleModalScreenshots && <ModalScreenshots video={video} onClose={()=>setIsVisibleModalScreenshots(false)}/>}
+            {isVisibleModalVideo && <ModalVideo video={video} onClose={()=>setIsVisibleModalVideo(false)} changeUrl={changeUrl}/>}
+            {isVisibleModalScreenshots && <ModalScreenshots video={video} onClose={()=>setIsVisibleModalScreenshots(false)} changeUrl={changeUrl}/>}
         </div>
     );
 };

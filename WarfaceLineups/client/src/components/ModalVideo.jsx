@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 
 const { Text } = Typography;
 
-const ModalVideo = ({video, onClose}) => {
+const ModalVideo = ({video, onClose, changeUrl = false}) => {
     const navigate = useNavigate();
     const {user} = useContext(Context);
     const[videoId,setVideoId] = useState();
@@ -20,7 +20,7 @@ const ModalVideo = ({video, onClose}) => {
     });
     useEffect(()=>{
         setVideoId(video.urlOnVideo?.slice(video.urlOnVideo.lastIndexOf('=') + 1))
-        navigate(`/lineups/${video.id}`)
+        if(video.isVerified && changeUrl) navigate(`/lineups/${video.id}`)
     },[])
     const getNameTypeGameMapById = (id) => {
         switch (id){
@@ -93,8 +93,8 @@ const ModalVideo = ({video, onClose}) => {
                 centered
                 open
                 onCancel={()=>{
+                    if(video.isVerified && changeUrl) navigate('/lineups');
                     onClose()
-                    navigate('/lineups');
                 }}
                 width={1300}
                 footer={[

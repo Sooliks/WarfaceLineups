@@ -40,7 +40,7 @@ const Lineups = () => {
                 {loading ? <Spin size="large" style={{marginTop:30}}/> :
                     <Space direction="horizontal" style={{display: 'flex', marginTop: 12}} size={[2, 4]} wrap>
                         {videos.length !== 0 ? videos.map(videos =>
-                                <VideoPreview video={videos} key={videos.id} type={"default"}/>
+                                <VideoPreview video={videos} key={videos.id} type={"default"} changeUrl={true}/>
                             )
                             :
                             <div>
