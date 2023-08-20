@@ -4,11 +4,11 @@ import VideoPreview from "../components/VideoPreview";
 import classes from './styles/Lineups.module.css'
 import VideosAPI from "../http/api/VideosAPI";
 import Filter from "../components/Filter";
+import {useNavigate} from "react-router-dom";
 
 
 
 const Lineups = () => {
-
     const [totalCountVideos,setTotalCountVideos] = useState(8);
     const [currentPage, setCurrentPage] = useState(1);
     const [videos,setVideos] = useState([]);

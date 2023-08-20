@@ -75,7 +75,6 @@ const AppRouter = () => {
         nav.setNav(location.pathname);
     },[])
     const handlerClickNav = (e) =>{
-        console.log(e.key)
         nav.setNav(e.key);
         navigate(e.key);
     }

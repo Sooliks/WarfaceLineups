@@ -1,12 +1,20 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Form, Image, Modal, Select, Space, Typography} from "antd";
 import {Context} from "../index";
 import ReportsAPI from "../http/api/ReportsAPI";
 import Comments from "./ui/Comments";
 import {isDevelopmentMode} from "../conf";
+import {useNavigate} from "react-router-dom";
 const { Text } = Typography;
 
 const ModalScreenshots = ({video, onClose}) => {
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        navigate(`/lineups/${video.id}`)
+    },[])
+
+
     const {user} = useContext(Context);
     const [text,setText] = useState({
         type: '',
@@ -65,6 +73,13 @@ const ModalScreenshots = ({video, onClose}) => {
                 })
                 return
             }
+            if(data.message === "yours"){
+                setText({...text,
+                    text:"Это ваш лайнап!",
+                    type: 'danger'
+                })
+                return
+            }
         }).catch(e=>window.location.reload())
     }
 
@@ -74,7 +89,10 @@ const ModalScreenshots = ({video, onClose}) => {
                 title={video.title}
                 centered
                 open
-                onCancel={onClose}
+                onCancel={()=>{
+                    onClose()
+                    navigate('/lineups');
+                }}
                 width={1300}
                 footer={[
 

@@ -25,32 +25,25 @@ const Comments = ({lineup}) => {
         }).catch(e=>window.location.reload())
     }
     const handleClickDeleteCommentOwnerLineup = (id) =>{
-        try {
-            CommentsAPI.deleteCommentOwnerLineup(id).then(data => {
-                if (data.message === "success") {
-                    setComments((comments) => comments.filter(c => c.id !== id));
-                }
-            })
-        }catch (e) {
-
-        }
+        CommentsAPI.deleteCommentOwnerLineup(id).then(data => {
+            if (data.message === "success") {
+                setComments((comments) => comments.filter(c => c.id !== id));
+            }
+        }).catch()
     }
     const handleClickDeleteCommentOwnerComment = (id) =>{
-        try {
-            CommentsAPI.deleteCommentUser(id).then(data => {
-                if (data.message === "success") {
-                    setComments((comments) => comments.filter(c => c.id !== id));
-                }
-            })
-        }catch (e) {}
+        CommentsAPI.deleteCommentUser(id).then(data => {
+            if (data.message === "success") {
+                setComments((comments) => comments.filter(c => c.id !== id));
+            }
+        }).catch()
     }
     const handleClickSubmitComment = (values) =>{
         CommentsAPI.addComment(lineup.id,values.text).then(data=>{
-            //TODO сделать динамичное добавление коммента
             if(data.message === "success"){
                 setComments(data.comments)
             }
-        })
+        }).catch()
     }
     const loadMoreData = () => {
         if (loading) {

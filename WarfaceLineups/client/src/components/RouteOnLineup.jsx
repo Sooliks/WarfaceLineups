@@ -4,6 +4,7 @@ import VideosAPI from "../http/api/VideosAPI";
 import ModalVideo from "./ModalVideo";
 import ModalScreenshots from "./ModalScreenshots";
 import {Space} from "antd";
+import Lineups from "../pages/Lineups";
 
 const RouteOnLineup = () => {
     const {id} = useParams();
@@ -21,11 +22,11 @@ const RouteOnLineup = () => {
             }
         }).catch(()=>{
             setTypeLineup('notfound')
-            window.location.reload()
         })
     },[])
     return (
         <div>
+            <Lineups/>
             {typeLineup === 'video' && <ModalVideo video={lineup} onClose={()=>setTypeLineup('')}/>}
             {typeLineup === 'screenshots' && <ModalScreenshots video={lineup} onClose={()=>setTypeLineup('')}/>}
             {typeLineup === 'notfound' &&

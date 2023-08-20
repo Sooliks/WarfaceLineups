@@ -4,10 +4,12 @@ import YouTube from 'react-youtube';
 import ReportsAPI from "../http/api/ReportsAPI";
 import {Context} from "../index";
 import Comments from "./ui/Comments";
+import {useNavigate} from "react-router-dom";
 
 const { Text } = Typography;
 
 const ModalVideo = ({video, onClose}) => {
+    const navigate = useNavigate();
     const {user} = useContext(Context);
     const[videoId,setVideoId] = useState();
 
@@ -18,8 +20,9 @@ const ModalVideo = ({video, onClose}) => {
     });
     useEffect(()=>{
         setVideoId(video.urlOnVideo?.slice(video.urlOnVideo.lastIndexOf('=') + 1))
+        navigate(`/lineups/${video.id}`)
     },[])
-    const getNameTypeGameMapById = (id) =>{
+    const getNameTypeGameMapById = (id) => {
         switch (id){
             case 2:
                 return "Переулки"
@@ -72,6 +75,13 @@ const ModalVideo = ({video, onClose}) => {
                 })
                 return
             }
+            if(data.message === "yours"){
+                setText({...text,
+                    text:"Это ваш лайнап!",
+                    type: 'danger'
+                })
+                return
+            }
         }).catch(e=>window.location.reload())
     }
 
@@ -82,7 +92,10 @@ const ModalVideo = ({video, onClose}) => {
                 title={video.title}
                 centered
                 open
-                onCancel={onClose}
+                onCancel={()=>{
+                    onClose()
+                    navigate('/lineups');
+                }}
                 width={1300}
                 footer={[
 

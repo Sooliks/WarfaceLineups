@@ -23,6 +23,7 @@ const Reports = () => {
     const handleClickCheckLineup = (lineupId) => {
         VideosAPI.getLineupById(lineupId).then(data=>{
             setLineup(data)
+            console.log(data)
             if(data.screenShotsId===0){
                 setIsVisibleModalVideo(true);
             }
