@@ -25,6 +25,11 @@ public class ReportsController : Controller
         if (AuthService.CheckIsValidToken(jwtToken, login))
         {
             var account = HandlerAccounts.GetAccountByLogin(login);
+            if (HandlerVideos.GetLineupByLineupIdWithoutVerified(lineupId).OwnerId == account.Id)
+            {
+                await Response.WriteAsJsonAsync(new { message = "yours" });
+                return;
+            }
             if (HandlerReports.AddNewReport(account, lineupId, typeReport))
             {
                 await Response.WriteAsJsonAsync(new { message = "success" });

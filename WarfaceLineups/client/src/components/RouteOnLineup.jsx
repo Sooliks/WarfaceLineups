@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import VideosAPI from "../http/api/VideosAPI";
 import ModalVideo from "./ModalVideo";
 import ModalScreenshots from "./ModalScreenshots";
-import {Space} from "antd";
+import {notification, Space} from "antd";
 import Lineups from "../pages/Lineups";
 
 const RouteOnLineup = () => {
@@ -21,7 +21,10 @@ const RouteOnLineup = () => {
                 setTypeLineup('screenshots')
             }
         }).catch(()=>{
-            setTypeLineup('notfound')
+            notification.error({
+                message: "Уведомление",
+                description: "Лайнап не найден"
+            })
         })
     },[])
     return (
@@ -29,11 +32,6 @@ const RouteOnLineup = () => {
             <Lineups/>
             {typeLineup === 'video' && <ModalVideo video={lineup} onClose={()=>setTypeLineup('')}/>}
             {typeLineup === 'screenshots' && <ModalScreenshots video={lineup} onClose={()=>setTypeLineup('')}/>}
-            {typeLineup === 'notfound' &&
-                <Space align={"center"}>
-                    <h3>Лайнап не найден</h3>
-                </Space>
-            }
         </div>
     );
 };

@@ -123,6 +123,12 @@ public class HandlerVideos
         var video = db.Videos.SingleOrDefault(v => v.Id == videoId && v.IsVerified == true);
         return video;
     }
+    public static Videos GetLineupByLineupIdWithoutVerified(int lineupId)
+    {
+        using Context db = new Context();
+        var video = db.Videos.SingleOrDefault(v => v.Id == lineupId);
+        return video;
+    }
     public static int GetLastIdLineup()
     {
         using Context db = new Context();
