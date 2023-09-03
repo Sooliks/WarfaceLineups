@@ -258,7 +258,7 @@ public class VideosController : Controller
             Accounts account = HandlerAccounts.GetAccountById(HandlerAccounts.GetIdByAccountLogin(login));
             if(account.Role!="admin")return;
             var video = HandlerVideos.GetVideoByVideoId(idVideo);
-            HandlerNotifications.SendNotify(account,HandlerVideos.GetAccountByVideoId(idVideo),"Lineup отклонен",$"Ваш lineup: {video.Title}, был отклонен модерацией, попробуйте опубликовать заного");
+            HandlerNotifications.SendNotify(account,HandlerAccounts.GetAccountById(video.OwnerId),"Lineup отклонен",$"Ваш lineup: {video.Title}, был отклонен модерацией, попробуйте опубликовать заного");
             await HandlerVideos.DeleteVideo(idVideo);
             if (video.ScreenShotsId != 0)
             {

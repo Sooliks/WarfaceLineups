@@ -19,6 +19,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ./WarfaceLineups/Files/Screenshots:/app/Files/Screenshots
+    restart: always
   db:
     image: mysql:latest
     container_name: db_mysql
