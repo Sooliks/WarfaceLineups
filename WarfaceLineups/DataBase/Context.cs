@@ -31,8 +31,8 @@ public class Context : DbContext
             Server = "db",
             Database = "wftracker",
             Port = 3306,
-            UserID = "apostol",
-            Password = "qwngmli2cyinQWngmLi2CyiN",
+            UserID = "",
+            Password = "",
         };
         optionsBuilder.UseMySQL(connectionString.ConnectionString)
             .LogTo(str => Debug.WriteLine(str), new[] { RelationalEventId.CommandExecuted })
